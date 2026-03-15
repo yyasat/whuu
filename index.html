@@ -1,0 +1,645 @@
+<!-- qaq html editor -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>THE EXTRACTOR | 全格式排版提取器</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700;900&family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    :root{
+      --bg:#fff;--text:#121212;--muted:#767676;--line:#dedede;--soft:#f7f7f7;--accent:#000;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;padding:20px;background:var(--bg);color:var(--text);
+      font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+      overflow-x: hidden;
+    }
+    .wrap{max-width:980px;margin:0 auto}
+    header{
+      border-bottom:3px solid #000;padding-bottom:20px;margin-bottom:28px;
+      display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    }
+    h1{
+      margin:0;font-family:"Noto Serif SC",serif;font-size:clamp(2rem,8vw,3.2rem);
+      letter-spacing:-2px;line-height:.95;
+    }
+    .edition{font-family:"JetBrains Mono",monospace;color:var(--muted);font-size:.68rem;text-align:right}
+    
+    .drop{
+      position:relative;border:1px solid var(--line);background:var(--soft);padding:48px 16px;
+      text-align:center;cursor:pointer;transition:.2s;margin-bottom:20px;
+    }
+    .drop:hover,.drop.drag{border-color:#000;background:#f0f0f0}
+    .drop h2{margin:0 0 8px;font-family:"Noto Serif SC",serif}
+    .drop p{margin:2px 0;color:var(--muted);font-size:.72rem;letter-spacing:0.3px}
+    #fileInput{position:absolute;inset:0;opacity:0;cursor:pointer}
+
+    .toolbar{
+      display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;
+      border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px 0;margin-bottom:20px;
+    }
+    .left-tools{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+    .tips{font-size:.78rem;color:var(--muted)}
+
+    .mag-toggle {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .mag-toggle span { font-family: "Noto Serif SC", serif; font-weight: 700; font-size: 0.82rem; color: #000; }
+    .mag-toggle input { display: none; }
+    .toggle-ui {
+      width: 42px; height: 22px; border: 1.5px solid #000; padding: 2px;
+      display: flex; align-items: center; transition: 0.3s;
+    }
+    .toggle-ui::before { content: ''; width: 14px; height: 14px; background: #000; transition: 0.3s; }
+    .mag-toggle input:checked + .toggle-ui { background: #000; }
+    .mag-toggle input:checked + .toggle-ui::before { transform: translateX(20px); background: #fff; }
+
+    .actions{display:flex;gap:8px;flex-wrap:wrap;position:relative}
+    .btn{
+      border:1px solid #000;background:#000;color:#fff;padding:8px 14px;cursor:pointer;
+      font-size:.74rem;font-weight:700;letter-spacing:.7px;text-transform:uppercase;
+      display:inline-flex;align-items:center;gap:4px;
+    }
+    .btn.alt{background:#fff;color:#000}
+    .btn:hover{opacity:.8}
+    
+    .dl-menu{
+      position:absolute;top:100%;right:0;background:#fff;border:1px solid #000;
+      z-index:100;display:none;min-width:240px;margin-top:4px;box-shadow:0 6px 12px rgba(0,0,0,.1);
+      max-height: 80vh; overflow-y: auto;
+    }
+    .dl-section-title {
+      background: #f0f0f0; color: #000; font-size: 0.6rem; padding: 6px 10px;
+      font-family: "JetBrains Mono", monospace; letter-spacing: 1px; border-bottom: 1px solid #000;
+    }
+    .dl-menu button{
+      display:block;width:100%;text-align:left;padding:10px 14px;border:none;background:none;
+      cursor:pointer;font-size:.74rem;font-family:"JetBrains Mono",monospace;border-bottom:1px solid #eee;
+    }
+    .dl-menu button:hover{background:#000; color:#fff}
+
+    #historySidebar {
+      position: fixed;
+      top: 0; right: -320px;
+      width: 320px; height: 100%;
+      background: #fff; border-left: 2px solid #000;
+      z-index: 1000; transition: 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+      padding: 30px 20px; display: flex; flex-direction: column;
+      box-shadow: -10px 0 30px rgba(0,0,0,0.05);
+    }
+    #historySidebar.open { right: 0; }
+    .history-head { border-bottom: 2px solid #000; padding-bottom: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: flex-end; }
+    .history-head h3 { font-family: "Noto Serif SC", serif; margin: 0; font-size: 1.4rem; }
+    .history-list { flex: 1; overflow-y: auto; list-style: none; padding: 0; margin: 0; }
+    .history-item { padding: 15px 0; border-bottom: 1px solid var(--line); cursor: pointer; display: flex; justify-content: space-between; gap: 10px; }
+    .history-item:hover { opacity: 0.7; }
+    .h-info { flex: 1; overflow: hidden; }
+    .h-title { font-family: "Noto Serif SC", serif; font-weight: 900; font-size: 0.95rem; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .h-meta { font-family: "JetBrains Mono", monospace; font-size: 0.65rem; color: var(--muted); }
+    .h-del-btn { background: none; border: 1px solid var(--line); color: var(--muted); font-size: 0.6rem; padding: 2px 6px; cursor: pointer; }
+    .h-del-btn:hover { border-color: #000; color: #000; }
+
+    .mag-pager {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 15px; padding: 10px; background: var(--soft); border: 1px solid var(--line);
+    }
+    .mag-pager.bottom { margin-top: 20px; margin-bottom: 40px; border-top: 2px solid #000; }
+    .pager-info { font-family: "JetBrains Mono", monospace; font-size: 0.75rem; font-weight: 700; }
+    .pager-btn { background: none; border: 1px solid #000; padding: 4px 12px; cursor: pointer; font-family: "JetBrains Mono", monospace; font-size: 0.65rem; font-weight: 700; }
+    .pager-btn:disabled { border-color: #ccc; color: #ccc; cursor: not-allowed; }
+
+    .file-index-list { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 20px; scrollbar-width: thin; }
+    .file-index-item { white-space: nowrap; font-size: 0.65rem; font-family: "JetBrains Mono", monospace; padding: 4px 8px; border: 1px solid var(--line); cursor: pointer; color: var(--muted); }
+    .file-index-item.active { background: #000; color: #fff; border-color: #000; }
+
+    .empty{padding:60px 0;text-align:center;color:#bcbcbc;font-family:"Noto Serif SC",serif}
+    .card{margin-bottom:10px; animation: fadeIn 0.4s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .name{font-family:"Noto Serif SC",serif;font-weight:900;font-size:1.28rem;word-break:break-all}
+    .meta{font-family: "JetBrains Mono", monospace; font-size: 0.66rem; color: var(--muted); }
+    .panel{border:1px solid var(--line);background:#fafafa}
+    .panel-top{ display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border-bottom:1px solid var(--line);gap:8px; }
+    .tabgroup{display:flex;gap:6px}
+    .tab{ border:1px solid var(--line);background:#fff;padding:4px 9px;font-size:.66rem;cursor:pointer }
+    .tab.active{background:#000;color:#fff;border-color:#000}
+    
+    pre.editor{
+      margin:0; font-family:"JetBrains Mono",Consolas,monospace; font-size:.85rem; line-height:1.6;
+      white-space:pre-wrap; word-wrap:break-word; overflow-wrap:anywhere; tab-size:4;
+      min-height:450px; background:#fff; border:1px solid #eee; padding:15px; outline:none;
+    }
+    pre.editor:focus{border-color:#000;box-shadow:0 0 0 3px rgba(0,0,0,.04)}
+    
+    .visual-box{ border:1px solid #eee;padding:14px;background:#fff;min-height:80px;line-height:1.7; font-family:"Noto Serif SC",serif; overflow-x: hidden; }
+    .visual-box img {
+      max-width: 100% !important;
+      height: auto !important;
+      display: block !important;
+      margin: 15px auto !important;
+      object-fit: contain !important;
+    }
+    .visual-box table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 0.85rem; }
+    .visual-box th, .visual-box td { border: 1px solid var(--line); padding: 8px; text-align: left; }
+    .visual-box th { background: var(--soft); font-weight: 900; }
+
+    .editor span[data-highlight] { background-color: #ffeb3b; color: #000; border-radius: 2px; }
+    .toast{ position:fixed;left:50%;bottom:30px;transform:translateX(-50%); background:#000;color:#fff;padding:8px 16px;font-size:.8rem;display:none;z-index:9999 }
+    .loader{ position:fixed;inset:0;background:rgba(255,255,255,.86);display:none;align-items:center;justify-content:center; z-index:9998;font-weight:700 }
+
+    .scroll-nav {
+      position: fixed; top: 20px; right: 20px; display: none; flex-direction: column; gap: 8px; z-index: 1500;
+    }
+    .scroll-btn {
+      background: #000; color: #fff; border: 1px solid #000; width: 36px; height: 36px;
+      cursor: pointer; font-weight: 900; display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; transition: 0.2s;
+    }
+    .scroll-btn:hover { background: #fff; color: #000; }
+  </style>
+</head>
+<body>
+<div id="loader" class="loader">处理中 PROCESSING...</div>
+
+<div id="scrollNav" class="scroll-nav">
+  <button class="scroll-btn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="回顶">↑</button>
+  <button class="scroll-btn" onclick="window.scrollTo({top: document.documentElement.scrollHeight, behavior: 'smooth'})" title="到底">↓</button>
+</div>
+
+<div id="historySidebar">
+  <div class="history-head">
+    <h3>ARCHIVES</h3>
+    <button style="background:none;border:none;font-size:1.5rem;cursor:pointer" onclick="toggleHistory()">×</button>
+  </div>
+  <div class="history-list" id="historyList"></div>
+  <button class="btn alt" style="width:100%; margin-top:20px;" onclick="clearHistory()">清空全部历史</button>
+</div>
+
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Extractor.</h1>
+    </div>
+    <div class="edition">
+      <button class="btn alt" onclick="toggleHistory()" style="padding:4px 10px; font-size:0.6rem;">HISTORY 历史</button>
+      <div style="margin-top:5px">MINIMAL MAGAZINE UI</div>
+    </div>
+  </header>
+
+  <div id="dropZone" class="drop">
+    <h2>拖拽或点击导入文件</h2>
+    <p>支持：DOCX, MD, CSV, JSON, 图片, 代码, 文本等</p>
+    <input id="fileInput" type="file" multiple accept=".docx,.doc,.txt,.json,.md,.html,.css,.js,.ts,.py,.java,.c,.cpp,.h,.xml,.yaml,.yml,.ini,.conf,.log,.php,.rb,.go,.rs,.swift,.kt,.sh,.bat,.sql,.csv,.tsv,.toml,.env,.vue,.jsx,.tsx,.less,.scss,.properties,image/*,video/*,audio/*,application/pdf,application/json,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+  </div>
+
+  <div class="toolbar">
+    <div class="left-tools">
+      <label class="mag-toggle">
+        <input id="appendMode" type="checkbox" />
+        <div class="toggle-ui"></div>
+        <span>追加导入 / APPEND</span>
+      </label>
+      <div class="tips">✅ 强保留排版</div>
+    </div>
+    <div class="actions">
+      <button class="btn alt" onclick="clearAll()">清空</button>
+      <button class="btn alt" onclick="copyAllMerged()">合并复制</button>
+      <div style="position:relative">
+        <button class="btn" id="dlBtn" onclick="toggleDlMenu(event)">下载导出 ▾</button>
+        <div class="dl-menu" id="dlMenu">
+          <div class="dl-section-title">合并下载 (SINGLE FILE)</div>
+          <button onclick="downloadAs('docx', 'merged')">合并导出 .DOCX</button>
+          <button onclick="downloadAs('doc', 'merged')">合并导出 .DOC</button>
+          <button onclick="downloadAs('txt', 'merged')">合并导出 .TXT</button>
+          <button onclick="downloadAs('md', 'merged')">合并导出 .MD</button>
+          <button onclick="downloadAs('json', 'merged')">合并导出 .JSON</button>
+          <button onclick="downloadAs('html', 'merged')">合并导出 .HTML</button>
+          <div class="dl-section-title">分别打包 (ZIP ARCHIVE)</div>
+          <button onclick="downloadAs('docx', 'separate')">分别打包 .DOCX (ZIP)</button>
+          <button onclick="downloadAs('txt', 'separate')">分别打包 .TXT (ZIP)</button>
+          <button onclick="downloadAs('md', 'separate')">分别打包 .MD (ZIP)</button>
+          <div class="dl-section-title">逐个下载 (MULTIPLE DOWNLOADS)</div>
+          <button onclick="downloadAs('docx', 'individual')">逐个下载 .DOCX</button>
+          <button onclick="downloadAs('doc', 'individual')">逐个下载 .DOC</button>
+          <button onclick="downloadAs('txt', 'individual')">逐个下载 .TXT</button>
+          <button onclick="downloadAs('md', 'individual')">逐个下载 .MD</button>
+          <button onclick="downloadAs('json', 'individual')">逐个下载 .JSON</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="fileIndex" class="file-index-list"></div>
+
+  <div id="pager-top" class="mag-pager" style="display:none">
+    <div class="pager-info">FILE <span class="currIdxDisplay">1</span> OF <span class="totalIdxDisplay">1</span></div>
+    <div class="pager-controls">
+      <button class="pager-btn prevBtn">PREV</button>
+      <button class="pager-btn nextBtn">NEXT</button>
+    </div>
+  </div>
+
+  <div id="output"><div class="empty">等待文件载入…</div></div>
+
+  <div id="pager-bottom" class="mag-pager bottom" style="display:none">
+    <div class="pager-info">FILE <span class="currIdxDisplay">1</span> OF <span class="totalIdxDisplay">1</span></div>
+    <div class="pager-controls">
+      <button class="pager-btn prevBtn">PREV PAGE</button>
+      <button class="pager-btn nextBtn">NEXT PAGE</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast">复制成功</div>
+
+<script>
+(() => {
+  const fileInput = document.getElementById('fileInput');
+  const dropZone = document.getElementById('dropZone');
+  const output = document.getElementById('output');
+  const toast = document.getElementById('toast');
+  const loader = document.getElementById('loader');
+  const appendMode = document.getElementById('appendMode');
+  const dlMenu = document.getElementById('dlMenu');
+  const fileIndex = document.getElementById('fileIndex');
+  const historyList = document.getElementById('historyList');
+  const pagers = [document.getElementById('pager-top'), document.getElementById('pager-bottom')];
+
+  let filesData = [];
+  let currentFileIndex = 0;
+
+  refreshHistoryUI();
+
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('scrollNav');
+    if (window.scrollY > 200) { nav.style.display = 'flex'; }
+    else { nav.style.display = 'none'; }
+  });
+
+  function showToast(msg){
+    toast.textContent = msg; toast.style.display = 'block';
+    clearTimeout(showToast.t); showToast.t = setTimeout(()=>toast.style.display='none',1800);
+  }
+
+  window.toggleHistory = () => document.getElementById('historySidebar').classList.toggle('open');
+  window.toggleDlMenu = (e) => { e.stopPropagation(); dlMenu.style.display = dlMenu.style.display === 'block' ? 'none' : 'block'; };
+  document.addEventListener('click', () => dlMenu.style.display = 'none');
+
+  function triggerDownload(blob, filename) {
+    try {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = filename; a.style.display = 'none';
+      document.body.appendChild(a); a.click();
+      setTimeout(() => { document.body.removeChild(a); window.URL.revokeObjectURL(url); }, 1000);
+    } catch (e) { console.error(e); }
+  }
+
+  async function copyText(text){
+    try { await navigator.clipboard.writeText(text); showToast('已复制'); }
+    catch(e) { 
+      const ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); showToast('已复制');
+    }
+  }
+
+  function escapeHTML(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  async function readTextKeepRaw(file){
+    const buffer = await file.arrayBuffer();
+    const bytes = new Uint8Array(buffer);
+    const encs = ['utf-8','gbk','big5','utf-16le','shift-jis','windows-1252'];
+    for(const enc of encs){ try { return new TextDecoder(enc,{fatal:true}).decode(bytes); } catch(e){} }
+    return new TextDecoder('utf-8',{fatal:false}).decode(bytes);
+  }
+
+  async function extractFileRich(file) {
+    const ext = file.name.split('.').pop().toLowerCase();
+    const isImage = file.type.startsWith('image/');
+    const isVideo = file.type.startsWith('video/');
+    const isAudio = file.type.startsWith('audio/');
+    const isPdf = file.type === 'application/pdf' || ext === 'pdf';
+    
+    if(ext === 'docx') {
+      return await extractDocxTextPreserve(file);
+    }
+
+    if(ext === 'doc') {
+      const raw = await readTextKeepRaw(file);
+      const cleanText = raw.replace(/[^\x20-\x7E\u4E00-\u9FA5\n\r\t]/g, ' ').replace(/\s\s+/g, ' ');
+      return { 
+        text: cleanText, 
+        htmlText: escapeHTML(cleanText), 
+        visualHtml: `<div style="color:var(--muted);font-style:italic;margin-bottom:10px;">[二进制 .DOC 文件已尝试清理乱码提取]</div><pre style="white-space:pre-wrap;">${escapeHTML(cleanText)}</pre>`, 
+        type: 'DOC (Binary)' 
+      };
+    }
+
+    if(isImage || isVideo || isAudio || isPdf) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          let vHtml = '';
+          if(isImage) vHtml = `<img src="${e.target.result}" alt="${file.name}">`;
+          else if(isVideo) vHtml = `<video controls style="max-width:100%"><source src="${e.target.result}" type="${file.type}"></video>`;
+          else if(isAudio) vHtml = `<audio controls style="width:100%"><source src="${e.target.result}" type="${file.type}"></audio>`;
+          else if(isPdf) vHtml = `<iframe src="${e.target.result}" style="width:100%;height:600px;border:none;"></iframe>`;
+          
+          resolve({
+            text: `[MEDIA FILE: ${file.name}]`,
+            htmlText: `[媒体文件: ${file.name}]`,
+            visualHtml: vHtml,
+            type: ext.toUpperCase()
+          });
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    const raw = await readTextKeepRaw(file);
+    let visualHtml = '';
+
+    if(ext === 'md') {
+      visualHtml = marked.parse(raw);
+    } else if(ext === 'json') {
+      try { 
+        const jsonObj = JSON.parse(raw);
+        const formatted = JSON.stringify(jsonObj, null, 2);
+        let imgHtml = '';
+        const findImgs = (obj) => {
+          for(let k in obj) {
+            if(typeof obj[k] === 'string') {
+              if(obj[k].startsWith('data:image/') || /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(obj[k])) {
+                imgHtml += `<div style="margin-top:10px;border:1px solid #eee;padding:5px;display:inline-block;margin-right:10px;"><small style="color:var(--muted);display:block;">Detected (${k}):</small><img src="${obj[k]}" style="max-height:150px;max-width:250px;display:block;"></div>`;
+              }
+            } else if(typeof obj[k] === 'object' && obj[k] !== null) {
+              findImgs(obj[k]);
+            }
+          }
+        };
+        findImgs(jsonObj);
+        visualHtml = `<pre style="background:#f7f7f7;padding:15px;border:1px solid #ddd;border-radius:4px;white-space:pre-wrap;word-break:break-all;font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:#222;max-width:100%;overflow-x:auto;">${escapeHTML(formatted)}</pre>` + (imgHtml ? `<div style="margin-top:15px;border-top:1px dashed #ccc;padding-top:10px;"><strong>JSON Images:</strong><br>${imgHtml}</div>` : '');
+      } catch(e) { 
+        visualHtml = `<div style="color:red;margin-bottom:8px;">JSON 解析错误: ${escapeHTML(e.message)}</div><pre style="white-space:pre-wrap;word-break:break-all;background:#fff5f5;padding:10px;border:1px solid #ffc1c1;">${escapeHTML(raw)}</pre>`; 
+      }
+    } else if(ext === 'xml' || ext === 'yaml' || ext === 'yml') {
+      visualHtml = `<pre style="background:#f4f4f4;padding:10px;border-radius:4px;overflow-x:auto;white-space:pre-wrap;word-break:break-all;">${escapeHTML(raw)}</pre>`;
+    } else if(ext === 'svg') {
+      visualHtml = `<div style="text-align:center;padding:20px;">${raw}</div>`;
+    } else if(ext === 'csv' || ext === 'tsv') {
+      const rows = raw.split('\n').map(r => r.split(ext === 'csv' ? ',' : '\t'));
+      visualHtml = `<div style="overflow-x:auto;"><table>${rows.map((r, i) => `<tr>${r.map(c => i === 0 ? `<th>${escapeHTML(c)}</th>` : `<td>${escapeHTML(c)}</td>`).join('')}</tr>`).join('')}</table></div>`;
+    } else if(['html', 'htm'].includes(ext)) {
+      visualHtml = `<div style="border:1px dashed #ccc; padding:10px">${raw}</div>`;
+    } else {
+      visualHtml = `<pre style="font-family:inherit; white-space:pre-wrap; word-break:break-all;">${escapeHTML(raw)}</pre>`;
+    }
+
+    return { text: raw, htmlText: escapeHTML(raw), visualHtml: visualHtml, type: ext.toUpperCase() || 'TEXT' };
+  }
+
+  async function extractDocxTextPreserve(file){
+    const ab = await file.arrayBuffer();
+    const zip = await JSZip.loadAsync(ab);
+    const xml = await zip.file('word/document.xml')?.async('string');
+    if(!xml) throw new Error('DOCX 损坏');
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(xml, 'application/xml');
+    const body = doc.getElementsByTagName('w:body')[0] || doc.documentElement;
+
+    function getRunData(runNode){
+      let t = '';
+      let isHighlighted = false;
+      const rPr = runNode.getElementsByTagName('w:rPr')[0];
+      if(rPr && rPr.getElementsByTagName('w:highlight').length > 0) isHighlighted = true;
+      const walker = doc.createTreeWalker(runNode, NodeFilter.SHOW_ELEMENT, null);
+      let n = walker.currentNode;
+      while(n){
+        if(n.nodeName === 'w:t') t += n.textContent || '';
+        else if(n.nodeName === 'w:tab') t += '\t';
+        else if(n.nodeName === 'w:br' || n.nodeName === 'w:cr') t += '\n';
+        n = walker.nextNode();
+      }
+      return { text: t, html: isHighlighted ? `<span data-highlight="true">${escapeHTML(t)}</span>` : escapeHTML(t) };
+    }
+
+    let outText = ''; let outHtml = '';
+    const children = body.childNodes;
+    for(const node of children){
+      if(node.nodeType !== 1) continue;
+      if(node.nodeName === 'w:p') {
+        const runs = node.getElementsByTagName('w:r');
+        let lineText = ''; let lineHtml = '';
+        for(const r of runs) { const data = getRunData(r); lineText += data.text; lineHtml += data.html; }
+        outText += lineText + '\n'; outHtml += lineHtml + '\n';
+      } else if(node.nodeName === 'w:tbl'){
+        const rows = node.getElementsByTagName('w:tr');
+        for(const row of rows){
+          const cells = row.getElementsByTagName('w:tc');
+          let rowText = []; let rowHtml = [];
+          for(const cell of cells){
+            let cellText = ''; let cellHtml = '';
+            const ps = cell.getElementsByTagName('w:p');
+            for(let i=0; i<ps.length; i++){
+              const runs = ps[i].getElementsByTagName('w:r');
+              for(const r of runs) { const data = getRunData(r); cellText += data.text; cellHtml += data.html; }
+              if(i < ps.length-1) { cellText += '\n'; cellHtml += '\n'; }
+            }
+            rowText.push(cellText); rowHtml.push(cellHtml);
+          }
+          outText += rowText.join('\t') + '\n'; outHtml += rowHtml.join('\t') + '\n';
+        }
+      }
+    }
+
+    let visualHtml = '';
+    try{
+      const options = {
+        arrayBuffer: ab.slice(0),
+        ignoreEmptyParagraphs: false,
+        convertImage: mammoth.images.inline(function(element) {
+          return element.read("base64").then(function(imageBuffer) {
+            return { src: "data:" + element.contentType + ";base64," + imageBuffer.data };
+          });
+        })
+      };
+      const htmlRes = await mammoth.convertToHtml(options);
+      visualHtml = htmlRes.value || '';
+    }catch(e){ console.error(e); }
+    
+    return { text: outText, htmlText: outHtml, visualHtml, type: 'DOCX' };
+  }
+
+  function render(){
+    output.innerHTML = ''; fileIndex.innerHTML = '';
+    if(!filesData.length){ output.innerHTML = '<div class="empty">等待文件载入…</div>'; pagers.forEach(p => p.style.display = 'none'); return; }
+
+    filesData.forEach((f, i) => {
+      const item = document.createElement('div');
+      item.className = `file-index-item ${i === currentFileIndex ? 'active' : ''}`;
+      item.textContent = `${(i+1).toString().padStart(2,'0')}. ${f.name.substring(0,12)}`;
+      item.onclick = () => { currentFileIndex = i; render(); window.scrollTo({top: 0, behavior: 'smooth'}); };
+      fileIndex.appendChild(item);
+    });
+
+    if(filesData.length > 1) {
+      pagers.forEach(p => {
+        p.style.display = 'flex';
+        p.querySelector('.currIdxDisplay').textContent = currentFileIndex + 1;
+        p.querySelector('.totalIdxDisplay').textContent = filesData.length;
+        p.querySelector('.prevBtn').disabled = currentFileIndex === 0;
+        p.querySelector('.nextBtn').disabled = currentFileIndex === filesData.length - 1;
+      });
+    } else { pagers.forEach(p => p.style.display = 'none'); }
+
+    const item = filesData[currentFileIndex];
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="card-head">
+        <div><div class="name">${escapeHTML(item.name)}</div><div class="meta">TYPE: ${item.type}</div></div>
+      </div>
+      <div class="panel">
+        <div class="panel-top">
+          <div class="tabgroup"><button class="tab active" data-tab="text">提取内容</button><button class="tab" data-tab="visual">视觉预览</button></div>
+          <button class="btn alt" onclick="copySingle(${currentFileIndex})">复制此页</button>
+        </div>
+        <div class="editor-wrap" id="text-panel"><pre class="editor" contenteditable="true" spellcheck="false">${item.htmlText || escapeHTML(item.text)}</pre></div>
+        <div class="visual-wrap" id="visual-panel" style="display:none"><div class="visual-box">${item.visualHtml || '<div style="color:#999">无视觉预览</div>'}</div></div>
+      </div>
+    `;
+    output.appendChild(card);
+
+    const pre = card.querySelector('pre.editor');
+    pre.oninput = () => { filesData[currentFileIndex].text = pre.textContent; filesData[currentFileIndex].htmlText = pre.innerHTML; };
+
+    card.querySelectorAll('.tab').forEach(t => {
+      t.onclick = () => {
+        card.querySelectorAll('.tab').forEach(bt => bt.classList.remove('active'));
+        t.classList.add('active');
+        const isVisual = t.dataset.tab === 'visual';
+        card.querySelector('.editor-wrap').style.display = isVisual ? 'none' : 'block';
+        card.querySelector('.visual-wrap').style.display = isVisual ? 'block' : 'none';
+      };
+    });
+  }
+
+  function saveToHistory(data) {
+    if(!data.length) return;
+    const history = JSON.parse(localStorage.getItem('extractor_history') || '[]');
+    history.unshift({ id: Date.now(), time: new Date().toLocaleString(), title: data[0].name + (data.length > 1 ? '...' : ''), content: JSON.parse(JSON.stringify(data)) });
+    localStorage.setItem('extractor_history', JSON.stringify(history.slice(0, 20)));
+    refreshHistoryUI();
+  }
+
+  function refreshHistoryUI() {
+    const history = JSON.parse(localStorage.getItem('extractor_history') || '[]');
+    historyList.innerHTML = history.length ? '' : '<div style="color:#ccc;text-align:center;padding:40px 0;">暂无记录</div>';
+    history.forEach(h => {
+      const li = document.createElement('div'); li.className = 'history-item';
+      li.innerHTML = `<div class="h-info"><span class="h-title">${h.title}</span><span class="h-meta">${h.time}</span></div><button class="h-del-btn">DEL</button>`;
+      li.onclick = () => { filesData = JSON.parse(JSON.stringify(h.content)); currentFileIndex = 0; render(); toggleHistory(); showToast('已加载'); };
+      li.querySelector('.h-del-btn').onclick = (e) => { e.stopPropagation(); deleteHistoryItem(h.id); };
+      historyList.appendChild(li);
+    });
+  }
+
+  function deleteHistoryItem(id) {
+    let history = JSON.parse(localStorage.getItem('extractor_history') || '[]');
+    localStorage.setItem('extractor_history', JSON.stringify(history.filter(i => i.id !== id)));
+    refreshHistoryUI(); showToast('已删除');
+  }
+
+  window.clearHistory = () => { localStorage.removeItem('extractor_history'); refreshHistoryUI(); showToast('已清空'); };
+  window.copySingle = (idx) => copyText(filesData[idx].text);
+
+  const handlePrev = () => { if(currentFileIndex > 0) { currentFileIndex--; render(); window.scrollTo({top: 0, behavior: 'smooth'}); } };
+  const handleNext = () => { if(currentFileIndex < filesData.length - 1) { currentFileIndex++; render(); window.scrollTo({top: 0, behavior: 'smooth'}); } };
+  pagers.forEach(p => { p.querySelector('.prevBtn').onclick = handlePrev; p.querySelector('.nextBtn').onclick = handleNext; });
+
+  async function handleFiles(fileList){
+    const files = Array.from(fileList || []); if(!files.length) return;
+    loader.style.display = 'flex';
+    try{
+      const newItems = [];
+      for(const f of files){
+        try {
+          const r = await extractFileRich(f);
+          newItems.push({ name:f.name, ...r });
+        }catch(e){ newItems.push({ name:f.name, type:'ERROR', text:`[失败] ${e.message}`, htmlText: `[失败] ${e.message}`, visualHtml:'' }); }
+      }
+      if(appendMode.checked) { const oldLen = filesData.length; filesData = filesData.concat(newItems); currentFileIndex = oldLen; }
+      else { filesData = newItems; currentFileIndex = 0; }
+      saveToHistory(filesData); render();
+    }finally{ loader.style.display = 'none'; fileInput.value = ''; }
+  }
+
+  window.copyAllMerged = () => { if(!filesData.length) return; copyText(filesData.map(f=>`# ${f.name}\n${f.text}`).join('\n\n')); };
+  window.clearAll = () => { filesData = []; currentFileIndex = 0; render(); showToast('已清空'); };
+
+  window.downloadAs = async (format, mode) => {
+    if(!filesData.length) return showToast('无内容');
+    loader.style.display = 'flex';
+    const ts = new Date().getTime();
+    try {
+      if(mode === 'merged') {
+        let content = '', mime = 'text/plain;charset=utf-8';
+        if(format === 'json'){ content = JSON.stringify(filesData, null, 2); mime = 'application/json;charset=utf-8'; }
+        else if(format === 'md'){ content = filesData.map(f => `## ${f.name}\n\n${f.text}`).join('\n\n---\n\n'); }
+        else if(format === 'html'){
+          const body = filesData.map(f => `<h3>${f.name}</h3><pre style="white-space:pre-wrap;font-family:monospace;background:#f9f9f9;padding:15px;border:1px solid #ddd">${escapeHTML(f.text)}</pre>`).join('<hr>');
+          content = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Merged Export</title><style>body{font-family:sans-serif;max-width:900px;margin:40px auto;padding:20px;line-height:1.6;}</style></head><body>${body}</body></html>`;
+          mime = 'text/html;charset=utf-8';
+        } else if(format === 'docx' || format === 'doc'){
+          const body = filesData.map(f => `<h3>${f.name}</h3><pre style="white-space:pre-wrap; font-family: 'Courier New';">${escapeHTML(f.text)}</pre>`).join('<br clear="all" style="page-break-before:always">');
+          content = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><style>pre{white-space:pre-wrap;font-size:10.5pt;font-family:'Courier New'} img{max-width:100%}</style></head><body>${body}</body></html>`;
+          mime = 'application/msword';
+        } else { content = filesData.map(f => `--- FILE: ${f.name} ---\n\n${f.text}`).join('\n\n'); }
+        triggerDownload(new Blob([content], {type: mime}), `Merged_Export_${ts}.${format}`);
+      } else if(mode === 'separate') {
+        const zip = new JSZip();
+        filesData.forEach((f, i) => {
+          let fileContent = f.text;
+          if(format === 'json') fileContent = JSON.stringify(f, null, 2);
+          else if(format === 'md') fileContent = `# ${f.name}\n\n${f.text}`;
+          else if(format === 'html') fileContent = `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body style="font-family:monospace;white-space:pre-wrap">${escapeHTML(f.text)}</body></html>`;
+          else if(format === 'docx' || format === 'doc') fileContent = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'></head><body><pre style="white-space:pre-wrap;font-family:'Courier New'">${escapeHTML(f.text)}</pre></body></html>`;
+          zip.file(`${(i+1).toString().padStart(2,'0')}_${f.name.split('.')[0]}.${format}`, fileContent);
+        });
+        const zipBlob = await zip.generateAsync({type:"blob"});
+        triggerDownload(zipBlob, `Archive_${ts}.zip`);
+      } else if(mode === 'individual') {
+        for(let i=0; i<filesData.length; i++) {
+          const f = filesData[i]; let fileContent = f.text, mime = 'text/plain;charset=utf-8';
+          if(format === 'json'){ fileContent = JSON.stringify(f, null, 2); mime = 'application/json;charset=utf-8'; }
+          else if(format === 'md'){ fileContent = `# ${f.name}\n\n${f.text}`; }
+          else if(format === 'docx' || format === 'doc'){
+            fileContent = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'></head><body><pre style="white-space:pre-wrap;font-family:'Courier New'">${escapeHTML(f.text)}</pre></body></html>`;
+            mime = 'application/msword';
+          }
+          const fileName = `${(i+1).toString().padStart(2,'0')}_${f.name.split('.')[0]}.${format}`;
+          await new Promise(res => { setTimeout(() => { triggerDownload(new Blob([fileContent], {type: mime}), fileName); res(); }, i * 800); });
+        }
+      }
+      showToast('导出完成');
+    } catch (err) { alert("出错: " + err.message); } finally { loader.style.display = 'none'; }
+  };
+
+  fileInput.onchange = e => handleFiles(e.target.files);
+  ['dragenter','dragover'].forEach(evt=>dropZone.addEventListener(evt,e=>{e.preventDefault();dropZone.classList.add('drag');}));
+  ['dragleave','drop'].forEach(evt=>dropZone.addEventListener(evt,e=>{e.preventDefault();dropZone.classList.remove('drag');}));
+  dropZone.ondrop = e => handleFiles(e.dataTransfer.files);
+})();
+</script>
+</body>
+</html>
