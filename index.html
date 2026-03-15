@@ -199,7 +199,8 @@
     <div class="modal-body">
       <p style="font-family:'Noto Serif SC', serif; font-weight:900; font-size:1.1rem;">欢迎宝宝使用文档提取器^-^</p>
       <p>作者：<span style="font-weight:700; border-bottom:1px solid #000;">芜湖</span></p>
-      <p style="color:var(--muted); font-size:0.8rem;">有任何bug请联系我修改。</p>
+      <p style="color:var(--muted); font-size:0.8rem;">目前暂不支持doc文档提取orz</p>
+      <p style="color:var(--muted); font-size:0.8rem;">有任何bug请联系我。</p>
       
       <div class="rule-box">
         <div class="rule-item">
@@ -326,6 +327,14 @@
   let currentFileIndex = 0;
 
   refreshHistoryUI();
+
+  // Auto open modal on first load of the session/page
+  if (!localStorage.getItem('extractor_first_open')) {
+    setTimeout(() => {
+      openModal();
+      localStorage.setItem('extractor_first_open', 'true');
+    }, 500);
+  }
 
   window.addEventListener('scroll', () => {
     const nav = document.getElementById('scrollNav');
@@ -650,7 +659,7 @@
           mime = 'text/html;charset=utf-8';
         } else if(format === 'docx' || format === 'doc'){
           const body = filesData.map(f => `<h3>${f.name}</h3><pre style="white-space:pre-wrap; font-family: 'Courier New';">${escapeHTML(f.text)}</pre>`).join('<br clear="all" style="page-break-before:always">');
-          content = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><style>pre{white-space:pre-wrap;font-size:10.5pt;font-family:'Courier New'} img{max-width:100%}</style></head><body>${body}</body></html>`;
+          content = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.get-html40'><head><meta charset='utf-8'><style>pre{white-space:pre-wrap;font-size:10.5pt;font-family:'Courier New'} img{max-width:100%}</style></head><body>${body}</body></html>`;
           mime = 'application/msword';
         } else { content = filesData.map(f => `--- FILE: ${f.name} ---\n\n${f.text}`).join('\n\n'); }
         triggerDownload(new Blob([content], {type: mime}), `Merged_Export_${ts}.${format}`);
@@ -661,7 +670,7 @@
           if(format === 'json') fileContent = JSON.stringify(f, null, 2);
           else if(format === 'md') fileContent = `# ${f.name}\n\n${f.text}`;
           else if(format === 'html') fileContent = `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body style="font-family:monospace;white-space:pre-wrap">${escapeHTML(f.text)}</body></html>`;
-          else if(format === 'docx' || format === 'doc') fileContent = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'></head><body><pre style="white-space:pre-wrap;font-family:'Courier New'">${escapeHTML(f.text)}</pre></body></html>`;
+          else if(format === 'docx' || format === 'doc') fileContent = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.get-html40'><head><meta charset='utf-8'></head><body><pre style="white-space:pre-wrap;font-family:'Courier New'">${escapeHTML(f.text)}</pre></body></html>`;
           zip.file(`${(i+1).toString().padStart(2,'0')}_${f.name.split('.')[0]}.${format}`, fileContent);
         });
         const zipBlob = await zip.generateAsync({type:"blob"});
@@ -672,7 +681,7 @@
           if(format === 'json'){ fileContent = JSON.stringify(f, null, 2); mime = 'application/json;charset=utf-8'; }
           else if(format === 'md'){ fileContent = `# ${f.name}\n\n${f.text}`; }
           else if(format === 'docx' || format === 'doc'){
-            fileContent = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'></head><body><pre style="white-space:pre-wrap;font-family:'Courier New'">${escapeHTML(f.text)}</pre></body></html>`;
+            fileContent = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.get-html40'><head><meta charset='utf-8'></head><body><pre style="white-space:pre-wrap;font-family:'Courier New'">${escapeHTML(f.text)}</pre></body></html>`;
             mime = 'application/msword';
           }
           const fileName = `${(i+1).toString().padStart(2,'0')}_${f.name.split('.')[0]}.${format}`;
