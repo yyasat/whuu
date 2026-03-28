@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>文档提取</title>
+  <title>文档提取器</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700;900&family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -51,17 +51,19 @@
     
     header {
       border-bottom: 3px solid var(--accent); padding-bottom: 20px; margin-bottom: 28px;
-      display: flex; flex-direction: column; gap: 15px; align-items: flex-start;
+      display: flex; flex-direction: row; justify-content: space-between; align-items: flex-end;
+      gap: 15px; flex-wrap: wrap;
       position: relative;
     }
     h1 {
-      margin: 0; font-family: "Noto Serif SC", serif; font-size: clamp(2rem, 8vw, 3.2rem);
-      letter-spacing: -2px; line-height: .95; color: var(--text);
+      margin: 0; font-family: "Noto Serif SC", serif; font-size: clamp(1.2rem, 4.5vw, 2.2rem);
+      letter-spacing: -1px; line-height: 1; color: var(--text); font-weight: 900;
+      white-space: nowrap; cursor: pointer;
     }
-    .edition { display: flex; gap: 10px; flex-wrap: wrap; }
+    .edition { display: flex; gap: 4px; flex-wrap: wrap; }
 
     .theme-trigger {
-      position: absolute; top: 0; right: 0;
+      position: absolute; top: -10px; right: 0;
       background: none; border: none; cursor: pointer; padding: 8px;
       display: flex; align-items: center; justify-content: center;
       color: var(--text);
@@ -150,6 +152,7 @@
       display: none; align-items: center; justify-content: center; z-index: 2000;
       backdrop-filter: blur(4px);
     }
+    #infoModal { z-index: 2010; }
     .modal-content {
       background: var(--bg); border: 2px solid var(--accent); width: 90%; max-width: 480px;
       height: 620px; padding: 40px 30px; position: relative; 
@@ -186,14 +189,14 @@
     .history-head { border-bottom: 2px solid var(--accent); padding-bottom: 15px; margin-bottom: 20px; display: flex; flex-direction: column; gap: 4px; }
     .history-head-top { display: flex; justify-content: space-between; align-items: center; }
     .history-head h3 { font-family: "Noto Serif SC", serif; margin: 0; font-size: 1.4rem; color: var(--text); }
-    .history-head-sub { font-size: 0.65rem; color: var(--muted); font-family: Inter, sans-serif; }
+    .history-head-sub { font-size: 0.65rem; color: var(--muted); font-family: Inter, sans-serif; white-space: nowrap; font-weight: 600; }
     .history-list { flex: 1; overflow-y: auto; list-style: none; padding: 0; margin: 0; }
     .history-item { padding: 15px 0; border-bottom: 1px solid var(--line); cursor: pointer; display: flex; justify-content: space-between; gap: 10px; }
     .history-item:hover { opacity: 0.7; }
     .h-info { flex: 1; overflow: hidden; }
     .h-title { font-family: "Noto Serif SC", serif; font-weight: 900; font-size: 0.95rem; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text); }
     .h-meta { font-family: "JetBrains Mono", monospace; font-size: 0.65rem; color: var(--muted); }
-    .h-del-btn { background: none; border: 1px solid var(--line); color: var(--muted); font-size: 0.6rem; padding: 2px 6px; cursor: pointer; }
+    .h-del-btn { background: none; border: 1px solid var(--line); color: var(--muted); font-size: 0.75rem; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; }
     .h-del-btn:hover { border-color: var(--accent); color: var(--text); }
 
     .mag-pager {
@@ -227,6 +230,11 @@
       min-height: 450px; background: var(--editor-bg); border: 1px solid var(--line); padding: 15px; outline: none; color: var(--text);
     }
     pre.editor:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,0,0,.04); }
+    pre.editor b { font-weight: bold; }
+    pre.editor i { font-style: italic; }
+    pre.editor u { text-decoration: underline; }
+    pre.editor s { text-decoration: line-through; }
+    pre.editor strong { font-weight: 900; color: var(--accent); text-decoration: underline; }
     
     .visual-box { border: 1px solid var(--line); padding: 14px; background: var(--editor-bg); min-height: 80px; line-height: 1.7; font-family: "Noto Serif SC", serif; overflow-x: auto; color: var(--text); }
     .visual-box img { max-width: 100% !important; height: auto !important; display: block !important; margin: 15px auto !important; object-fit: contain !important; image-rendering: -webkit-optimize-contrast; }
@@ -246,6 +254,27 @@
       font-size: 1rem; transition: 0.2s;
     }
     .scroll-btn:hover { background: var(--bg); color: var(--accent); }
+
+    .changelog-item { margin-bottom: 20px; border-bottom: 1px dashed var(--line); padding-bottom: 12px; }
+    .changelog-date-main { font-family: "JetBrains Mono", monospace; font-weight: 700; color: var(--accent); font-size: 0.9rem; }
+    .changelog-time-small { font-size: 0.65rem; color: var(--muted); margin-left: 4px; vertical-align: baseline; }
+    .changelog-list { margin-top: 8px; padding-left: 18px; font-size: 0.85rem; line-height: 1.6; }
+    .old-logs { display: none; }
+    .toggle-logs { text-align: center; font-size: 0.72rem; color: var(--muted); cursor: pointer; margin: 15px 0; text-decoration: underline; font-family: "JetBrains Mono", monospace; font-weight: 700; }
+    
+    .mgr-row { margin-bottom: 10px; }
+    .mgr-label { font-size: 0.7rem; font-weight: 900; color: var(--accent); margin-bottom: 4px; display: block; }
+    .mgr-input { width: 100%; padding: 6px; border: 1px solid var(--line); font-family: inherit; font-size: 0.8rem; background: var(--bg); color: var(--text); }
+    
+    .mgr-list-box { margin-top: 15px; border-top: 2px solid var(--accent); padding-top: 10px; max-height: 200px; overflow-y: auto; }
+    .mgr-item { display: flex; justify-content: space-between; align-items: center; padding: 8px; background: var(--bg); border: 1px solid var(--line); margin-bottom: 5px; font-size: 0.7rem; }
+    .mgr-item-info { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 700; }
+    .mgr-item-btns { display: flex; gap: 5px; }
+    .mgr-mini-btn { padding: 2px 6px; font-size: 0.6rem; cursor: pointer; border: 1px solid var(--accent); background: var(--bg); color: var(--text); font-weight: 900; }
+    .mgr-mini-btn:hover { background: var(--accent); color: var(--bg); }
+    .mgr-toolbar { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 8px; }
+    .mgr-title-box { border-bottom: 1px solid var(--accent); padding-bottom: 5px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+    .mgr-title-text { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 900; }
   </style>
 </head>
 <body>
@@ -270,11 +299,48 @@
   </div>
 </div>
 
-<div id="infoModal" class="modal-overlay" onclick="closeModal(event)">
+<!-- 使用说明 Modal -->
+<div id="infoModal" class="modal-overlay" onclick="closeModal('infoModal')">
   <div class="modal-content" onclick="event.stopPropagation()">
-    <button class="modal-close" onclick="closeModal()">×</button>
-    <div class="modal-title" id="modalTitle">使用说明 / INFO</div>
+    <button class="modal-close" onclick="closeModal('infoModal')">×</button>
+    <div class="modal-title" id="modalTitle" title="连续点击100次开启管理模式">使用说明 / INFO</div>
     
+    <!-- 可视化信息管理终端 -->
+    <div id="infoManager" style="display:none; margin-bottom: 20px; border: 2px solid var(--accent); padding: 15px; background: var(--soft);">
+      <div class="mgr-title-box">
+        <span class="mgr-title-text">说明页内容管理 / CONTENT MANAGER</span>
+        <span style="color:var(--muted); font-size:0.6rem;">可视化编辑模式</span>
+      </div>
+      
+      <div style="display:grid; grid-template-columns: 1fr 1.2fr; gap:10px; margin-bottom:12px;">
+        <div>
+          <span class="mgr-label">1. 选择页面 (PAGE)</span>
+          <select id="mgrInfoPageSelect" class="mgr-input" onchange="editInfoPage(this.value)">
+            <option value="0">第一页：使用说明</option>
+            <option value="1">第二页：功能用法</option>
+            <option value="2">第三页：其他功能</option>
+          </select>
+        </div>
+        <div>
+          <span class="mgr-label">2. 插入排版 (SNIPPETS)</span>
+          <div class="mgr-toolbar" style="margin-bottom:0;">
+            <button class="mgr-mini-btn" onclick="insertAtCursor('mgrInfoContent', '<span class=\'bold-black\'>', '</span>')">加粗</button>
+            <button class="mgr-mini-btn" onclick="insertAtCursor('mgrInfoContent', '<span class=\'angry-text\'>', '</span>')">红字</button>
+            <button class="mgr-mini-btn" onclick="insertAtCursor('mgrInfoContent', '<div class=\'rule-item\'><div class=\'rule-num\'>1</div><div>', '</div></div>')">列表</button>
+            <button class="mgr-mini-btn" onclick="insertAtCursor('mgrInfoContent', '<p style=\'font-family:\"Noto Serif SC\", serif; font-weight:900; font-size:1.1rem;\'>', '</p>')">标题</button>
+          </div>
+        </div>
+      </div>
+
+      <span class="mgr-label">3. 编辑 HTML 内容 (CONTENT)</span>
+      <textarea id="mgrInfoContent" class="mgr-input" style="height:120px; font-family:'JetBrains Mono', monospace; font-size:0.7rem; margin-bottom:10px;"></textarea>
+      
+      <div style="display:flex; gap:10px;">
+        <button class="btn" style="flex:1; padding:8px; font-size:0.7rem;" onclick="publishNewInfo()">保存修改 (SAVE)</button>
+        <button class="btn alt" style="padding:8px 15px; font-size:0.7rem;" onclick="cancelInfoEdit()">退出管理</button>
+      </div>
+    </div>
+
     <div id="modalPage1" class="modal-body">
       <p style="font-family:'Noto Serif SC', serif; font-weight:900; font-size:1.1rem;">欢迎宝宝使用文档提取器-w-</p>
       <p>作者：<span style="font-weight:700; border-bottom:1px solid var(--accent);">芜湖</span></p>
@@ -282,18 +348,9 @@
       <p style="color:var(--muted); font-size:0.8rem;">有任何bug请联系我。</p>
       
       <div class="rule-box">
-        <div class="rule-item">
-          <div class="rule-num">1</div>
-          <div>此为<span class="bold-black">免费产物</span>，禁止<span class="bold-black">魔改</span>、<span class="bold-black">倒卖</span>等行为。</div>
-        </div>
-        <div class="rule-item">
-          <div class="rule-num">2</div>
-          <div>请不要提取其他老师的作品/心血去干坏事（<span class="angry-text">做出这种事的还是人吗？</span><span class="warning-text">马年不代表你的家人不会飞</span><span style="color:#e63946; font-weight:700; text-decoration:none;">^-^</span>）。</div>
-        </div>
-        <div class="rule-item">
-          <div class="rule-num">3</div>
-          <div>再次重审，此程序做出来<span class="bold-black">仅为便利用户</span>，<span class="bold-black">请不要拿去干坏事</span>，谢谢^-^</div>
-        </div>
+        <div class="rule-item"><div class="rule-num">1</div><div>此为<span class="bold-black">免费产物</span>，禁止<span class="bold-black">魔改</span>、<span class="bold-black">倒卖</span>等行为。</div></div>
+        <div class="rule-item"><div class="rule-num">2</div><div>请不要提取其他老师的作品/心血去干坏事（<span class="angry-text">做出这种事的还是人吗？</span> <span style="font-size: 0.65rem; color: #e63946; font-weight: 700; text-decoration: line-through;">马年不代表你的家人不会飞哦</span><span style="color:#e63946; font-weight:700; text-decoration:none; font-size: 0.65rem;">^-^</span>）。</div></div>
+        <div class="rule-item"><div class="rule-num">3</div><div>再次重审，此程序做出来<span class="bold-black">仅为便利用户</span>，<span class="bold-black">请不要拿去干坏事</span>，谢谢^-^</div></div>
       </div>
     </div>
 
@@ -306,6 +363,10 @@
         <div class="rule-item">
           <div class="rule-num">A</div>
           <div><span class="bold-black">追加导入</span>：开启后，新导入的文件会排在当前列表后面，不会清空已有内容。</div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-num">R</div>
+          <div><span class="bold-black">内容替换</span>：若json文件提取出的内容在提取预览界面不显示换行等（如：挤成一团/内容成单行文本），也许是文件的显示有误（不是指文件有问题），可点击“内容替换”替换成视觉预览界面中的正确格式。</div>
         </div>
         <div class="rule-item">
           <div class="rule-num">V</div>
@@ -342,21 +403,76 @@
         </div>
         <div class="rule-item">
           <div class="rule-num">5</div>
-          <div><span class="bold-black">合并复制</span>：多个文件内容一并复制，其中用许多“=”号分割各文件内容。</div>
+          <div><span class="bold-black">合并复制</span>：多个文件内容一并复制，其中用数个“=”号分割各文件内容。</div>
         </div>
         <div class="rule-item">
           <div class="rule-num">6</div>
-          <div><span class="bold-black">特殊标识</span>：提取文档中若含有高亮等特殊标识，提取框内会显示特殊标识，复制时特殊标识不会被复制（目前支持高亮、标题、列表、粗斜体等，后续可能会更新）。</div>
+          <div><span class="bold-black">特殊标识</span>：提取文档中若含有高亮等特殊标识，提取框内会显示特殊标识，复制时特殊标识不会被复制（目前支持高亮、标题、列表、粗斜体、下划线、删除线、字体等，后续可能还会更新）。</div>
         </div>
       </div>
     </div>
 
     <div class="modal-footer">
-      <div class="modal-page-indicator" id="modalPageIndicator">PAGE 3 / 3</div>
+      <div class="modal-page-indicator" id="modalPageIndicator">PAGE 1 / 3</div>
       <div class="modal-nav-btns">
         <button class="pager-btn" id="modalPrev" onclick="switchModalPage(window.currentModalPage - 1)">PREV</button>
-        <button class="pager-btn" id="modalNext" onclick="switchModalPage(window.currentModalPage + 1)" disabled>NEXT</button>
+        <button class="pager-btn" id="modalNext" onclick="switchModalPage(window.currentModalPage + 1)">NEXT</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- 更新日志 Modal -->
+<div id="changelogModal" class="modal-overlay" onclick="closeModal('changelogModal')">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal('changelogModal')">×</button>
+    <div class="modal-title" id="changelogTitle" title="连续点击100次开启管理模式">更新日志 / LOG</div>
+    <div class="modal-body" id="changelogBody">
+      <!-- 可视化日志管理终端 -->
+      <div id="logManager" style="display:none; margin-bottom: 20px; border: 2px solid var(--accent); padding: 15px; background: var(--soft);">
+        <div class="mgr-title-box">
+          <span class="mgr-title-text">更新日志管理 / LOG MANAGER</span>
+          <span style="color:var(--muted); font-size:0.6rem;">可视化编辑模式</span>
+        </div>
+        
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:10px;">
+          <div>
+            <span class="mgr-label">发布日期 (DATE)</span>
+            <input id="mgrDate" class="mgr-input" type="text" placeholder="例: 3.18.2026">
+          </div>
+          <div>
+            <span class="mgr-label">发布时间 (TIME)</span>
+            <input id="mgrTime" class="mgr-input" type="text" placeholder="例: 17:48">
+          </div>
+        </div>
+
+        <span class="mgr-label">更新内容 (CONTENT - 支持 HTML 排版)</span>
+        <div class="mgr-toolbar">
+          <button class="mgr-mini-btn" onclick="insertAtCursor('mgrLogs', '<b>', '</b>')">加粗</button>
+          <button class="mgr-mini-btn" onclick="insertAtCursor('mgrLogs', '<span class=\'angry-text\'>', '</span>')">红字</button>
+          <button class="mgr-mini-btn" onclick="insertAtCursor('mgrLogs', '<br>', '')">换行</button>
+          <button class="mgr-mini-btn" onclick="insertAtCursor('mgrLogs', ';; ', '')">项目分隔符</button>
+        </div>
+        <textarea id="mgrLogs" class="mgr-input" style="height:80px; font-family:'JetBrains Mono', monospace; font-size:0.7rem; margin-bottom:10px;"></textarea>
+        
+        <div style="display:flex; gap:8px; margin-top:5px;">
+          <button id="mgrSubmitBtn" class="btn" style="flex:1; padding:8px; font-size:0.7rem;" onclick="publishNewLog()">发布/保存 (PUBLISH)</button>
+          <button class="btn alt" style="padding:8px 15px; font-size:0.7rem;" onclick="cancelEdit()">退出管理</button>
+        </div>
+
+        <div style="border-top:1px dashed var(--line); margin:12px 0; padding-top:10px;">
+          <span class="mgr-label">云端同步配置 (CLOUD SYNC)</span>
+          <div style="display:flex; gap:5px;">
+            <input id="cloudIdInput" class="mgr-input" style="flex:1;" type="text" placeholder="Bin ID">
+            <button class="btn alt" style="padding:4px 10px; font-size:0.6rem;" onclick="pushToCloud()">同步到云端</button>
+          </div>
+        </div>
+
+        <div class="mgr-list-box" id="mgrListBox"></div>
+      </div>
+
+      <div id="logContentArea"></div>
+      <div id="toggleLogsBtn" class="toggle-logs" onclick="toggleOldLogs()">过往更新</div>
     </div>
   </div>
 </div>
@@ -372,7 +488,7 @@
       <h3>ARCHIVES</h3>
       <button style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text)" onclick="toggleHistory()">×</button>
     </div>
-    <div class="history-head-sub">历史记录至多保存50次，超过50次则覆盖旧记录</div>
+    <div class="history-head-sub">历史记录至多保留50个不同文件/文档，超过则自动覆盖旧记录</div>
   </div>
   <div class="history-list" id="historyList"></div>
   <button class="btn alt" style="width:100%; margin-top:20px;" onclick="clearHistory()">清空全部历史</button>
@@ -380,13 +496,14 @@
 
 <div class="wrap">
   <header>
-    <h1>Extractor.</h1>
+    <h1 onclick="handleH1Click()">文档提取器丨Extractor</h1>
     <button class="theme-trigger" id="themeTrigger" onclick="openThemeMenu()" title="昼夜模式切换">
       <svg id="themeIcon" viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5z"/></svg>
     </button>
     <div class="edition">
-      <button class="btn alt" onclick="openModal()" style="padding:6px 14px; font-size:0.75rem;">使用说明 INFO</button>
-      <button class="btn alt" onclick="toggleHistory()" style="padding:6px 14px; font-size:0.75rem;">HISTORY 历史</button>
+      <button class="btn alt" onclick="openModal(1)" style="padding:2px 5px; font-size:0.58rem; min-height:auto;">使用说明 INFO</button>
+      <button class="btn alt" onclick="openChangelog()" style="padding:2px 5px; font-size:0.58rem; min-height:auto;">更新日志 LOG</button>
+      <button class="btn alt" onclick="toggleHistory()" style="padding:2px 5px; font-size:0.58rem; min-height:auto;">历史 HISTORY</button>
     </div>
   </header>
 
@@ -458,6 +575,92 @@
 
 <script>
 (() => {
+  // 云端同步配置：填入 npoint.io 的 Bin ID 即可实现全员自动更新
+  const CLOUD_BIN_ID = ""; 
+
+  const STATIC_LOGS = [
+  {
+    "date": "3.18.2026",
+    "time": "17:48",
+    "logs": [
+      "新增：“功能用法”及“使用说明”页、昼夜模式切换、内容替换、更新日志、“下载导出”添加格式等。",
+      "优化：“历史记录”功能记录位添加至50个、“复制此页”功能优化、“视觉预览”功能优化、优化排版及布局等",
+      "修改：“使用说明\"内容修改、修改个别按键文件标签。"
+    ]
+  }
+];
+
+  const STATIC_INFO = [
+    {
+      "content": `<p style="font-family:'Noto Serif SC', serif; font-weight:900; font-size:1.1rem;">欢迎宝宝使用文档提取器-w-</p>
+      <p>作者：<span style="font-weight:700; border-bottom:1px solid var(--accent);">芜湖</span></p>
+      <p style="color:var(--muted); font-size:0.8rem;">目前暂不支持doc文档提取orz</p>
+      <p style="color:var(--muted); font-size:0.8rem;">有任何bug请联系我。</p>
+      
+      <div class="rule-box">
+        <div class="rule-item"><div class="rule-num">1</div><div>此为<span class="bold-black">免费产物</span>，禁止<span class="bold-black">魔改</span>、<span class="bold-black">倒卖</span>等行为。</div></div>
+        <div class="rule-item"><div class="rule-num">2</div><div>请不要提取其他老师的作品/心血去干坏事（<span class="angry-text">做出这种事的还是人吗？</span> <span style="font-size: 0.65rem; color: #e63946; font-weight: 700; text-decoration: line-through;">马年不代表你的家人不会飞哦</span><span style="color:#e63946; font-weight:700; text-decoration:none; font-size: 0.65rem;">^-^</span>）。</div></div>
+        <div class="rule-item"><div class="rule-num">3</div><div>再次重审，此程序做出来<span class="bold-black">仅为便利用户</span>，<span class="bold-black">请不要拿去干坏事</span>，谢谢^-^</div></div>
+      </div>`
+    },
+    {
+      "content": `<div class="rule-box" style="border:none; padding-top:0;">
+        <div class="rule-item">
+          <div class="rule-num">H</div>
+          <div><span class="bold-black">历史记录</span>：点击“HISTORY”可查看并重新加载最近提取的50次记录。</div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-num">A</div>
+          <div><span class="bold-black">追加导入</span>：开启后，新导入的文件会排在当前列表后面，不会清空已有内容。</div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-num">R</div>
+          <div><span class="bold-black">内容替换</span>：若json文件提取出的内容在提取预览界面不显示换行等（如：挤成一团/内容成单行文本），也许是文件的显示有误（不是指文件有问题），可点击“内容替换”替换成视觉预览界面中的正确格式。</div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-num">V</div>
+          <div><span class="bold-black">视觉预览</span>：在提取结果区切换标签，可直接查看文档的富文本排版（含图片/表格）。</div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-num">D</div>
+          <div><span class="bold-black">下载导出</span>：支持多种格式、多种方式导出文件/文档（详情请见下一页——其他功能）。</div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-num">E</div>
+          <div><span class="bold-black">在线编辑</span>：提取出的文本可直接在框内修改，修改后下载的内容将同步更新。</div>
+        </div>
+      </div>`
+    },
+    {
+      "content": `<div class="rule-box" style="border:none; padding-top:0;">
+        <div class="rule-item">
+          <div class="rule-num">1</div>
+          <div><span class="bold-black">昼/夜模式</span>：右上角太阳图标点击可切换昼夜模式（页面主配色）。其中，“跟随系统”模式可跟随当前系统的昼/夜模式（若开启“跟随系统”模式，但没跟随系统变化的话，是浏览器不适配，可自行手动切换）。</div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-num">2</div>
+          <div><span class="bold-black">合并下载</span>：所有内容输入到一个文档中，下载也仅显示一个文档。</div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-num">3</div>
+          <div><span class="bold-black">分别打包</span>：压缩包类型（zip），需解压。</div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-num">4</div>
+          <div><span class="bold-black">逐个下载</span>：多文件一键分别下载，下载下来仍旧是多个文件（不是压缩到一个文件也不是zip），不用解压。</div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-num">5</div>
+          <div><span class="bold-black">合并复制</span>：多个文件内容一并复制，其中用数个“=”号分割各文件内容。</div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-num">6</div>
+          <div><span class="bold-black">特殊标识</span>：提取文档中若含有高亮等特殊标识，提取框内会显示特殊标识，复制时特殊标识不会被复制（目前支持高亮、标题、列表、粗斜体、下划线、删除线、字体等，后续可能还会更新）。</div>
+        </div>
+      </div>`
+    }
+  ];
+
   const fileInput = document.getElementById('fileInput');
   const dropZone = document.getElementById('dropZone');
   const output = document.getElementById('output');
@@ -473,7 +676,6 @@
   let currentFileIndex = 0;
   window.currentModalPage = 1;
 
-  // 昼夜模式增强逻辑
   window.openThemeMenu = () => { document.getElementById('themeMenuOverlay').style.display = 'flex'; };
   window.closeThemeMenu = () => { document.getElementById('themeMenuOverlay').style.display = 'none'; };
 
@@ -481,58 +683,28 @@
     const root = document.documentElement;
     const icon = document.getElementById('themeIcon');
     const options = { light: document.getElementById('opt-light'), dark: document.getElementById('opt-dark'), auto: document.getElementById('opt-auto') };
-    
-    // 1. 记录用户的选择
     localStorage.setItem('user-theme', mode);
-    
-    // 2. 清除菜单中的所有激活状态
     Object.values(options).forEach(opt => opt.classList.remove('active'));
-    // 3. 激活用户当前点击的选项
     options[mode].classList.add('active');
-
-    // 4. 计算实际应该呈现的主题
     let effectiveTheme = mode;
-    if (mode === 'auto') {
-      effectiveTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-
-    // 5. 应用主题
+    if (mode === 'auto') effectiveTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     root.setAttribute('data-theme', effectiveTheme);
-
-    // 6. 更新右上角图标 (根据实际呈现的主题)
-    if (effectiveTheme === 'dark') {
-      icon.innerHTML = '<path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/>';
-    } else {
-      icon.innerHTML = '<path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/>';
-    }
-    
+    if (effectiveTheme === 'dark') icon.innerHTML = '<path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/>';
+    else icon.innerHTML = '<path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/>';
     closeThemeMenu();
   };
 
-  // 监听系统主题变化并实时响应
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-    if (localStorage.getItem('user-theme') === 'auto') {
-      setTheme('auto');
-    }
+    if (localStorage.getItem('user-theme') === 'auto') setTheme('auto');
   });
 
-  // 初始化加载
   const savedTheme = localStorage.getItem('user-theme') || 'auto';
   setTheme(savedTheme);
-
   refreshHistoryUI();
-
-  if (!localStorage.getItem('extractor_first_open')) {
-    setTimeout(() => {
-      openModal();
-      localStorage.setItem('extractor_first_open', 'true');
-    }, 500);
-  }
 
   window.addEventListener('scroll', () => {
     const nav = document.getElementById('scrollNav');
-    if (window.scrollY > 200) { nav.style.display = 'flex'; }
-    else { nav.style.display = 'none'; }
+    nav.style.display = window.scrollY > 200 ? 'flex' : 'none';
   });
 
   function showToast(msg){
@@ -540,13 +712,14 @@
     clearTimeout(showToast.t); showToast.t = setTimeout(()=>toast.style.display='none',1800);
   }
 
-  window.openModal = () => { switchModalPage(1); document.getElementById('infoModal').style.display = 'flex'; };
-  window.closeModal = () => document.getElementById('infoModal').style.display = 'none';
+  window.openModal = (page = 1) => { switchModalPage(page); document.getElementById('infoModal').style.display = 'flex'; };
+  window.openChangelog = () => { document.getElementById('changelogModal').style.display = 'flex'; };
+  window.closeModal = (id) => document.getElementById(id).style.display = 'none';
   window.switchModalPage = (n) => {
-    document.getElementById('modalPage1').style.display = n === 1 ? 'block' : 'none';
-    document.getElementById('modalPage2').style.display = n === 2 ? 'block' : 'none';
-    document.getElementById('modalPage3').style.display = n === 3 ? 'block' : 'none';
-    document.getElementById('modalTitle').textContent = n === 1 ? '使用说明 / INFO' : (n === 2 ? '功能用法 / USAGE' : '其他功能 / OTHERS');
+    const pages = [1, 2, 3];
+    pages.forEach(p => document.getElementById(`modalPage${p}`).style.display = n === p ? 'block' : 'none');
+    const titles = ['使用说明 / INFO', '功能用法 / USAGE', '其他功能 / OTHERS'];
+    document.getElementById('modalTitle').textContent = titles[n-1];
     document.getElementById('modalPageIndicator').textContent = `PAGE ${n} / 3`;
     document.getElementById('modalPrev').disabled = n === 1;
     document.getElementById('modalNext').disabled = n === 3;
@@ -558,13 +731,11 @@
   document.addEventListener('click', () => dlMenu.style.display = 'none');
 
   function triggerDownload(blob, filename) {
-    try {
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = filename; a.style.display = 'none';
-      document.body.appendChild(a); a.click();
-      setTimeout(() => { document.body.removeChild(a); window.URL.revokeObjectURL(url); }, 1000);
-    } catch (e) { console.error(e); }
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename; a.style.display = 'none';
+    document.body.appendChild(a); a.click();
+    setTimeout(() => { document.body.removeChild(a); window.URL.revokeObjectURL(url); }, 1000);
   }
 
   async function copyText(text){
@@ -591,82 +762,29 @@
     const isAudio = file.type.startsWith('audio/');
     const isPdf = file.type === 'application/pdf' || ext === 'pdf';
     
-    if(ext === 'docx') {
-      return await extractDocxTextPreserve(file);
-    }
-
+    if(ext === 'docx') return await extractDocxTextPreserve(file);
     if(ext === 'doc') {
       const raw = await readTextKeepRaw(file);
       const cleanText = raw.replace(/[^\x20-\x7E\u4E00-\u9FA5\n\r\t]/g, ' ').replace(/\s\s+/g, ' ');
-      return { 
-        text: cleanText, 
-        htmlText: escapeHTML(cleanText), 
-        visualHtml: `<div style="color:var(--muted);font-style:italic;margin-bottom:10px;">[二进制 .DOC 文件已尝试清理乱码提取]</div><pre style="white-space:pre-wrap;">${escapeHTML(cleanText)}</pre>`, 
-        type: 'DOC (Binary)' 
-      };
+      return { text: cleanText.trim(), htmlText: escapeHTML(cleanText), visualHtml: `<pre style="white-space:pre-wrap;">${escapeHTML(cleanText)}</pre>`, type: 'DOC (Binary)' };
     }
-
     if(isImage || isVideo || isAudio || isPdf) {
       return new Promise((resolve) => {
         const reader = new FileReader();
         reader.onload = (e) => {
-          let vHtml = '';
-          if(isImage) vHtml = `<img src="${e.target.result}" alt="${file.name}">`;
-          else if(isVideo) vHtml = `<video controls style="max-width:100%"><source src="${e.target.result}" type="${file.type}"></video>`;
-          else if(isAudio) vHtml = `<audio controls style="width:100%"><source src="${e.target.result}" type="${file.type}"></audio>`;
-          else if(isPdf) vHtml = `<iframe src="${e.target.result}" style="width:100%;height:600px;border:none;"></iframe>`;
-          
-          resolve({
-            text: `[MEDIA FILE: ${file.name}]`,
-            htmlText: `[媒体文件: ${file.name}]`,
-            visualHtml: vHtml,
-            type: ext.toUpperCase()
-          });
+          let vHtml = isImage ? `<img src="${e.target.result}" alt="${file.name}">` : (isVideo ? `<video controls style="max-width:100%"><source src="${e.target.result}" type="${file.type}"></video>` : (isAudio ? `<audio controls style="width:100%"><source src="${e.target.result}" type="${file.type}"></audio>` : `<iframe src="${e.target.result}" style="width:100%;height:600px;border:none;"></iframe>`));
+          resolve({ text: `[MEDIA FILE: ${file.name}]`, htmlText: `[媒体文件: ${file.name}]`, visualHtml: vHtml, type: ext.toUpperCase() });
         };
         reader.readAsDataURL(file);
       });
     }
-
     const raw = await readTextKeepRaw(file);
     let visualHtml = '';
-
-    if(ext === 'md') {
-      visualHtml = marked.parse(raw);
-    } else if(ext === 'json') {
-      try { 
-        const jsonObj = JSON.parse(raw);
-        const formatted = JSON.stringify(jsonObj, null, 2);
-        let imgHtml = '';
-        const findImgs = (obj) => {
-          for(let k in obj) {
-            if(typeof obj[k] === 'string') {
-              if(obj[k].startsWith('data:image/') || /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(obj[k])) {
-                imgHtml += `<div style="margin-top:10px;border:1px solid #eee;padding:5px;display:inline-block;margin-right:10px;"><small style="color:var(--muted);display:block;">Detected (${k}):</small><img src="${obj[k]}" style="max-height:auto;max-width:100%;display:block;"></div>`;
-              }
-            } else if(typeof obj[k] === 'object' && obj[k] !== null) {
-              findImgs(obj[k]);
-            }
-          }
-        };
-        findImgs(jsonObj);
-        visualHtml = `<pre style="background:var(--soft);padding:15px;border:1px solid var(--line);border-radius:4px;white-space:pre-wrap;word-break:break-all;font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:var(--text);max-width:100%;overflow-x:auto;">${escapeHTML(formatted)}</pre>` + (imgHtml ? `<div style="margin-top:15px;border-top:1px dashed #ccc;padding-top:10px;"><strong>JSON Images:</strong><br>${imgHtml}</div>` : '');
-      } catch(e) { 
-        visualHtml = `<div style="color:red;margin-bottom:8px;">JSON 解析错误: ${escapeHTML(e.message)}</div><pre style="white-space:pre-wrap;word-break:break-all;background:var(--soft);padding:10px;border:1px solid #ffc1c1;">${escapeHTML(raw)}</pre>`; 
-      }
-    } else if(ext === 'xml' || ext === 'yaml' || ext === 'yml') {
-      visualHtml = `<pre style="background:var(--soft);padding:10px;border-radius:4px;overflow-x:auto;white-space:pre-wrap;word-break:break-all;">${escapeHTML(raw)}</pre>`;
-    } else if(ext === 'svg') {
-      visualHtml = `<div style="text-align:center;padding:20px;">${raw}</div>`;
-    } else if(ext === 'csv' || ext === 'tsv') {
-      const rows = raw.split('\n').map(r => r.split(ext === 'csv' ? ',' : '\t'));
-      visualHtml = `<div style="overflow-x:auto;"><table>${rows.map((r, i) => `<tr>${r.map(c => i === 0 ? `<th>${escapeHTML(c)}</th>` : `<td>${escapeHTML(c)}</td>`).join('')}</tr>`).join('')}</table></div>`;
-    } else if(['html', 'htm'].includes(ext)) {
-      visualHtml = `<div style="border:1px dashed #ccc; padding:10px">${raw}</div>`;
-    } else {
-      visualHtml = `<pre style="font-family:inherit; white-space:pre-wrap; word-break:break-all;">${escapeHTML(raw)}</pre>`;
-    }
-
-    return { text: raw, htmlText: escapeHTML(raw), visualHtml: visualHtml, type: ext.toUpperCase() || 'TEXT' };
+    if(ext === 'md') visualHtml = marked.parse(raw);
+    else if(ext === 'json') {
+      try { visualHtml = `<pre style="background:var(--soft);padding:15px;border:1px solid var(--line);white-space:pre-wrap;font-size:0.8rem;">${escapeHTML(JSON.stringify(JSON.parse(raw), null, 2))}</pre>`; } catch(e) { visualHtml = `<pre style="font-size:0.8rem;">${escapeHTML(raw)}</pre>`; }
+    } else visualHtml = `<pre style="white-space:pre-wrap;">${escapeHTML(raw)}</pre>`;
+    return { text: raw.trim(), htmlText: escapeHTML(raw), visualHtml, type: ext.toUpperCase() || 'TEXT' };
   }
 
   async function extractDocxTextPreserve(file){
@@ -680,9 +798,15 @@
 
     function getRunData(runNode){
       let t = '';
-      let isHighlighted = false;
       const rPr = runNode.getElementsByTagName('w:rPr')[0];
-      if(rPr && rPr.getElementsByTagName('w:highlight').length > 0) isHighlighted = true;
+      const isBold = rPr && (rPr.getElementsByTagName('w:b').length > 0 || rPr.querySelector('b'));
+      const isItalic = rPr && (rPr.getElementsByTagName('w:i').length > 0 || rPr.querySelector('i'));
+      const isHighlighted = rPr && (rPr.getElementsByTagName('w:highlight').length > 0 || rPr.querySelector('highlight'));
+      const isUnderline = rPr && (rPr.getElementsByTagName('w:u').length > 0 || rPr.querySelector('u'));
+      const isStrike = rPr && (rPr.getElementsByTagName('w:strike').length > 0 || rPr.querySelector('strike'));
+      const rFonts = rPr && rPr.getElementsByTagName('w:rFonts')[0];
+      const fontName = rFonts ? (rFonts.getAttribute('w:ascii') || rFonts.getAttribute('w:eastAsia')) : null;
+      
       const walker = doc.createTreeWalker(runNode, NodeFilter.SHOW_ELEMENT, null);
       let n = walker.currentNode;
       while(n){
@@ -691,7 +815,15 @@
         else if(n.nodeName === 'w:br' || n.nodeName === 'w:cr') t += '\n';
         n = walker.nextNode();
       }
-      return { text: t, html: isHighlighted ? `<span data-highlight="true">${escapeHTML(t)}</span>` : escapeHTML(t) };
+      
+      let html = escapeHTML(t);
+      if(isBold) html = `<b>${html}</b>`;
+      if(isItalic) html = `<i>${html}</i>`;
+      if(isUnderline) html = `<u>${html}</u>`;
+      if(isStrike) html = `<s>${html}</s>`;
+      if(isHighlighted) html = `<span data-highlight="true">${html}</span>`;
+      if(fontName) html = `<span style="font-family:'${fontName}', sans-serif;">${html}</span>`;
+      return { text: t, html: html };
     }
 
     let outText = ''; let outHtml = '';
@@ -699,17 +831,30 @@
     for(const node of children){
       if(node.nodeType !== 1) continue;
       if(node.nodeName === 'w:p') {
+        const pPr = node.getElementsByTagName('w:pPr')[0];
+        const isList = pPr && pPr.getElementsByTagName('w:numPr').length > 0;
+        const pStyle = pPr && pPr.getElementsByTagName('w:pStyle')[0];
+        const styleVal = pStyle ? pStyle.getAttribute('w:val') : '';
+        const isHeading = styleVal && styleVal.toLowerCase().includes('heading');
+
+        let pText = isList ? '• ' : '';
+        let pHtml = isList ? '• ' : '';
+        
         const runs = node.getElementsByTagName('w:r');
-        let lineText = ''; let lineHtml = '';
-        for(const r of runs) { const data = getRunData(r); lineText += data.text; lineHtml += data.html; }
-        outText += lineText + '\n'; outHtml += lineHtml + '\n';
+        for(const r of runs) {
+          const data = getRunData(r);
+          pText += data.text;
+          pHtml += data.html;
+        }
+        if(isHeading) pHtml = `<strong>${pHtml}</strong>`;
+        outText += pText + '\n'; outHtml += pHtml + '\n';
       } else if(node.nodeName === 'w:tbl'){
         const rows = node.getElementsByTagName('w:tr');
         for(const row of rows){
           const cells = row.getElementsByTagName('w:tc');
           let rowText = []; let rowHtml = [];
           for(const cell of cells){
-            let cellText = ''; let cellHtml = '';
+            let cellText = ''; cellHtml = '';
             const ps = cell.getElementsByTagName('w:p');
             for(let i=0; i<ps.length; i++){
               const runs = ps[i].getElementsByTagName('w:r');
@@ -718,33 +863,36 @@
             }
             rowText.push(cellText); rowHtml.push(cellHtml);
           }
-          outText += rowText.join('\t') + '\n'; outHtml += rowHtml.join('\t') + '\n';
+          outText += rowText.join('\t') + '\n'; outHtml += rowHtml.join(' | ') + '\n';
         }
       }
     }
-
-    let visualHtml = '';
-    try{
-      const options = {
-        arrayBuffer: ab.slice(0),
-        ignoreEmptyParagraphs: false,
-        convertImage: mammoth.images.inline(function(element) {
-          return element.read("base64").then(function(imageBuffer) {
-            return { src: "data:" + element.contentType + ";base64," + imageBuffer.data };
-          });
-        })
-      };
-      const htmlRes = await mammoth.convertToHtml(options);
-      visualHtml = htmlRes.value || '';
-    }catch(e){ console.error(e); }
-    
-    return { text: outText, htmlText: outHtml, visualHtml, type: 'DOCX' };
+    let vHtml = '';
+    try { const res = await mammoth.convertToHtml({ arrayBuffer: ab }); vHtml = res.value; } catch(e){}
+    return { text: outText.trim(), htmlText: outHtml, visualHtml: vHtml, type: 'DOCX' };
   }
+
+  window.syncVisualToEditor = (idx) => {
+    const item = filesData[idx];
+    if(!item.visualHtml || item.visualHtml.includes('color:#999')) return showToast('无可同步内容');
+    
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(item.visualHtml, 'text/html');
+    const firstChild = doc.body.firstElementChild;
+    if (firstChild && firstChild.tagName === 'PRE' && doc.body.children.length === 1) {
+      item.htmlText = firstChild.innerHTML;
+    } else {
+      item.htmlText = item.visualHtml;
+    }
+    
+    item.text = doc.body.textContent;
+    render();
+    showToast('内容已同步');
+  };
 
   function render(){
     output.innerHTML = ''; fileIndex.innerHTML = '';
     if(!filesData.length){ output.innerHTML = '<div class="empty">等待文件载入…</div>'; pagers.forEach(p => p.style.display = 'none'); return; }
-
     filesData.forEach((f, i) => {
       const item = document.createElement('div');
       item.className = `file-index-item ${i === currentFileIndex ? 'active' : ''}`;
@@ -752,42 +900,38 @@
       item.onclick = () => { currentFileIndex = i; render(); window.scrollTo({top: 0, behavior: 'smooth'}); };
       fileIndex.appendChild(item);
     });
-
-    if(filesData.length > 1) {
-      pagers.forEach(p => {
-        p.style.display = 'flex';
+    pagers.forEach(p => {
+      p.style.display = filesData.length > 1 ? 'flex' : 'none';
+      if(filesData.length > 1) {
         p.querySelector('.currIdxDisplay').textContent = currentFileIndex + 1;
         p.querySelector('.totalIdxDisplay').textContent = filesData.length;
         p.querySelector('.prevBtn').disabled = currentFileIndex === 0;
         p.querySelector('.nextBtn').disabled = currentFileIndex === filesData.length - 1;
-      });
-    } else { pagers.forEach(p => p.style.display = 'none'); }
-
+      }
+    });
     const item = filesData[currentFileIndex];
     const card = document.createElement('div');
     card.className = 'card';
     card.innerHTML = `
-      <div class="card-head">
-        <div><div class="name">${escapeHTML(item.name)}</div><div class="meta">TYPE: ${item.type}</div></div>
-      </div>
+      <div class="card-head"><div><div class="name">${escapeHTML(item.name)}</div><div class="meta">TYPE: ${item.type}</div></div></div>
       <div class="panel">
-        <div class="panel-top">
-          <div class="tabgroup"><button class="tab active" data-tab="text">提取内容</button><button class="tab" data-tab="visual">视觉预览</button></div>
-          <button class="btn alt" onclick="copySingle(${currentFileIndex})">复制此页</button>
+        <div class="panel-top" style="justify-content: flex-start; gap: 6px;">
+          <button class="tab active" data-tab="text" style="padding:4px 7px; font-size:0.62rem; white-space:nowrap; flex-shrink:0;">提取内容</button>
+          <button class="tab" data-tab="visual" style="padding:4px 7px; font-size:0.62rem; white-space:nowrap; flex-shrink:0;">视觉预览</button>
+          <div style="flex-grow: 1;"></div>
+          <button class="btn alt" onclick="syncVisualToEditor(${currentFileIndex})" style="padding:4px 7px; font-size:0.62rem; min-height:auto; white-space:nowrap; flex-shrink:0;">内容替换</button>
+          <button class="btn alt" onclick="copySingle(${currentFileIndex})" style="padding:4px 7px; font-size:0.62rem; min-height:auto; white-space:nowrap; flex-shrink:0;">复制此页</button>
         </div>
         <div class="editor-wrap" id="text-panel"><pre class="editor" contenteditable="true" spellcheck="false">${item.htmlText || escapeHTML(item.text)}</pre></div>
         <div class="visual-wrap" id="visual-panel" style="display:none"><div class="visual-box">${item.visualHtml || '<div style="color:#999">无视觉预览</div>'}</div></div>
       </div>
     `;
     output.appendChild(card);
-
     const pre = card.querySelector('pre.editor');
     pre.oninput = () => { filesData[currentFileIndex].text = pre.textContent; filesData[currentFileIndex].htmlText = pre.innerHTML; };
-
     card.querySelectorAll('.tab').forEach(t => {
       t.onclick = () => {
-        card.querySelectorAll('.tab').forEach(bt => bt.classList.remove('active'));
-        t.classList.add('active');
+        card.querySelectorAll('.tab').forEach(bt => bt.classList.remove('active')); t.classList.add('active');
         const isVisual = t.dataset.tab === 'visual';
         card.querySelector('.editor-wrap').style.display = isVisual ? 'none' : 'block';
         card.querySelector('.visual-wrap').style.display = isVisual ? 'block' : 'none';
@@ -799,19 +943,9 @@
     if(!data.length) return;
     let history = JSON.parse(localStorage.getItem('extractor_history') || '[]');
     const newTitle = data[0].name + (data.length > 1 ? '...' : '');
-    
     const existingIndex = history.findIndex(h => h.title === newTitle);
-    if (existingIndex !== -1) {
-      history.splice(existingIndex, 1);
-    }
-
-    history.unshift({ 
-      id: Date.now(), 
-      time: new Date().toLocaleString(), 
-      title: newTitle, 
-      content: JSON.parse(JSON.stringify(data)) 
-    });
-    
+    if (existingIndex !== -1) history.splice(existingIndex, 1);
+    history.unshift({ id: Date.now(), time: new Date().toLocaleString(), title: newTitle, content: JSON.parse(JSON.stringify(data)) });
     localStorage.setItem('extractor_history', JSON.stringify(history.slice(0, 50)));
     refreshHistoryUI();
   }
@@ -821,7 +955,7 @@
     historyList.innerHTML = history.length ? '' : '<div style="color:#ccc;text-align:center;padding:40px 0;">暂无记录</div>';
     history.forEach(h => {
       const li = document.createElement('div'); li.className = 'history-item';
-      li.innerHTML = `<div class="h-info"><span class="h-title">${h.title}</span><span class="h-meta">${h.time}</span></div><button class="h-del-btn">DEL</button>`;
+      li.innerHTML = `<div class="h-info"><span class="h-title">${h.title}</span><span class="h-meta">${h.time}</span></div><button class="h-del-btn">❄</button>`;
       li.onclick = () => { filesData = JSON.parse(JSON.stringify(h.content)); currentFileIndex = 0; render(); toggleHistory(); showToast('已加载'); };
       li.querySelector('.h-del-btn').onclick = (e) => { e.stopPropagation(); deleteHistoryItem(h.id); };
       historyList.appendChild(li);
@@ -835,8 +969,10 @@
   }
 
   window.clearHistory = () => { localStorage.removeItem('extractor_history'); refreshHistoryUI(); showToast('已清空'); };
-  window.copySingle = (idx) => copyText(filesData[idx].text);
-
+  window.copySingle = (idx) => {
+    let text = filesData[idx].text.trim();
+    copyText(text);
+  };
   const handlePrev = () => { if(currentFileIndex > 0) { currentFileIndex--; render(); window.scrollTo({top: 0, behavior: 'smooth'}); } };
   const handleNext = () => { if(currentFileIndex < filesData.length - 1) { currentFileIndex++; render(); window.scrollTo({top: 0, behavior: 'smooth'}); } };
   pagers.forEach(p => { p.querySelector('.prevBtn').onclick = handlePrev; p.querySelector('.nextBtn').onclick = handleNext; });
@@ -844,74 +980,39 @@
   async function handleFiles(fileList){
     const files = Array.from(fileList || []); if(!files.length) return;
     loader.style.display = 'flex';
-    try{
+    try {
       const newItems = [];
       for(const f of files){
-        try {
-          const r = await extractFileRich(f);
-          newItems.push({ name:f.name, ...r });
-        }catch(e){ newItems.push({ name:f.name, type:'ERROR', text:`[失败] ${e.message}`, htmlText: `[失败] ${e.message}`, visualHtml:'' }); }
+        try { const r = await extractFileRich(f); newItems.push({ name:f.name, ...r }); }
+        catch(e){ newItems.push({ name:f.name, type:'ERROR', text:`[失败] ${e.message}`, htmlText:`[失败] ${e.message}` }); }
       }
       if(appendMode.checked) { const oldLen = filesData.length; filesData = filesData.concat(newItems); currentFileIndex = oldLen; }
       else { filesData = newItems; currentFileIndex = 0; }
       saveToHistory(filesData); render();
-    }finally{ loader.style.display = 'none'; fileInput.value = ''; }
+    } finally { loader.style.display = 'none'; fileInput.value = ''; }
   }
 
   window.copyAllMerged = () => { 
     if(!filesData.length) return; 
-    const merged = filesData.map(f => `==================== ${f.name} ====================\n${f.text}`).join('\n\n');
-    copyText(merged); 
+    copyText(filesData.map(f => `==================== ${f.name} ====================\n${f.text.trim()}`).join('\n\n').trim()); 
   };
-  
   window.clearAll = () => { filesData = []; currentFileIndex = 0; render(); showToast('已清空'); };
 
   window.downloadAs = async (format, mode) => {
     if(!filesData.length) return showToast('无内容');
-    loader.style.display = 'flex';
-    const ts = new Date().getTime();
+    loader.style.display = 'flex'; const ts = new Date().getTime();
     try {
       if(mode === 'merged') {
-        let content = '', mime = 'text/plain;charset=utf-8';
-        if(format === 'json'){ content = JSON.stringify(filesData, null, 2); mime = 'application/json;charset=utf-8'; }
-        else if(format === 'md'){ content = filesData.map(f => `## ${f.name}\n\n${f.text}`).join('\n\n---\n\n'); }
-        else if(format === 'html'){
-          const body = filesData.map(f => `<h3>${f.name}</h3><pre style="white-space:pre-wrap;font-family:monospace;background:#f9f9f9;padding:15px;border:1px solid #ddd">${escapeHTML(f.text)}</pre>`).join('<hr>');
-          content = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Merged Export</title><style>body{font-family:sans-serif;max-width:900px;margin:40px auto;padding:20px;line-height:1.6;}</style></head><body>${body}</body></html>`;
-          mime = 'text/html;charset=utf-8';
-        } else if(format === 'docx' || format === 'doc'){
-          const body = filesData.map(f => `<h3>${f.name}</h3><pre style="white-space:pre-wrap; font-family: 'Courier New';">${escapeHTML(f.text)}</pre>`).join('<br clear="all" style="page-break-before:always">');
-          content = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><style>pre{white-space:pre-wrap;font-size:10.5pt;font-family:'Courier New'} img{max-width:100%}</style></head><body>${body}</body></html>`;
-          mime = 'application/msword';
-        } else { content = filesData.map(f => `--- FILE: ${f.name} ---\n\n${f.text}`).join('\n\n'); }
-        triggerDownload(new Blob([content], {type: mime}), `Merged_Export_${ts}.${format}`);
+        let content = filesData.map(f => `--- FILE: ${f.name} ---\n\n${f.text}`).join('\n\n');
+        triggerDownload(new Blob([content], {type: 'text/plain;charset=utf-8'}), `Merged_Export_${ts}.${format}`);
       } else if(mode === 'separate') {
         const zip = new JSZip();
-        filesData.forEach((f, i) => {
-          let fileContent = f.text;
-          if(format === 'json') fileContent = JSON.stringify(f, null, 2);
-          else if(format === 'md') fileContent = `# ${f.name}\n\n${f.text}`;
-          else if(format === 'html') fileContent = `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body style="font-family:monospace;white-space:pre-wrap">${escapeHTML(f.text)}</body></html>`;
-          else if(format === 'docx' || format === 'doc') fileContent = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.get-html40'><head><meta charset='utf-8'></head><body><pre style="white-space:pre-wrap;font-family:'Courier New'">${escapeHTML(f.text)}</pre></body></html>`;
-          zip.file(`${(i+1).toString().padStart(2,'0')}_${f.name.split('.')[0]}.${format}`, fileContent);
-        });
-        const zipBlob = await zip.generateAsync({type:"blob"});
-        triggerDownload(zipBlob, `Archive_${ts}.zip`);
+        filesData.forEach((f, i) => zip.file(`${(i+1).toString().padStart(2,'0')}_${f.name.split('.')[0]}.${format}`, f.text));
+        triggerDownload(await zip.generateAsync({type:"blob"}), `Archive_${ts}.zip`);
       } else if(mode === 'individual') {
         for(let i=0; i<filesData.length; i++) {
-          const f = filesData[i]; let fileContent = f.text, mime = 'text/plain;charset=utf-8';
-          if(format === 'json'){ fileContent = JSON.stringify(f, null, 2); mime = 'application/json;charset=utf-8'; }
-          else if(format === 'md'){ fileContent = `# ${f.name}\n\n${f.text}`; }
-          else if(format === 'html'){
-            fileContent = `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body style="font-family:monospace;white-space:pre-wrap">${escapeHTML(f.text)}</body></html>`;
-            mime = 'text/html;charset=utf-8';
-          }
-          else if(format === 'docx' || format === 'doc'){
-            fileContent = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.get-html40'><head><meta charset='utf-8'></head><body><pre style="white-space:pre-wrap;font-family:'Courier New'">${escapeHTML(f.text)}</pre></body></html>`;
-            mime = 'application/msword';
-          }
-          const fileName = `${(i+1).toString().padStart(2,'0')}_${f.name.split('.')[0]}.${format}`;
-          await new Promise(res => { setTimeout(() => { triggerDownload(new Blob([fileContent], {type: mime}), fileName); res(); }, i * 800); });
+          const f = filesData[i];
+          await new Promise(res => { setTimeout(() => { triggerDownload(new Blob([f.text], {type: 'text/plain'}), `${(i+1).toString().padStart(2,'0')}_${f.name.split('.')[0]}.${format}`); res(); }, i * 800); });
         }
       }
       showToast('导出完成');
@@ -922,6 +1023,259 @@
   ['dragenter','dragover'].forEach(evt=>dropZone.addEventListener(evt,e=>{e.preventDefault();dropZone.classList.add('drag');}));
   ['dragleave','drop'].forEach(evt=>dropZone.addEventListener(evt,e=>{e.preventDefault();dropZone.classList.remove('drag');}));
   dropZone.ondrop = e => handleFiles(e.dataTransfer.files);
+  
+  window.toggleOldLogs = () => {
+    const el = document.getElementById('oldLogs');
+    const btn = document.getElementById('toggleLogsBtn');
+    if (el.style.display === 'none' || !el.style.display) {
+      el.style.display = 'block';
+      btn.style.display = 'none';
+    }
+  };
+
+  // --- 管理系统逻辑 ---
+
+  const getActiveLogs = async () => {
+    const local = localStorage.getItem('managed_logs');
+    if (CLOUD_BIN_ID) {
+      try {
+        const res = await fetch(`https://api.npoint.io/${CLOUD_BIN_ID}`);
+        if (res.ok) {
+          const cloudData = await res.json();
+          if (Array.isArray(cloudData)) return cloudData;
+        }
+      } catch (e) { console.warn("Cloud pull failed."); }
+    }
+    if(local) {
+      try { return JSON.parse(local); } catch(e) { return STATIC_LOGS; }
+    }
+    return STATIC_LOGS;
+  };
+
+  const getActiveInfo = async () => {
+    const local = localStorage.getItem('managed_info');
+    if(local) {
+      try { return JSON.parse(local); } catch(e) { return STATIC_INFO; }
+    }
+    return STATIC_INFO;
+  };
+
+  const renderLogHTML = (data) => {
+    if(!data || !data.length) return '';
+    const items = data.map((i, idx) => `
+      <div class="changelog-item">
+        <span class="changelog-date-main">${i.date}</span> <span class="changelog-time-small">${i.time}</span>
+        <ul class="changelog-list">${i.logs.map(l => `<li>${l}</li>`).join('')}</ul>
+      </div>
+    `);
+    const latestCount = 10;
+    const latest = items.slice(0, latestCount).join('');
+    const older = items.length > latestCount ? `<div id="oldLogs" class="old-logs">${items.slice(latestCount).join('')}</div>` : '';
+    return latest + older;
+  };
+
+  const renderInfoUI = async () => {
+    const data = await getActiveInfo();
+    data.forEach((page, idx) => {
+      const el = document.getElementById(`modalPage${idx + 1}`);
+      if(el) el.innerHTML = page.content;
+    });
+  };
+
+  let editingIndex = -1;
+  const loadData = async () => {
+    const logData = await getActiveLogs();
+    document.getElementById('logContentArea').innerHTML = renderLogHTML(logData);
+    renderManagerList(logData);
+    await renderInfoUI();
+    
+    const latestId = logData[0] ? logData[0].date + logData[0].time : '';
+    const lastSeen = localStorage.getItem('last_seen_log');
+    
+    if(latestId && latestId !== lastSeen) {
+      openChangelog();
+      localStorage.setItem('last_seen_log', latestId);
+      if (!localStorage.getItem('extractor_first_open')) {
+        setTimeout(() => { openModal(1); localStorage.setItem('extractor_first_open', 'true'); }, 1200);
+      }
+    } else if (!localStorage.getItem('extractor_first_open')) {
+      setTimeout(() => { openModal(1); localStorage.setItem('extractor_first_open', 'true'); }, 1200);
+    }
+  };
+
+  const renderManagerList = (data) => {
+    const box = document.getElementById('mgrListBox');
+    box.innerHTML = data.map((i, idx) => `
+      <div class="mgr-item">
+        <div class="mgr-item-info">${i.date} ${i.time} - ${i.logs[0].substring(0,15)}...</div>
+        <div class="mgr-item-btns">
+          <button class="mgr-mini-btn" onclick="editLogRecord(${idx})">改</button>
+          <button class="mgr-mini-btn" onclick="deleteLogRecord(${idx})">删</button>
+        </div>
+      </div>
+    `).join('');
+  };
+
+  let logClicks = 0;
+  let logClickStartTime = 0;
+  document.getElementById('changelogTitle').onclick = () => {
+    const now = Date.now();
+    if (logClicks === 0) logClickStartTime = now;
+    if (now - logClickStartTime > 15000) { logClicks = 1; logClickStartTime = now; } else { logClicks++; }
+    if(logClicks >= 100) {
+      document.getElementById('logManager').style.display = 'block';
+      logClicks = 0;
+    }
+  };
+
+  let infoClicks = 0;
+  let infoClickStartTime = 0;
+  document.getElementById('modalTitle').onclick = async () => {
+    const now = Date.now();
+    if (infoClicks === 0) infoClickStartTime = now;
+    if (now - infoClickStartTime > 15000) { infoClicks = 1; infoClickStartTime = now; } else { infoClicks++; }
+    if(infoClicks >= 100) {
+      document.getElementById('infoManager').style.display = 'block';
+      const data = await getActiveInfo();
+      document.getElementById('mgrInfoContent').value = data[0].content;
+      infoClicks = 0;
+    }
+  };
+
+  window.editInfoPage = async (idx) => {
+    const data = await getActiveInfo();
+    document.getElementById('mgrInfoContent').value = data[idx].content;
+  };
+
+  window.insertAtCursor = (id, startTag, endTag) => {
+    const area = document.getElementById(id);
+    const start = area.selectionStart;
+    const end = area.selectionEnd;
+    const text = area.value;
+    const selectedText = text.substring(start, end);
+    const replacement = startTag + selectedText + endTag;
+    area.value = text.substring(0, start) + replacement + text.substring(end);
+    area.focus();
+    area.selectionStart = start + startTag.length;
+    area.selectionEnd = area.selectionStart + selectedText.length;
+  };
+
+  window.publishNewInfo = async () => {
+    const idx = parseInt(document.getElementById('mgrInfoPageSelect').value);
+    const content = document.getElementById('mgrInfoContent').value;
+    let data = await getActiveInfo();
+    data[idx].content = content;
+    localStorage.setItem('managed_info', JSON.stringify(data));
+    await renderInfoUI();
+    showToast('已保存到本地');
+  };
+
+  window.cancelInfoEdit = () => {
+    document.getElementById('infoManager').style.display = 'none';
+  };
+
+  let h1Clicks = 0;
+  let h1StartTime = 0;
+  window.handleH1Click = async () => {
+    const now = Date.now();
+    if (h1Clicks === 0) h1StartTime = now;
+    if (now - h1StartTime > 15000) { h1Clicks = 1; h1StartTime = now; } else { h1Clicks++; }
+    if (h1Clicks >= 30) {
+      h1Clicks = 0;
+      await downloadUpdatedHtml();
+    }
+  };
+
+  window.publishNewLog = async () => {
+    const date = document.getElementById('mgrDate').value.trim();
+    const time = document.getElementById('mgrTime').value.trim();
+    const logsText = document.getElementById('mgrLogs').value.trim();
+    if(!date || !time || !logsText) return alert('请完整填写');
+    const logs = logsText.split(/\n|;;/).map(l => l.trim()).filter(l => l !== '');
+    const newEntry = { date, time, logs };
+    
+    let currentData = await getActiveLogs();
+    if(editingIndex > -1) {
+      currentData[editingIndex] = newEntry;
+      editingIndex = -1;
+      document.getElementById('mgrSubmitBtn').textContent = '发布/保存 (PUBLISH)';
+    } else {
+      currentData.unshift(newEntry);
+    }
+    
+    localStorage.setItem('managed_logs', JSON.stringify(currentData));
+    loadData();
+    clearMgrInputs();
+    showToast('已保存到本地');
+  };
+
+  window.pushToCloud = async () => {
+    const binId = document.getElementById('cloudIdInput').value.trim();
+    if (!binId) return alert("请先输入 npoint.io 的 Bin ID");
+    const logData = await getActiveLogs();
+    loader.style.display = 'flex';
+    try {
+      const res = await fetch(`https://api.npoint.io/${binId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(logData)
+      });
+      if (res.ok) {
+        showToast("同步到云端成功！");
+      } else { throw new Error("Sync failed"); }
+    } catch (e) { alert("同步失败"); }
+    finally { loader.style.display = 'none'; }
+  };
+
+  window.editLogRecord = async (idx) => {
+    const data = await getActiveLogs();
+    const item = data[idx];
+    document.getElementById('mgrDate').value = item.date;
+    document.getElementById('mgrTime').value = item.time;
+    document.getElementById('mgrLogs').value = item.logs.join('\n');
+    editingIndex = idx;
+    document.getElementById('mgrSubmitBtn').textContent = '覆盖本地记录';
+    showToast('已载入');
+  };
+
+  window.deleteLogRecord = async (idx) => {
+    if(!confirm('确定删除？')) return;
+    let data = await getActiveLogs();
+    data.splice(idx, 1);
+    localStorage.setItem('managed_logs', JSON.stringify(data));
+    loadData();
+    showToast('已从本地删除');
+  };
+
+  window.cancelEdit = () => {
+    editingIndex = -1;
+    document.getElementById('mgrSubmitBtn').textContent = '发布/保存 (PUBLISH)';
+    clearMgrInputs();
+    document.getElementById('logManager').style.display = 'none';
+  };
+
+  function clearMgrInputs() {
+    document.getElementById('mgrDate').value = '';
+    document.getElementById('mgrTime').value = '';
+    document.getElementById('mgrLogs').value = '';
+  }
+
+  window.downloadUpdatedHtml = async () => {
+    const logData = await getActiveLogs();
+    const infoData = await getActiveInfo();
+    const binId = document.getElementById('cloudIdInput').value.trim();
+    const currentSource = document.documentElement.outerHTML;
+    
+    let updatedSource = currentSource.replace(/const STATIC_LOGS = \[[\s\S]*?\];/, "const STATIC_LOGS = " + JSON.stringify(logData, null, 2) + ";");
+    updatedSource = updatedSource.replace(/const STATIC_INFO = \[[\s\S]*?\];/, "const STATIC_INFO = " + JSON.stringify(infoData, null, 2) + ";");
+    updatedSource = updatedSource.replace(/const CLOUD_BIN_ID = ".*?";/, `const CLOUD_BIN_ID = "${binId}";`);
+    
+    const blob = new Blob(["<!-- qaq html editor -->\n<!DOCTYPE html>\n<html lang=\"zh-CN\" data-theme=\"light\">" + updatedSource + "</html>"], {type: 'text/html;charset=utf-8'});
+    triggerDownload(blob, "Extractor_Sync_Ready.html");
+    alert("源码已自动替换！\n下载的文件已包含最新的日志、说明和云端 ID。");
+  };
+
+  loadData();
 })();
 </script>
 </body>
