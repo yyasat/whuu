@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="light">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<html lang="zh-CN" data-theme="light"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>文档提取器</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700;900&family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700;900&amp;family=Inter:wght@300;400;600&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -189,12 +188,12 @@
     .history-head { border-bottom: 2px solid var(--accent); padding-bottom: 15px; margin-bottom: 20px; display: flex; flex-direction: column; gap: 4px; }
     .history-head-top { display: flex; justify-content: space-between; align-items: center; }
     .history-head h3 { font-family: "Noto Serif SC", serif; margin: 0; font-size: 1.4rem; color: var(--text); }
-    .history-head-sub { font-size: 0.65rem; color: var(--muted); font-family: Inter, sans-serif; white-space: nowrap; font-weight: 600; }
+    .history-head-sub { font-size: 0.65rem; color: var(--muted); font-family: Inter, sans-serif; white-space: nowrap; font-weight: 400; }
     .history-list { flex: 1; overflow-y: auto; list-style: none; padding: 0; margin: 0; }
     .history-item { padding: 15px 0; border-bottom: 1px solid var(--line); cursor: pointer; display: flex; justify-content: space-between; gap: 10px; }
     .history-item:hover { opacity: 0.7; }
     .h-info { flex: 1; overflow: hidden; }
-    .h-title { font-family: "Noto Serif SC", serif; font-weight: 900; font-size: 0.95rem; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text); }
+    .h-title { font-family: "Noto Serif SC", serif; font-weight: 900; font-size: 0.8rem; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text); }
     .h-meta { font-family: "JetBrains Mono", monospace; font-size: 0.65rem; color: var(--muted); }
     .h-del-btn { background: none; border: 1px solid var(--line); color: var(--muted); font-size: 0.75rem; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; }
     .h-del-btn:hover { border-color: var(--accent); color: var(--text); }
@@ -216,7 +215,7 @@
     .card { margin-bottom: 10px; animation: fadeIn 0.4s ease; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    .name { font-family: "Noto Serif SC", serif; font-weight: 900; font-size: 1.28rem; word-break: break-all; color: var(--text); }
+    .name { font-family: "Noto Serif SC", serif; font-weight: 900; font-size: 1.0rem; word-break: break-all; color: var(--text); }
     .meta { font-family: "JetBrains Mono", monospace; font-size: 0.66rem; color: var(--muted); }
     .panel { border: 1px solid var(--line); background: var(--soft); }
     .panel-top { display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; border-bottom: 1px solid var(--line); gap: 8px; background: var(--panel-top-bg); }
@@ -232,16 +231,24 @@
     pre.editor:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,0,0,.04); }
     pre.editor b { font-weight: bold; }
     pre.editor i { font-style: italic; }
-    pre.editor u { text-decoration: underline; }
+    pre.editor u { text-decoration: none; }
     pre.editor s { text-decoration: line-through; }
-    pre.editor strong { font-weight: 900; color: var(--accent); text-decoration: underline; }
+    pre.editor strong { font-weight: 900; color: var(--accent); }
     
-    .visual-box { border: 1px solid var(--line); padding: 14px; background: var(--editor-bg); min-height: 80px; line-height: 1.7; font-family: "Noto Serif SC", serif; overflow-x: auto; color: var(--text); }
+    .visual-box { border: 1px solid var(--line); padding: 14px; background: var(--editor-bg); min-height: 80px; line-height: 1.8; font-family: "Noto Serif SC", serif; font-size: 0.82rem; overflow-x: hidden; color: var(--text); white-space: normal; word-break: break-word; overflow-wrap: anywhere; }
+    .visual-box p { margin: 0 0 0.8em 0; white-space: normal; display: block; font-family: "Noto Serif SC", serif; font-size: 0.82rem; }
+    .visual-box p:last-child { margin-bottom: 0; }
+    .visual-box p[style*="height"] { margin: 0; }
+    .visual-box br { line-height: 1.8; }
+    .visual-box h1,.visual-box h2,.visual-box h3,.visual-box h4 { margin: 0.8em 0 0.4em; font-weight: 900; line-height: 1.3; display: block; font-family: "Noto Serif SC", serif; }
+    .visual-box ul,.visual-box ol { padding-left: 1.4em; margin: 0.5em 0; }
+    .visual-box li { margin-bottom: 0.3em; font-family: "Noto Serif SC", serif; }
     .visual-box img { max-width: 100% !important; height: auto !important; display: block !important; margin: 15px auto !important; object-fit: contain !important; image-rendering: -webkit-optimize-contrast; }
     .visual-box table { border-collapse: collapse; width: auto; min-width: 60%; max-width: 100%; margin: 15px 0; font-size: 0.85rem; display: table; border: 1px solid var(--line); }
     .visual-box th, .visual-box td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; min-width: 50px; }
     .visual-box th { background: var(--soft); font-weight: 900; }
     .visual-box a { color: #0066cc; text-decoration: underline; }
+    .visual-box pre { white-space: pre-wrap; font-family: "Noto Serif SC", serif; font-size: 0.82rem; margin: 0; }
 
     .editor span[data-highlight] { background-color: #ffeb3b; color: #000; border-radius: 2px; }
     .toast { position: fixed; left: 50%; bottom: 30px; transform: translateX(-50%); background: var(--toast-bg); color: var(--toast-text); padding: 8px 16px; font-size: .8rem; display: none; z-index: 9999; }
@@ -275,147 +282,343 @@
     .mgr-toolbar { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 8px; }
     .mgr-title-box { border-bottom: 1px solid var(--accent); padding-bottom: 5px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
     .mgr-title-text { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 900; }
+
+    /* ===== 说明页管理系统 ===== */
+    #infoMgrModal { z-index: 2020; }
+    .info-mgr-card {
+      background: var(--bg); border: 2px solid var(--accent);
+      width: 95%; max-width: 680px; max-height: 92vh;
+      padding: 0; position: relative;
+      animation: modalPop 0.3s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+      box-shadow: 20px 20px 0px rgba(0,0,0,0.07);
+      display: flex; flex-direction: column; overflow: hidden;
+    }
+    .info-mgr-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 16px; border-bottom: 2px solid var(--accent);
+      background: var(--panel-top-bg); flex-shrink: 0; gap: 8px;
+    }
+    .info-mgr-header-title { font-family: "Noto Serif SC", serif; font-weight: 900; font-size: 1rem; color: var(--text); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .info-mgr-body { display: flex; flex: 1; overflow: hidden; flex-direction: row; }
+
+    /* 左侧页面选项卡（桌面） */
+    .info-mgr-tabs {
+      width: 120px; flex-shrink: 0; border-right: 2px solid var(--accent);
+      display: flex; flex-direction: column; background: var(--soft);
+      overflow-y: auto;
+    }
+    .info-mgr-tab {
+      padding: 10px 12px; cursor: pointer; font-family: "JetBrains Mono", monospace;
+      font-size: 0.65rem; font-weight: 700; color: var(--muted);
+      border-bottom: 1px solid var(--line); transition: 0.15s;
+      overflow: hidden; text-overflow: ellipsis;
+      display: flex; flex-direction: column; gap: 2px; flex-shrink: 0;
+    }
+    .info-mgr-tab:hover { color: var(--text); background: var(--bg); }
+    .info-mgr-tab.active { background: var(--accent); color: var(--bg); }
+    .info-mgr-tab .tab-sub { font-size: 0.52rem; opacity: 0.7; font-weight: 400; }
+    .info-mgr-add-page {
+      margin: 8px; padding: 7px; border: 1px dashed var(--line);
+      background: none; cursor: pointer; font-family: "JetBrains Mono", monospace;
+      font-size: 0.62rem; color: var(--muted); text-align: center; font-weight: 700; flex-shrink: 0;
+    }
+    .info-mgr-add-page:hover { border-color: var(--accent); color: var(--text); }
+
+    /* 右侧编辑区 */
+    .info-mgr-editor {
+      flex: 1; display: flex; flex-direction: column; overflow: hidden; padding: 12px 14px;
+      min-width: 0;
+    }
+    .info-mgr-editor-top {
+      display: flex; align-items: center; gap: 6px; margin-bottom: 10px; flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+    .info-mgr-page-title-input {
+      flex: 1; min-width: 80px; border: 1px solid var(--line); background: var(--bg); color: var(--text);
+      padding: 5px 8px; font-family: "JetBrains Mono", monospace; font-size: 0.72rem;
+      font-weight: 700; outline: none;
+    }
+    .info-mgr-page-title-input:focus { border-color: var(--accent); }
+
+    /* 手机端：tabs 变成顶部横向滚动 */
+    @media (max-width: 540px) {
+      .info-mgr-card { width: 100%; max-width: 100%; max-height: 100vh; border-left: none; border-right: none; border-radius: 0; box-shadow: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; }
+      .info-mgr-body { flex-direction: column; }
+      .info-mgr-tabs {
+        width: 100%; border-right: none; border-bottom: 2px solid var(--accent);
+        flex-direction: row; overflow-x: auto; overflow-y: hidden;
+        flex-shrink: 0; height: auto;
+      }
+      .info-mgr-tab {
+        flex-direction: row; align-items: center; gap: 6px; padding: 8px 12px;
+        border-bottom: none; border-right: 1px solid var(--line);
+        white-space: nowrap; flex-shrink: 0;
+      }
+      .info-mgr-tab.active { border-bottom: 3px solid var(--bg); }
+      .info-mgr-tab .tab-sub { display: none; }
+      .info-mgr-add-page { margin: 6px; padding: 6px 10px; white-space: nowrap; }
+      .info-mgr-del-page { margin: 6px 8px; padding: 5px 10px; white-space: nowrap; }
+      .info-mgr-editor { padding: 10px 12px; }
+      .info-mgr-header { padding: 10px 12px; }
+      .info-mgr-header-title { font-size: 0.85rem; }
+      .info-mgr-editor-top { gap: 5px; }
+      .info-mgr-editor-top > div { width: 100%; display: flex; gap: 4px; }
+      .info-mgr-editor-top > div .mgr-mini-btn { flex: 1; padding: 6px 4px; font-size: 0.62rem; text-align: center; }
+      .info-mgr-footer { padding: 8px 12px; }
+      .info-entry-head { padding: 9px 10px; font-size: 0.7rem; }
+      .entry-field textarea { min-height: 70px; }
+    }
+    /* 条目列表 */
+    .info-entry-list { flex: 1; overflow-y: auto; margin-bottom: 10px; }
+    .info-entry-item {
+      border: 1px solid var(--line); margin-bottom: 6px; background: var(--bg);
+      display: flex; flex-direction: column;
+    }
+    .info-entry-item.editing { border-color: var(--accent); }
+    .info-entry-head {
+      display: flex; align-items: center; gap: 6px; padding: 7px 10px;
+      cursor: pointer; background: var(--soft); border-bottom: 1px solid var(--line);
+      font-family: "JetBrains Mono", monospace; font-size: 0.68rem; font-weight: 700;
+      user-select: none;
+    }
+    .info-entry-head:hover { background: var(--bg); }
+    .info-entry-item.editing .info-entry-head { background: var(--accent); color: var(--bg); }
+    .info-entry-drag { cursor: grab; opacity: 0.5; font-size: 0.8rem; }
+    .info-entry-label { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .info-entry-type-badge {
+      font-size: 0.55rem; padding: 1px 4px; border: 1px solid currentColor;
+      opacity: 0.6; flex-shrink: 0;
+    }
+    .info-entry-body { padding: 10px; display: none; }
+    .info-entry-item.editing .info-entry-body { display: block; }
+    /* 条目类型选择 */
+    .entry-type-tabs { display: flex; gap: 4px; margin-bottom: 8px; }
+    .entry-type-tab {
+      padding: 3px 8px; border: 1px solid var(--line); background: var(--soft);
+      cursor: pointer; font-size: 0.6rem; font-family: "JetBrains Mono", monospace;
+      font-weight: 700; color: var(--muted);
+    }
+    .entry-type-tab.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+    /* 字段行 */
+    .entry-field { margin-bottom: 7px; }
+    .entry-field label { display: block; font-size: 0.6rem; font-weight: 900; color: var(--accent); margin-bottom: 3px; font-family: "JetBrains Mono", monospace; }
+    .entry-field input, .entry-field textarea, .entry-field select {
+      width: 100%; border: 1px solid var(--line); background: var(--bg); color: var(--text);
+      padding: 5px 7px; font-family: "JetBrains Mono", monospace; font-size: 0.72rem; outline: none;
+    }
+    .entry-field input:focus, .entry-field textarea:focus { border-color: var(--accent); }
+    .entry-field textarea { resize: vertical; min-height: 60px; }
+    .entry-actions { display: flex; gap: 6px; margin-top: 8px; }
+    /* 底部操作栏 */
+    .info-mgr-footer {
+      padding: 12px 16px; border-top: 1px solid var(--line); flex-shrink: 0;
+      display: flex; gap: 8px; background: var(--panel-top-bg);
+    }
+    /* 拖拽中 */
+    .info-entry-item.dragging { opacity: 0.4; border: 1px dashed var(--accent); }
+    .info-entry-item.drag-over { border-top: 2px solid var(--accent); }
+    /* 页面管理下的删除页按钮 */
+    .info-mgr-del-page {
+      margin: 0 10px 10px; padding: 6px; border: 1px solid #e63946;
+      background: none; cursor: pointer; font-size: 0.6rem; font-family: "JetBrains Mono", monospace;
+      color: #e63946; font-weight: 700; text-align: center;
+    }
+    .info-mgr-del-page:hover { background: #e63946; color: #fff; }
+
+    /* 搜索放大镜图标 */
+    #searchTrigger {
+      position: fixed; bottom: 80px; right: 20px;
+      width: 40px; height: 40px; background: var(--accent); color: var(--bg);
+      border: none; cursor: pointer; display: none; align-items: center; justify-content: center;
+      z-index: 1400; box-shadow: 0 2px 10px rgba(0,0,0,0.2); transition: 0.2s;
+    }
+    #searchTrigger:hover { opacity: 0.85; transform: scale(1.08); }
+    #searchTrigger svg { width: 18px; height: 18px; fill: currentColor; }
+    #searchTrigger.has-results { background: #ff9800; }
+
+    /* 搜索面板：从底部半屏弹出 */
+    #searchPanel {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 1600;
+      background: var(--bg); border-top: 2px solid var(--accent);
+      box-shadow: 0 -8px 30px rgba(0,0,0,0.15);
+      transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.19,1,0.22,1);
+      max-height: 60vh; display: flex; flex-direction: column;
+    }
+    #searchPanel.open { transform: translateY(0); }
+    .search-panel-head {
+      display: flex; align-items: center; gap: 8px; padding: 12px 16px;
+      border-bottom: 1px solid var(--line); flex-shrink: 0;
+      background: var(--panel-top-bg);
+    }
+    .search-panel-head svg { width: 16px; height: 16px; fill: var(--muted); flex-shrink: 0; }
+    #searchInput {
+      flex: 1; border: none; background: transparent; outline: none;
+      font-family: "JetBrains Mono", monospace; font-size: 0.82rem; color: var(--text);
+      min-width: 0;
+    }
+    #searchInput::placeholder { color: var(--muted); }
+    .search-count {
+      font-family: "JetBrains Mono", monospace; font-size: 0.65rem; color: var(--muted);
+      white-space: nowrap; flex-shrink: 0; min-width: 40px; text-align: right;
+    }
+    .search-nav-btn {
+      background: none; border: 1px solid var(--line); color: var(--text); cursor: pointer;
+      width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; font-weight: 900; flex-shrink: 0;
+    }
+    .search-nav-btn:hover { border-color: var(--accent); background: var(--accent); color: var(--bg); }
+    .search-close-btn {
+      background: none; border: none; color: var(--muted); cursor: pointer;
+      font-size: 1.2rem; line-height: 1; padding: 0 4px; flex-shrink: 0;
+    }
+    .search-close-btn:hover { color: var(--text); }
+
+    /* 搜索结果列表区（带翻页） */
+    .search-results-body { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
+    #searchResults {
+      flex: 1; overflow-y: auto; display: none;
+    }
+    .search-result-item {
+      padding: 10px 16px; cursor: pointer; border-bottom: 1px solid var(--line);
+      font-family: "JetBrains Mono", monospace; font-size: 0.72rem; color: var(--text);
+      display: flex; align-items: center; gap: 0; transition: background 0.12s;
+      min-height: 44px;
+    }
+    .search-result-item:hover { background: var(--soft); }
+    .search-result-item.current { background: var(--accent); color: var(--bg); }
+    .search-result-item .sri-before {
+      flex: 1; text-align: right; overflow: hidden; white-space: nowrap;
+      direction: rtl; text-overflow: ellipsis; opacity: 0.35; font-size: 0.65rem;
+    }
+    .search-result-item .sri-kw {
+      flex-shrink: 0; padding: 2px 6px; margin: 0 6px;
+      background: #ffeb3b; color: #000; border-radius: 2px;
+      font-weight: 700; font-size: 0.75rem;
+    }
+    .search-result-item.current .sri-kw { background: #fff; color: #000; }
+    .search-result-item .sri-after {
+      flex: 1; overflow: hidden; white-space: nowrap;
+      text-overflow: ellipsis; opacity: 0.35; font-size: 0.65rem;
+    }
+    .search-result-item.current .sri-before,
+    .search-result-item.current .sri-after { opacity: 0.55; }
+    /* 结果翻页栏 */
+    .search-result-pager {
+      display: none; align-items: center; justify-content: space-between;
+      padding: 8px 16px; border-top: 1px solid var(--line);
+      background: var(--panel-top-bg); flex-shrink: 0;
+    }
+    .search-result-pager.visible { display: flex; }
+    .search-result-pager-info {
+      font-family: "JetBrains Mono", monospace; font-size: 0.65rem; color: var(--muted); font-weight: 700;
+    }
+    .search-no-result {
+      padding: 30px; text-align: center; color: var(--muted);
+      font-family: "JetBrains Mono", monospace; font-size: 0.75rem;
+      display: none;
+    }
+
+    /* 高亮样式 */
+    mark.search-hl { background: #ffeb3b; color: #000; border-radius: 2px; padding: 0 1px; }
+    mark.search-hl.current-hl { background: #ff9800; color: #000; outline: 2px solid #ff6600; }
+
+    /* emoji 多系统兼容字体 */
+    .emoji-compat {
+      font-family: "Apple Color Emoji", "Noto Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Android Emoji", "EmojiOne Color", "Twemoji Mozilla", sans-serif;
+    }
+  
+    .visual-box.visual-font-off,
+    .visual-box.visual-font-off p,
+    .visual-box.visual-font-off h1,
+    .visual-box.visual-font-off h2,
+    .visual-box.visual-font-off h3,
+    .visual-box.visual-font-off h4,
+    .visual-box.visual-font-off li,
+    .visual-box.visual-font-off pre,
+    .visual-box.visual-font-off span,
+    .visual-box.visual-font-off td,
+    .visual-box.visual-font-off th {
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    }
+
   </style>
-</head>
+<style>pre.editor,.changelog-list li,.modal-body p,.modal-body div,.h-title,.mgr-item-info,input,textarea,button{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Apple Color Emoji","Noto Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Android Emoji","EmojiOne Color","Twemoji Mozilla",sans-serif}pre.editor{font-family:"JetBrains Mono",Consolas,monospace,"Apple Color Emoji","Noto Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Android Emoji","EmojiOne Color","Twemoji Mozilla"}.visual-box:not(.visual-font-off){font-family:"Noto Serif SC",serif,"Apple Color Emoji","Noto Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Android Emoji","EmojiOne Color","Twemoji Mozilla"}.visual-box.visual-font-off,.visual-box.visual-font-off p,.visual-box.visual-font-off li,.visual-box.visual-font-off span{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Apple Color Emoji","Noto Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Android Emoji","EmojiOne Color","Twemoji Mozilla",sans-serif!important}</style></head>
 <body>
 <div id="loader" class="loader">处理中 PROCESSING...</div>
 
 <!-- 昼夜模式悬浮菜单 -->
-<div class="theme-modal-overlay" id="themeMenuOverlay" onclick="closeThemeMenu()">
+<div class="theme-modal-overlay" id="themeMenuOverlay" onclick="closeThemeMenu()" style="display: none;">
   <div class="theme-menu-card" onclick="event.stopPropagation()">
     <div class="theme-menu-title">昼夜模式 / THEME</div>
-    <button class="theme-option" id="opt-light" onclick="setTheme('light')">
-      <svg viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/></svg>
+    <button class="theme-option active" id="opt-light" onclick="setTheme('light')">
+      <svg viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"></path></svg>
       昼 (白天) LIGHT
     </button>
     <button class="theme-option" id="opt-dark" onclick="setTheme('dark')">
-      <svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"></path></svg>
       夜 (夜晚) DARK
     </button>
     <button class="theme-option" id="opt-auto" onclick="setTheme('auto')">
-      <svg viewBox="0 0 24 24"><path d="M20 3H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h3l-1 1v2h12v-2l-1-1h3c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 13H4V5h16v11z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M20 3H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h3l-1 1v2h12v-2l-1-1h3c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 13H4V5h16v11z"></path></svg>
       跟随系统 AUTO
     </button>
   </div>
 </div>
 
-<!-- 使用说明 Modal -->
-<div id="infoModal" class="modal-overlay" onclick="closeModal('infoModal')">
-  <div class="modal-content" onclick="event.stopPropagation()">
-    <button class="modal-close" onclick="closeModal('infoModal')">×</button>
-    <div class="modal-title" id="modalTitle" title="连续点击100次开启管理模式">使用说明 / INFO</div>
-    
-    <!-- 可视化信息管理终端 -->
-    <div id="infoManager" style="display:none; margin-bottom: 20px; border: 2px solid var(--accent); padding: 15px; background: var(--soft);">
-      <div class="mgr-title-box">
-        <span class="mgr-title-text">说明页内容管理 / CONTENT MANAGER</span>
-        <span style="color:var(--muted); font-size:0.6rem;">可视化编辑模式</span>
+<!-- 使用说明管理系统 Modal -->
+<div id="infoMgrModal" class="modal-overlay" onclick="if(event.target===this)closeInfoMgr()" style="display: none;">
+  <div class="info-mgr-card" onclick="event.stopPropagation()">
+    <div class="info-mgr-header">
+      <span class="info-mgr-header-title">说明页管理 / INFO MANAGER</span>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button class="btn alt" style="padding:5px 12px;font-size:0.68rem;" onclick="saveInfoMgr()">保存 SAVE</button>
+        <button class="btn" style="padding:5px 12px;font-size:0.68rem;" onclick="exportDeploy()">导出部署版 ↓</button>
+        <button class="modal-close" style="position:static;font-size:1.4rem;" onclick="closeInfoMgr()">×</button>
       </div>
-      
-      <div style="display:grid; grid-template-columns: 1fr 1.2fr; gap:10px; margin-bottom:12px;">
-        <div>
-          <span class="mgr-label">1. 选择页面 (PAGE)</span>
-          <select id="mgrInfoPageSelect" class="mgr-input" onchange="editInfoPage(this.value)">
-            <option value="0">第一页：使用说明</option>
-            <option value="1">第二页：功能用法</option>
-            <option value="2">第三页：其他功能</option>
-          </select>
-        </div>
-        <div>
-          <span class="mgr-label">2. 插入排版 (SNIPPETS)</span>
-          <div class="mgr-toolbar" style="margin-bottom:0;">
-            <button class="mgr-mini-btn" onclick="insertAtCursor('mgrInfoContent', '<span class=\'bold-black\'>', '</span>')">加粗</button>
-            <button class="mgr-mini-btn" onclick="insertAtCursor('mgrInfoContent', '<span class=\'angry-text\'>', '</span>')">红字</button>
-            <button class="mgr-mini-btn" onclick="insertAtCursor('mgrInfoContent', '<div class=\'rule-item\'><div class=\'rule-num\'>1</div><div>', '</div></div>')">列表</button>
-            <button class="mgr-mini-btn" onclick="insertAtCursor('mgrInfoContent', '<p style=\'font-family:\"Noto Serif SC\", serif; font-weight:900; font-size:1.1rem;\'>', '</p>')">标题</button>
+    </div>
+    <div class="info-mgr-body">
+      <!-- 左栏：页面列表 -->
+      <div class="info-mgr-tabs" id="infoMgrTabs"><div class="info-mgr-tab active"><span>使用说明 / INFO</span><span class="tab-sub">7 条目</span></div><div class="info-mgr-tab"><span>功能用法 / USAGE</span><span class="tab-sub">7 条目</span></div><div class="info-mgr-tab"><span>其他功能 / OTHERS</span><span class="tab-sub">7 条目</span></div><div class="info-mgr-tab"><span>无法修复 / WRONG</span><span class="tab-sub">1 条目</span></div><button class="info-mgr-add-page">+ 新增页面</button><button class="info-mgr-del-page">删除当前页</button></div>
+      <!-- 右栏：编辑区 -->
+      <div class="info-mgr-editor">
+        <div class="info-mgr-editor-top">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;font-weight:700;color:var(--muted);flex-shrink:0;">页面标题</span>
+          <input id="infoMgrPageTitle" class="info-mgr-page-title-input" type="text" placeholder="页面标题…">
+          <div style="display:flex;gap:5px;flex-shrink:0;">
+            <button class="mgr-mini-btn" onclick="window.addInfoEntry('rule')" title="添加带序号的说明条目">+ 序号条目</button>
+            <button class="mgr-mini-btn" onclick="window.addInfoEntry('text')" title="添加纯文字段落">+ 文字</button>
+            <button class="mgr-mini-btn" onclick="window.addInfoEntry('html')" title="添加自定义HTML">+ HTML</button>
           </div>
         </div>
-      </div>
-
-      <span class="mgr-label">3. 编辑 HTML 内容 (CONTENT)</span>
-      <textarea id="mgrInfoContent" class="mgr-input" style="height:120px; font-family:'JetBrains Mono', monospace; font-size:0.7rem; margin-bottom:10px;"></textarea>
-      
-      <div style="display:flex; gap:10px;">
-        <button class="btn" style="flex:1; padding:8px; font-size:0.7rem;" onclick="publishNewInfo()">保存修改 (SAVE)</button>
-        <button class="btn alt" style="padding:8px 15px; font-size:0.7rem;" onclick="cancelInfoEdit()">退出管理</button>
-      </div>
-    </div>
-
-    <div id="modalPage1" class="modal-body">
-      <p style="font-family:'Noto Serif SC', serif; font-weight:900; font-size:1.1rem;">欢迎宝宝使用文档提取器-w-</p>
-      <p>作者：<span style="font-weight:700; border-bottom:1px solid var(--accent);">芜湖</span></p>
-      <p style="color:var(--muted); font-size:0.8rem;">目前暂不支持doc文档提取orz</p>
-      <p style="color:var(--muted); font-size:0.8rem;">有任何bug请联系我。</p>
-      
-      <div class="rule-box">
-        <div class="rule-item"><div class="rule-num">1</div><div>此为<span class="bold-black">免费产物</span>，禁止<span class="bold-black">魔改</span>、<span class="bold-black">倒卖</span>等行为。</div></div>
-        <div class="rule-item"><div class="rule-num">2</div><div>请不要提取其他老师的作品/心血去干坏事（<span class="angry-text">做出这种事的还是人吗？</span> <span style="font-size: 0.65rem; color: #e63946; font-weight: 700; text-decoration: line-through;">马年不代表你的家人不会飞哦</span><span style="color:#e63946; font-weight:700; text-decoration:none; font-size: 0.65rem;">^-^</span>）。</div></div>
-        <div class="rule-item"><div class="rule-num">3</div><div>再次重审，此程序做出来<span class="bold-black">仅为便利用户</span>，<span class="bold-black">请不要拿去干坏事</span>，谢谢^-^</div></div>
-      </div>
-    </div>
-
-    <div id="modalPage2" class="modal-body" style="display:none">
-      <div class="rule-box" style="border:none; padding-top:0;">
-        <div class="rule-item">
-          <div class="rule-num">H</div>
-          <div><span class="bold-black">历史记录</span>：点击“HISTORY”可查看并重新加载最近提取的50次记录。</div>
-        </div>
-        <div class="rule-item">
-          <div class="rule-num">A</div>
-          <div><span class="bold-black">追加导入</span>：开启后，新导入的文件会排在当前列表后面，不会清空已有内容。</div>
-        </div>
-        <div class="rule-item">
-          <div class="rule-num">R</div>
-          <div><span class="bold-black">内容替换</span>：若json文件提取出的内容在提取预览界面不显示换行等（如：挤成一团/内容成单行文本），也许是文件的显示有误（不是指文件有问题），可点击“内容替换”替换成视觉预览界面中的正确格式。</div>
-        </div>
-        <div class="rule-item">
-          <div class="rule-num">V</div>
-          <div><span class="bold-black">视觉预览</span>：在提取结果区切换标签，可直接查看文档的富文本排版（含图片/表格）。</div>
-        </div>
-        <div class="rule-item">
-          <div class="rule-num">D</div>
-          <div><span class="bold-black">下载导出</span>：支持多种格式、多种方式导出文件/文档（详情请见下一页——其他功能）。</div>
-        </div>
-        <div class="rule-item">
-          <div class="rule-num">E</div>
-          <div><span class="bold-black">在线编辑</span>：提取出的文本可直接在框内修改，修改后下载的内容将同步更新。</div>
+        <div class="info-entry-list" id="infoEntryList"><div class="info-entry-item" draggable="true"><div class="info-entry-head"><span class="info-entry-drag">⠿</span><span class="info-entry-label">欢迎宝宝使用文档提取器-w-</span><span class="info-entry-type-badge">HTML</span></div><div class="info-entry-body"><div class="entry-form-inner"><div class="entry-field"><label>HTML 内容</label><textarea class="ef-content" rows="5"></textarea></div><div class="entry-field"><label>快速插入</label><div style="display: flex; gap: 4px; flex-wrap: wrap;"><button class="mgr-mini-btn ef-ins">段落</button><button class="mgr-mini-btn ef-ins">加粗</button><button class="mgr-mini-btn ef-ins">红字</button><button class="mgr-mini-btn ef-ins">列表行</button><button class="mgr-mini-btn ef-ins">标题</button></div></div><div class="entry-actions"><button class="btn ef-save" style="flex: 1 1 0%; padding: 5px; font-size: 0.65rem;">保存此条</button><button class="btn alt ef-del" style="padding: 5px 10px; font-size: 0.65rem;">删除</button></div></div></div></div><div class="info-entry-item" draggable="true"><div class="info-entry-head"><span class="info-entry-drag">⠿</span><span class="info-entry-label">作者：芜湖</span><span class="info-entry-type-badge">HTML</span></div><div class="info-entry-body"><div class="entry-form-inner"><div class="entry-field"><label>HTML 内容</label><textarea class="ef-content" rows="5"></textarea></div><div class="entry-field"><label>快速插入</label><div style="display: flex; gap: 4px; flex-wrap: wrap;"><button class="mgr-mini-btn ef-ins">段落</button><button class="mgr-mini-btn ef-ins">加粗</button><button class="mgr-mini-btn ef-ins">红字</button><button class="mgr-mini-btn ef-ins">列表行</button><button class="mgr-mini-btn ef-ins">标题</button></div></div><div class="entry-actions"><button class="btn ef-save" style="flex: 1 1 0%; padding: 5px; font-size: 0.65rem;">保存此条</button><button class="btn alt ef-del" style="padding: 5px 10px; font-size: 0.65rem;">删除</button></div></div></div></div><div class="info-entry-item" draggable="true"><div class="info-entry-head"><span class="info-entry-drag">⠿</span><span class="info-entry-label">目前暂不支持doc文档提取orz</span><span class="info-entry-type-badge">HTML</span></div><div class="info-entry-body"><div class="entry-form-inner"><div class="entry-field"><label>HTML 内容</label><textarea class="ef-content" rows="5"></textarea></div><div class="entry-field"><label>快速插入</label><div style="display: flex; gap: 4px; flex-wrap: wrap;"><button class="mgr-mini-btn ef-ins">段落</button><button class="mgr-mini-btn ef-ins">加粗</button><button class="mgr-mini-btn ef-ins">红字</button><button class="mgr-mini-btn ef-ins">列表行</button><button class="mgr-mini-btn ef-ins">标题</button></div></div><div class="entry-actions"><button class="btn ef-save" style="flex: 1 1 0%; padding: 5px; font-size: 0.65rem;">保存此条</button><button class="btn alt ef-del" style="padding: 5px 10px; font-size: 0.65rem;">删除</button></div></div></div></div><div class="info-entry-item" draggable="true"><div class="info-entry-head"><span class="info-entry-drag">⠿</span><span class="info-entry-label">有任何bug请这里反馈w：https://docs.qq.com/form/pa</span><span class="info-entry-type-badge">HTML</span></div><div class="info-entry-body"><div class="entry-form-inner"><div class="entry-field"><label>HTML 内容</label><textarea class="ef-content" rows="5"></textarea></div><div class="entry-field"><label>快速插入</label><div style="display: flex; gap: 4px; flex-wrap: wrap;"><button class="mgr-mini-btn ef-ins">段落</button><button class="mgr-mini-btn ef-ins">加粗</button><button class="mgr-mini-btn ef-ins">红字</button><button class="mgr-mini-btn ef-ins">列表行</button><button class="mgr-mini-btn ef-ins">标题</button></div></div><div class="entry-actions"><button class="btn ef-save" style="flex: 1 1 0%; padding: 5px; font-size: 0.65rem;">保存此条</button><button class="btn alt ef-del" style="padding: 5px 10px; font-size: 0.65rem;">删除</button></div></div></div></div><div class="info-entry-item" draggable="true"><div class="info-entry-head"><span class="info-entry-drag">⠿</span><span class="info-entry-label">[1] 此为免费产物，禁止魔改、倒卖等行为。</span><span class="info-entry-type-badge">条目</span></div><div class="info-entry-body"><div class="entry-form-inner"><div class="entry-field"><label>序号/标识 (NUM)</label><input class="ef-num" type="text" placeholder="如：1, A, H, •"></div><div class="entry-field"><label>内容 (支持HTML加粗/红字等)</label><textarea class="ef-content" rows="3"></textarea></div><div class="entry-field"><label>快速插入</label><div style="display: flex; gap: 4px; flex-wrap: wrap;"><button class="mgr-mini-btn ef-ins">加粗</button><button class="mgr-mini-btn ef-ins">红字</button><button class="mgr-mini-btn ef-ins">B</button><button class="mgr-mini-btn ef-ins">I</button></div></div><div class="entry-actions"><button class="btn ef-save" style="flex: 1 1 0%; padding: 5px; font-size: 0.65rem;">保存此条</button><button class="btn alt ef-del" style="padding: 5px 10px; font-size: 0.65rem;">删除</button></div></div></div></div><div class="info-entry-item" draggable="true"><div class="info-entry-head"><span class="info-entry-drag">⠿</span><span class="info-entry-label">[2] 请不要提取其他老师的作品/心血去干坏事（做出这种事的还是人吗</span><span class="info-entry-type-badge">条目</span></div><div class="info-entry-body"><div class="entry-form-inner"><div class="entry-field"><label>序号/标识 (NUM)</label><input class="ef-num" type="text" placeholder="如：1, A, H, •"></div><div class="entry-field"><label>内容 (支持HTML加粗/红字等)</label><textarea class="ef-content" rows="3"></textarea></div><div class="entry-field"><label>快速插入</label><div style="display: flex; gap: 4px; flex-wrap: wrap;"><button class="mgr-mini-btn ef-ins">加粗</button><button class="mgr-mini-btn ef-ins">红字</button><button class="mgr-mini-btn ef-ins">B</button><button class="mgr-mini-btn ef-ins">I</button></div></div><div class="entry-actions"><button class="btn ef-save" style="flex: 1 1 0%; padding: 5px; font-size: 0.65rem;">保存此条</button><button class="btn alt ef-del" style="padding: 5px 10px; font-size: 0.65rem;">删除</button></div></div></div></div><div class="info-entry-item" draggable="true"><div class="info-entry-head"><span class="info-entry-drag">⠿</span><span class="info-entry-label">[3] 再次重审，此程序做出来仅为便利用户，请不要拿去干坏事，谢谢^</span><span class="info-entry-type-badge">条目</span></div><div class="info-entry-body"><div class="entry-form-inner"><div class="entry-field"><label>序号/标识 (NUM)</label><input class="ef-num" type="text" placeholder="如：1, A, H, •"></div><div class="entry-field"><label>内容 (支持HTML加粗/红字等)</label><textarea class="ef-content" rows="3"></textarea></div><div class="entry-field"><label>快速插入</label><div style="display: flex; gap: 4px; flex-wrap: wrap;"><button class="mgr-mini-btn ef-ins">加粗</button><button class="mgr-mini-btn ef-ins">红字</button><button class="mgr-mini-btn ef-ins">B</button><button class="mgr-mini-btn ef-ins">I</button></div></div><div class="entry-actions"><button class="btn ef-save" style="flex: 1 1 0%; padding: 5px; font-size: 0.65rem;">保存此条</button><button class="btn alt ef-del" style="padding: 5px 10px; font-size: 0.65rem;">删除</button></div></div></div></div></div>
+        <div class="info-mgr-footer">
+          <button class="btn" style="flex:1;padding:7px;font-size:0.7rem;" onclick="saveInfoMgr()">保存全部 (SAVE ALL)</button>
+          <button class="btn alt" style="padding:7px 14px;font-size:0.7rem;" onclick="closeInfoMgr()">关闭</button>
         </div>
       </div>
     </div>
+  </div>
+</div>
 
-    <div id="modalPage3" class="modal-body" style="display:none">
-      <div class="rule-box" style="border:none; padding-top:0;">
-        <div class="rule-item">
-          <div class="rule-num">1</div>
-          <div><span class="bold-black">昼/夜模式</span>：右上角太阳图标点击可切换昼夜模式（页面主配色）。其中，“跟随系统”模式可跟随当前系统的昼/夜模式（若开启“跟随系统”模式，但没跟随系统变化的话，是浏览器不适配，可自行手动切换）。</div>
-        </div>
-        <div class="rule-item">
-          <div class="rule-num">2</div>
-          <div><span class="bold-black">合并下载</span>：所有内容输入到一个文档中，下载也仅显示一个文档。</div>
-        </div>
-        <div class="rule-item">
-          <div class="rule-num">3</div>
-          <div><span class="bold-black">分别打包</span>：压缩包类型（zip），需解压。</div>
-        </div>
-        <div class="rule-item">
-          <div class="rule-num">4</div>
-          <div><span class="bold-black">逐个下载</span>：多文件一键分别下载，下载下来仍旧是多个文件（不是压缩到一个文件也不是zip），不用解压。</div>
-        </div>
-        <div class="rule-item">
-          <div class="rule-num">5</div>
-          <div><span class="bold-black">合并复制</span>：多个文件内容一并复制，其中用数个“=”号分割各文件内容。</div>
-        </div>
-        <div class="rule-item">
-          <div class="rule-num">6</div>
-          <div><span class="bold-black">特殊标识</span>：提取文档中若含有高亮等特殊标识，提取框内会显示特殊标识，复制时特殊标识不会被复制（目前支持高亮、标题、列表、粗斜体、下划线、删除线、字体等，后续可能还会更新）。</div>
-        </div>
-      </div>
-    </div>
+<!-- 使用说明 Modal -->
+<div id="infoModal" class="modal-overlay" onclick="closeModal('infoModal')" style="display: none;">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal('infoModal')">×</button>
+    <div class="modal-title" id="modalTitle">使用说明 / INFO</div>
 
-    <div class="modal-footer">
-      <div class="modal-page-indicator" id="modalPageIndicator">PAGE 1 / 3</div>
+    <div id="modalPage1" class="modal-body" style="display: block;"><p style="font-family:'Noto Serif SC', serif; font-weight:900; font-size:1.1rem;">欢迎宝宝使用文档提取器-w-</p><p>作者：<span style="font-weight:700; border-bottom:1px solid var(--accent);">芜湖</span></p><p style="color:var(--muted); font-size:0.8rem;">目前暂不支持doc文档提取orz</p><p style="color:var(--muted); font-size:0.8rem;">有任何bug请这里反馈w：https://docs.qq.com/form/page/DWGxxaEdWVVZ2cVJr</p><div class="rule-box" style="border:none; padding-top:0;"><div class="rule-item"><div class="rule-num">1</div><div>此为<span class="bold-black">免费产物</span>，禁止<span class="bold-black">魔改</span>、<span class="bold-black">倒卖</span>等行为。</div></div><div class="rule-item"><div class="rule-num">2</div><div>请不要提取其他老师的作品/心血去干坏事（<span class="angry-text">做出这种事的还是人吗？</span> <span style="font-size: 0.65rem; color: #e63946; font-weight: 700; text-decoration: line-through;">马年不代表你的家人不会飞哦</span><span style="color:#e63946; font-weight:700; text-decoration:none; font-size: 0.65rem;">^-^</span>）。</div></div><div class="rule-item"><div class="rule-num">3</div><div>再次重审，此程序做出来<span class="bold-black">仅为便利用户</span>，<span class="bold-black">请不要拿去干坏事</span>，谢谢^-^</div></div></div></div>
+
+    <div id="modalPage2" class="modal-body" style="display:none"><div class="rule-box" style="border:none; padding-top:0;"><div class="rule-item"><div class="rule-num">H</div><div><span class="bold-black">历史记录</span>：点击“HISTORY”即可查看并自行选择加载近期50次记录。</div></div><div class="rule-item"><div class="rule-num">A</div><div><span class="bold-black">追加导入</span>：开启后，新导入的文件将排在当前列表后，不会清空现有文件及内容。</div></div><div class="rule-item"><div class="rule-num">R</div><div><span class="bold-black">内容替换</span>：若json文件提取后的内容在提取预览界面不显示换行等（如：挤成一团/内容成单行文本），也许是文件显示有误（不是指文件有问题），可点击“内容替换”替换成视觉预览界面中的格式。</div></div><div class="rule-item"><div class="rule-num">V</div><div><span class="bold-black">视觉预览</span>：在提取结果区切换标签，可直接查看文档的富文本排版（含图片/表格）。</div></div><div class="rule-item"><div class="rule-num">D</div><div><span class="bold-black">下载导出</span>：支持多种格式、多种方式导出文件/文档（详情请见下一页——其他功能）。</div></div><div class="rule-item"><div class="rule-num">E</div><div><span class="bold-black">在线编辑</span>：提取出的文本可直接在框内修改，下载后的文件后修改后版本。</div></div><div class="rule-item"><div class="rule-num">S</div><div><span class="bold-black">搜索跳转</span>：导入文件后，有放大镜图标浮现，点击可展开搜索栏并搜索跳转，搜索字词高亮显示。</div></div></div></div>
+
+    <div id="modalPage3" class="modal-body" style="display:none"><div class="rule-box" style="border:none; padding-top:0;"><div class="rule-item"><div class="rule-num">1</div><div><span class="bold-black">昼/夜模式</span>：右上角太阳图标点击可自行切换昼夜模式（页面主配色）。其中，“跟随系统”可跟随当前系统的昼/夜模式（若开启“跟随系统”模式，但未跟随系统变化的话，为浏览器不适配，可手动切换）。</div></div><div class="rule-item"><div class="rule-num">2</div><div><span class="bold-black">合并下载</span>：所有内容合并到一个文档中，下载时为合并后的文档。</div></div><div class="rule-item"><div class="rule-num">3</div><div><span class="bold-black">分别打包</span>：压缩包类型（zip），需解压。</div></div><div class="rule-item"><div class="rule-num">4</div><div><span class="bold-black">逐个下载</span>：多文件一键分别下载，下载后仍为多个文件（不是把内容压缩到一个文件，也不是zip），无需解压。</div></div><div class="rule-item"><div class="rule-num">5</div><div><span class="bold-black">合并复制</span>：多个文件内容一并复制，其中用数个“=”号分割各文件内容。</div></div><div class="rule-item"><div class="rule-num">6</div><div><span class="bold-black">特殊标识</span>：提取文档中若含有高亮等特殊标识，提取框内会显示特殊标识，复制时特殊标识不会被复制（目前支持高亮、标题、列表、粗斜体、下划线、删除线、字体等，后续可能还会更新）。</div></div><div class="rule-item"><div class="rule-num">7</div><div><span class="bold-black">视觉预览字体（开/关）</span>：
+可自行决定是否开启自带的字体。（Edge用户可以无视这条，因为Edge那边好像没办法显示，对不起orz）</div></div></div></div>
+
+    <div id="modalPage4" class="modal-body" style="display: none;"><div class="rule-box" style="border:none; padding-top:0;"><div class="rule-item"><div class="rule-num">1</div><div><span class="bold-black">浏览器适配问题</span>→
+<span class="angry-text">Chrome</span>：少数文件在视觉预览中无空行，呈拥挤状态。
+<span class="angry-text">Edge</span>：视觉预览中无自带字体。</div></div></div></div><div class="modal-footer">
+      <div class="modal-page-indicator" id="modalPageIndicator" style="cursor:default;user-select:none;">PAGE 1 / 4</div>
       <div class="modal-nav-btns">
-        <button class="pager-btn" id="modalPrev" onclick="switchModalPage(window.currentModalPage - 1)">PREV</button>
+        <button class="pager-btn" id="modalPrev" onclick="switchModalPage(window.currentModalPage - 1)" disabled="">PREV</button>
         <button class="pager-btn" id="modalNext" onclick="switchModalPage(window.currentModalPage + 1)">NEXT</button>
       </div>
     </div>
@@ -423,10 +626,10 @@
 </div>
 
 <!-- 更新日志 Modal -->
-<div id="changelogModal" class="modal-overlay" onclick="closeModal('changelogModal')">
+<div id="changelogModal" class="modal-overlay" onclick="closeModal('changelogModal')" style="display: none;">
   <div class="modal-content" onclick="event.stopPropagation()">
     <button class="modal-close" onclick="closeModal('changelogModal')">×</button>
-    <div class="modal-title" id="changelogTitle" title="连续点击100次开启管理模式">更新日志 / LOG</div>
+    <div class="modal-title" id="changelogTitle" style="cursor:default;user-select:none;">更新日志 / LOG</div>
     <div class="modal-body" id="changelogBody">
       <!-- 可视化日志管理终端 -->
       <div id="logManager" style="display:none; margin-bottom: 20px; border: 2px solid var(--accent); padding: 15px; background: var(--soft);">
@@ -468,10 +671,36 @@
           </div>
         </div>
 
-        <div class="mgr-list-box" id="mgrListBox"></div>
+        <div class="mgr-list-box" id="mgrListBox">
+      <div class="mgr-item">
+        <div class="mgr-item-info">05.04.2026 09:20 - <b>新增</b>：视觉预览字...</div>
+        <div class="mgr-item-btns">
+          <button class="mgr-mini-btn" onclick="editLogRecord(0)">改</button>
+          <button class="mgr-mini-btn" onclick="deleteLogRecord(0)">删</button>
+        </div>
+      </div>
+    
+      <div class="mgr-item">
+        <div class="mgr-item-info">3.18.2026 17:48 - <b>新增</b>：“功能用法...</div>
+        <div class="mgr-item-btns">
+          <button class="mgr-mini-btn" onclick="editLogRecord(1)">改</button>
+          <button class="mgr-mini-btn" onclick="deleteLogRecord(1)">删</button>
+        </div>
+      </div>
+    </div>
       </div>
 
-      <div id="logContentArea"></div>
+      <div id="logContentArea">
+      <div class="changelog-item">
+        <span class="changelog-date-main">05.04.2026</span> <span class="changelog-time-small">09:20</span>
+        <ul class="changelog-list"><li><b>新增</b>：视觉预览字体（开/关）、“搜索跳转”功能</li><li><b>优化</b>：各页面字体大小、“说明页”内容、“更新日志”内容</li><li><b>修改</b>：“复制此页”与“内容替换”按键对调、部分BUG</li></ul>
+      </div>
+    
+      <div class="changelog-item">
+        <span class="changelog-date-main">3.18.2026</span> <span class="changelog-time-small">17:48</span>
+        <ul class="changelog-list"><li><b>新增</b>：“功能用法”及“使用说明”页、昼夜模式切换、内容替换、更新日志、“下载导出”添加格式等</li><li><b>优化</b>：“历史记录”功能记录位添加至50个、“复制此页”功能优化、“视觉预览”功能优化、优化排版及布局等</li><li><b>修改</b>：“使用说明"内容修改、修改个别按键文字标签</li></ul>
+      </div>
+    </div>
       <div id="toggleLogsBtn" class="toggle-logs" onclick="toggleOldLogs()">过往更新</div>
     </div>
   </div>
@@ -488,7 +717,7 @@
       <h3>ARCHIVES</h3>
       <button style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text)" onclick="toggleHistory()">×</button>
     </div>
-    <div class="history-head-sub">历史记录至多保留50个不同文件/文档，超过则自动覆盖旧记录</div>
+    <div class="history-head-sub">至多保留50个不同存档，超出则覆盖旧记录</div>
   </div>
   <div class="history-list" id="historyList"></div>
   <button class="btn alt" style="width:100%; margin-top:20px;" onclick="clearHistory()">清空全部历史</button>
@@ -496,9 +725,9 @@
 
 <div class="wrap">
   <header>
-    <h1 onclick="handleH1Click()">文档提取器丨Extractor</h1>
+    <h1>文档提取器丨Extractor</h1>
     <button class="theme-trigger" id="themeTrigger" onclick="openThemeMenu()" title="昼夜模式切换">
-      <svg id="themeIcon" viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5z"/></svg>
+      <svg id="themeIcon" viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"></path></svg>
     </button>
     <div class="edition">
       <button class="btn alt" onclick="openModal(1)" style="padding:2px 5px; font-size:0.58rem; min-height:auto;">使用说明 INFO</button>
@@ -510,13 +739,18 @@
   <div id="dropZone" class="drop">
     <h2>拖拽或点击导入文件</h2>
     <p>支持：DOCX, MD, CSV, JSON, 图片, 代码, 文本等</p>
-    <input id="fileInput" type="file" multiple accept=".docx,.doc,.txt,.json,.md,.html,.css,.js,.ts,.py,.java,.c,.cpp,.h,.xml,.yaml,.yml,.ini,.conf,.log,.php,.rb,.go,.rs,.swift,.kt,.sh,.bat,.sql,.csv,.tsv,.toml,.env,.vue,.jsx,.tsx,.less,.scss,.properties,image/*,video/*,audio/*,application/pdf,application/json,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+    <input id="fileInput" type="file" multiple="" accept=".docx,.doc,.txt,.json,.md,.html,.css,.js,.ts,.py,.java,.c,.cpp,.h,.xml,.yaml,.yml,.ini,.conf,.log,.php,.rb,.go,.rs,.swift,.kt,.sh,.bat,.sql,.csv,.tsv,.toml,.env,.vue,.jsx,.tsx,.less,.scss,.properties,image/*,video/*,audio/*,application/pdf,application/json,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
   </div>
 
   <div class="toolbar">
     <div class="left-tools">
+        <label class="mag-toggle" style="margin-right:12px;">
+          <span>视觉预览字体</span>
+          <input id="visualFontToggle" type="checkbox" checked="" onchange="toggleVisualFont(this.checked)">
+          <span class="toggle-ui"></span>
+        </label>
       <label class="mag-toggle">
-        <input id="appendMode" type="checkbox" />
+        <input id="appendMode" type="checkbox">
         <div class="toggle-ui"></div>
         <span>追加导入 / APPEND</span>
       </label>
@@ -526,7 +760,7 @@
       <button class="btn alt" onclick="copyAllMerged()">合并复制</button>
       <div style="position:relative">
         <button class="btn" id="dlBtn" onclick="toggleDlMenu(event)">下载导出 ▾</button>
-        <div class="dl-menu" id="dlMenu">
+        <div class="dl-menu" id="dlMenu" style="display: none;">
           <div class="dl-section-title">合并下载 (SINGLE FILE)</div>
           <button onclick="downloadAs('docx', 'merged')">合并导出 .DOCX</button>
           <button onclick="downloadAs('doc', 'merged')">合并导出 .DOC</button>
@@ -552,6 +786,34 @@
 
   <div id="fileIndex" class="file-index-list"></div>
 
+  <!-- 搜索放大镜图标（右下角浮动，仅有文件时显示） -->
+  <button id="searchTrigger" title="搜索内容">
+    <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>
+  </button>
+
+  <!-- 搜索面板（底部半屏弹出） -->
+  <div id="searchPanel">
+    <div class="search-panel-head">
+      <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>
+      <input id="searchInput" type="text" placeholder="输入关键字搜索…" autocomplete="off">
+      <span class="search-count" id="searchCount"></span>
+      <button class="search-nav-btn" id="searchPrev" title="上一个">↑</button>
+      <button class="search-nav-btn" id="searchNext" title="下一个">↓</button>
+      <button class="search-close-btn" id="searchClose" title="关闭">×</button>
+    </div>
+    <div class="search-results-body">
+      <div id="searchNoResult" class="search-no-result">无匹配结果</div>
+      <div id="searchResults"></div>
+      <div class="search-result-pager" id="searchResultPager">
+        <span class="search-result-pager-info" id="searchPagerInfo"></span>
+        <div style="display:flex;gap:6px;">
+          <button class="pager-btn" id="srPrev">PREV</button>
+          <button class="pager-btn" id="srNext">NEXT</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div id="pager-top" class="mag-pager" style="display:none">
     <div class="pager-info">FILE <span class="currIdxDisplay">1</span> OF <span class="totalIdxDisplay">1</span></div>
     <div class="pager-controls">
@@ -571,7 +833,7 @@
   </div>
 </div>
 
-<div id="toast" class="toast">复制成功</div>
+<div id="toast" class="toast" style="display: none;">复制成功</div>
 
 <script>
 (() => {
@@ -580,86 +842,43 @@
 
   const STATIC_LOGS = [
   {
+    "date": "05.04.2026",
+    "time": "09:20",
+    "logs": [
+      "<b>新增</b>：视觉预览字体（开/关）、“搜索跳转”功能",
+      "<b>优化</b>：各页面字体大小、“说明页”内容、“更新日志”内容",
+      "<b>修改</b>：“复制此页”与“内容替换”按键对调、部分BUG"
+    ]
+  },
+  {
     "date": "3.18.2026",
     "time": "17:48",
     "logs": [
-      "新增：“功能用法”及“使用说明”页、昼夜模式切换、内容替换、更新日志、“下载导出”添加格式等。",
-      "优化：“历史记录”功能记录位添加至50个、“复制此页”功能优化、“视觉预览”功能优化、优化排版及布局等",
-      "修改：“使用说明\"内容修改、修改个别按键文件标签。"
+      "<b>新增</b>：“功能用法”及“使用说明”页、昼夜模式切换、内容替换、更新日志、“下载导出”添加格式等",
+      "<b>优化</b>：“历史记录”功能记录位添加至50个、“复制此页”功能优化、“视觉预览”功能优化、优化排版及布局等",
+      "<b>修改</b>：“使用说明\"内容修改、修改个别按键文字标签"
     ]
   }
 ];
 
   const STATIC_INFO = [
-    {
-      "content": `<p style="font-family:'Noto Serif SC', serif; font-weight:900; font-size:1.1rem;">欢迎宝宝使用文档提取器-w-</p>
-      <p>作者：<span style="font-weight:700; border-bottom:1px solid var(--accent);">芜湖</span></p>
-      <p style="color:var(--muted); font-size:0.8rem;">目前暂不支持doc文档提取orz</p>
-      <p style="color:var(--muted); font-size:0.8rem;">有任何bug请联系我。</p>
-      
-      <div class="rule-box">
-        <div class="rule-item"><div class="rule-num">1</div><div>此为<span class="bold-black">免费产物</span>，禁止<span class="bold-black">魔改</span>、<span class="bold-black">倒卖</span>等行为。</div></div>
-        <div class="rule-item"><div class="rule-num">2</div><div>请不要提取其他老师的作品/心血去干坏事（<span class="angry-text">做出这种事的还是人吗？</span> <span style="font-size: 0.65rem; color: #e63946; font-weight: 700; text-decoration: line-through;">马年不代表你的家人不会飞哦</span><span style="color:#e63946; font-weight:700; text-decoration:none; font-size: 0.65rem;">^-^</span>）。</div></div>
-        <div class="rule-item"><div class="rule-num">3</div><div>再次重审，此程序做出来<span class="bold-black">仅为便利用户</span>，<span class="bold-black">请不要拿去干坏事</span>，谢谢^-^</div></div>
-      </div>`
-    },
-    {
-      "content": `<div class="rule-box" style="border:none; padding-top:0;">
-        <div class="rule-item">
-          <div class="rule-num">H</div>
-          <div><span class="bold-black">历史记录</span>：点击“HISTORY”可查看并重新加载最近提取的50次记录。</div>
-        </div>
-        <div class="rule-item">
-          <div class="rule-num">A</div>
-          <div><span class="bold-black">追加导入</span>：开启后，新导入的文件会排在当前列表后面，不会清空已有内容。</div>
-        </div>
-        <div class="rule-item">
-          <div class="rule-num">R</div>
-          <div><span class="bold-black">内容替换</span>：若json文件提取出的内容在提取预览界面不显示换行等（如：挤成一团/内容成单行文本），也许是文件的显示有误（不是指文件有问题），可点击“内容替换”替换成视觉预览界面中的正确格式。</div>
-        </div>
-        <div class="rule-item">
-          <div class="rule-num">V</div>
-          <div><span class="bold-black">视觉预览</span>：在提取结果区切换标签，可直接查看文档的富文本排版（含图片/表格）。</div>
-        </div>
-        <div class="rule-item">
-          <div class="rule-num">D</div>
-          <div><span class="bold-black">下载导出</span>：支持多种格式、多种方式导出文件/文档（详情请见下一页——其他功能）。</div>
-        </div>
-        <div class="rule-item">
-          <div class="rule-num">E</div>
-          <div><span class="bold-black">在线编辑</span>：提取出的文本可直接在框内修改，修改后下载的内容将同步更新。</div>
-        </div>
-      </div>`
-    },
-    {
-      "content": `<div class="rule-box" style="border:none; padding-top:0;">
-        <div class="rule-item">
-          <div class="rule-num">1</div>
-          <div><span class="bold-black">昼/夜模式</span>：右上角太阳图标点击可切换昼夜模式（页面主配色）。其中，“跟随系统”模式可跟随当前系统的昼/夜模式（若开启“跟随系统”模式，但没跟随系统变化的话，是浏览器不适配，可自行手动切换）。</div>
-        </div>
-        <div class="rule-item">
-          <div class="rule-num">2</div>
-          <div><span class="bold-black">合并下载</span>：所有内容输入到一个文档中，下载也仅显示一个文档。</div>
-        </div>
-        <div class="rule-item">
-          <div class="rule-num">3</div>
-          <div><span class="bold-black">分别打包</span>：压缩包类型（zip），需解压。</div>
-        </div>
-        <div class="rule-item">
-          <div class="rule-num">4</div>
-          <div><span class="bold-black">逐个下载</span>：多文件一键分别下载，下载下来仍旧是多个文件（不是压缩到一个文件也不是zip），不用解压。</div>
-        </div>
-        <div class="rule-item">
-          <div class="rule-num">5</div>
-          <div><span class="bold-black">合并复制</span>：多个文件内容一并复制，其中用数个“=”号分割各文件内容。</div>
-        </div>
-        <div class="rule-item">
-          <div class="rule-num">6</div>
-          <div><span class="bold-black">特殊标识</span>：提取文档中若含有高亮等特殊标识，提取框内会显示特殊标识，复制时特殊标识不会被复制（目前支持高亮、标题、列表、粗斜体、下划线、删除线、字体等，后续可能还会更新）。</div>
-        </div>
-      </div>`
-    }
-  ];
+  {
+    "title": "使用说明 / INFO",
+    "content": "<p style=\"font-family:'Noto Serif SC', serif; font-weight:900; font-size:1.1rem;\">欢迎宝宝使用文档提取器-w-</p><p>作者：<span style=\"font-weight:700; border-bottom:1px solid var(--accent);\">芜湖</span></p><p style=\"color:var(--muted); font-size:0.8rem;\">目前暂不支持doc文档提取orz</p><p style=\"color:var(--muted); font-size:0.8rem;\">有任何bug请这里反馈w：https://docs.qq.com/form/page/DWGxxaEdWVVZ2cVJr</p><div class=\"rule-box\" style=\"border:none; padding-top:0;\"><div class=\"rule-item\"><div class=\"rule-num\">1</div><div>此为<span class=\"bold-black\">免费产物</span>，禁止<span class=\"bold-black\">魔改</span>、<span class=\"bold-black\">倒卖</span>等行为。</div></div><div class=\"rule-item\"><div class=\"rule-num\">2</div><div>请不要提取其他老师的作品/心血去干坏事（<span class=\"angry-text\">做出这种事的还是人吗？</span> <span style=\"font-size: 0.65rem; color: #e63946; font-weight: 700; text-decoration: line-through;\">马年不代表你的家人不会飞哦</span><span style=\"color:#e63946; font-weight:700; text-decoration:none; font-size: 0.65rem;\">^-^</span>）。</div></div><div class=\"rule-item\"><div class=\"rule-num\">3</div><div>再次重审，此程序做出来<span class=\"bold-black\">仅为便利用户</span>，<span class=\"bold-black\">请不要拿去干坏事</span>，谢谢^-^</div></div></div>"
+  },
+  {
+    "title": "功能用法 / USAGE",
+    "content": "<div class=\"rule-box\" style=\"border:none; padding-top:0;\"><div class=\"rule-item\"><div class=\"rule-num\">H</div><div><span class=\"bold-black\">历史记录</span>：点击“HISTORY”即可查看并自行选择加载近期50次记录。</div></div><div class=\"rule-item\"><div class=\"rule-num\">A</div><div><span class=\"bold-black\">追加导入</span>：开启后，新导入的文件将排在当前列表后，不会清空现有文件及内容。</div></div><div class=\"rule-item\"><div class=\"rule-num\">R</div><div><span class=\"bold-black\">内容替换</span>：若json文件提取后的内容在提取预览界面不显示换行等（如：挤成一团/内容成单行文本），也许是文件显示有误（不是指文件有问题），可点击“内容替换”替换成视觉预览界面中的格式。</div></div><div class=\"rule-item\"><div class=\"rule-num\">V</div><div><span class=\"bold-black\">视觉预览</span>：在提取结果区切换标签，可直接查看文档的富文本排版（含图片/表格）。</div></div><div class=\"rule-item\"><div class=\"rule-num\">D</div><div><span class=\"bold-black\">下载导出</span>：支持多种格式、多种方式导出文件/文档（详情请见下一页——其他功能）。</div></div><div class=\"rule-item\"><div class=\"rule-num\">E</div><div><span class=\"bold-black\">在线编辑</span>：提取出的文本可直接在框内修改，下载后的文件后修改后版本。</div></div><div class=\"rule-item\"><div class=\"rule-num\">S</div><div><span class=\"bold-black\">搜索跳转</span>：导入文件后，有放大镜图标浮现，点击可展开搜索栏并搜索跳转，搜索字词高亮显示。</div></div></div>"
+  },
+  {
+    "title": "其他功能 / OTHERS",
+    "content": "<div class=\"rule-box\" style=\"border:none; padding-top:0;\"><div class=\"rule-item\"><div class=\"rule-num\">1</div><div><span class=\"bold-black\">昼/夜模式</span>：右上角太阳图标点击可自行切换昼夜模式（页面主配色）。其中，“跟随系统”可跟随当前系统的昼/夜模式（若开启“跟随系统”模式，但未跟随系统变化的话，为浏览器不适配，可手动切换）。</div></div><div class=\"rule-item\"><div class=\"rule-num\">2</div><div><span class=\"bold-black\">合并下载</span>：所有内容合并到一个文档中，下载时为合并后的文档。</div></div><div class=\"rule-item\"><div class=\"rule-num\">3</div><div><span class=\"bold-black\">分别打包</span>：压缩包类型（zip），需解压。</div></div><div class=\"rule-item\"><div class=\"rule-num\">4</div><div><span class=\"bold-black\">逐个下载</span>：多文件一键分别下载，下载后仍为多个文件（不是把内容压缩到一个文件，也不是zip），无需解压。</div></div><div class=\"rule-item\"><div class=\"rule-num\">5</div><div><span class=\"bold-black\">合并复制</span>：多个文件内容一并复制，其中用数个“=”号分割各文件内容。</div></div><div class=\"rule-item\"><div class=\"rule-num\">6</div><div><span class=\"bold-black\">特殊标识</span>：提取文档中若含有高亮等特殊标识，提取框内会显示特殊标识，复制时特殊标识不会被复制（目前支持高亮、标题、列表、粗斜体、下划线、删除线、字体等，后续可能还会更新）。</div></div><div class=\"rule-item\"><div class=\"rule-num\">7</div><div><span class=\"bold-black\">视觉预览字体（开/关）</span>：\n可自行决定是否开启自带的字体。（Edge用户可以无视这条，因为Edge那边好像没办法显示，对不起orz）</div></div></div>"
+  },
+  {
+    "title": "无法修复 / WRONG",
+    "content": "<div class=\"rule-box\" style=\"border:none; padding-top:0;\"><div class=\"rule-item\"><div class=\"rule-num\">1</div><div><span class=\"bold-black\">浏览器适配问题</span>→\n<span class=\"angry-text\">Chrome</span>：少数文件在视觉预览中无空行，呈拥挤状态。\n<span class=\"angry-text\">Edge</span>：视觉预览中无自带字体。</div></div></div>"
+  }
+];
 
   const fileInput = document.getElementById('fileInput');
   const dropZone = document.getElementById('dropZone');
@@ -715,16 +934,6 @@
   window.openModal = (page = 1) => { switchModalPage(page); document.getElementById('infoModal').style.display = 'flex'; };
   window.openChangelog = () => { document.getElementById('changelogModal').style.display = 'flex'; };
   window.closeModal = (id) => document.getElementById(id).style.display = 'none';
-  window.switchModalPage = (n) => {
-    const pages = [1, 2, 3];
-    pages.forEach(p => document.getElementById(`modalPage${p}`).style.display = n === p ? 'block' : 'none');
-    const titles = ['使用说明 / INFO', '功能用法 / USAGE', '其他功能 / OTHERS'];
-    document.getElementById('modalTitle').textContent = titles[n-1];
-    document.getElementById('modalPageIndicator').textContent = `PAGE ${n} / 3`;
-    document.getElementById('modalPrev').disabled = n === 1;
-    document.getElementById('modalNext').disabled = n === 3;
-    window.currentModalPage = n;
-  };
 
   window.toggleHistory = () => document.getElementById('historySidebar').classList.toggle('open');
   window.toggleDlMenu = (e) => { e.stopPropagation(); dlMenu.style.display = dlMenu.style.display === 'block' ? 'none' : 'block'; };
@@ -763,11 +972,7 @@
     const isPdf = file.type === 'application/pdf' || ext === 'pdf';
     
     if(ext === 'docx') return await extractDocxTextPreserve(file);
-    if(ext === 'doc') {
-      const raw = await readTextKeepRaw(file);
-      const cleanText = raw.replace(/[^\x20-\x7E\u4E00-\u9FA5\n\r\t]/g, ' ').replace(/\s\s+/g, ' ');
-      return { text: cleanText.trim(), htmlText: escapeHTML(cleanText), visualHtml: `<pre style="white-space:pre-wrap;">${escapeHTML(cleanText)}</pre>`, type: 'DOC (Binary)' };
-    }
+    if(ext === 'doc') return await extractDocLegacy(file);
     if(isImage || isVideo || isAudio || isPdf) {
       return new Promise((resolve) => {
         const reader = new FileReader();
@@ -782,93 +987,171 @@
     let visualHtml = '';
     if(ext === 'md') visualHtml = marked.parse(raw);
     else if(ext === 'json') {
-      try { visualHtml = `<pre style="background:var(--soft);padding:15px;border:1px solid var(--line);white-space:pre-wrap;font-size:0.8rem;">${escapeHTML(JSON.stringify(JSON.parse(raw), null, 2))}</pre>`; } catch(e) { visualHtml = `<pre style="font-size:0.8rem;">${escapeHTML(raw)}</pre>`; }
-    } else visualHtml = `<pre style="white-space:pre-wrap;">${escapeHTML(raw)}</pre>`;
+      try { visualHtml = `<pre style="background:var(--soft);padding:15px;border:1px solid var(--line);white-space:pre-wrap;font-size:0.82rem;font-family:'Noto Serif SC',serif;">${escapeHTML(JSON.stringify(JSON.parse(raw), null, 2))}</pre>`; } catch(e) { visualHtml = `<pre style="font-size:0.82rem;font-family:'Noto Serif SC',serif;">${escapeHTML(raw)}</pre>`; }
+    } else {
+      // 文本类文件（txt/css/js等）：按行转成 <p>，继承 .visual-box 的 Noto Serif SC 字体
+      visualHtml = raw.split('\n')
+        .map(line => line.trim())
+        .map(line => line ? `<p>${escapeHTML(line)}</p>` : '<p style="margin:0;height:0.5em;"></p>')
+        .join('');
+    }
     return { text: raw.trim(), htmlText: escapeHTML(raw), visualHtml, type: ext.toUpperCase() || 'TEXT' };
   }
 
-  async function extractDocxTextPreserve(file){
+  async function extractDocLegacy(file){
+    const ab = await file.arrayBuffer();
+    try {
+      const result = await mammoth.convertToHtml({ arrayBuffer: ab });
+      const html = result.value;
+      if(html && html.trim().length > 0) {
+        const tmp = document.createElement('div');
+        tmp.innerHTML = html;
+        const plainText = (tmp.innerText || tmp.textContent || '').trim();
+        const htmlText = plainText.split('\n').map(line => {
+          const t = line.trim();
+          return t ? escapeHTML(t) : '';
+        }).join('\n');
+        const visualHtml = plainText.split('\n').map(line => {
+          const t = line.trim();
+          return t ? '<p>' + escapeHTML(t) + '</p>' : '<div class="blank-line"></div>';
+        }).join('') || '<p style="color:#999">（无内容）</p>';
+        return { text: plainText, htmlText, visualHtml, type: 'DOC' };
+      }
+    } catch(e) {}
+    const raw = await readTextKeepRaw(file);
+    const cleaned = raw
+      .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/g, '')
+      .replace(/[^\x20-\x7E\u00A0-\uFFFF]/g, ' ')
+      .replace(/ {3,}/g, ' ')
+      .replace(/\n{3,}/g, '\n\n')
+      .trim();
+    const visualHtml2 = cleaned.split('\n').map(line => {
+      const t = line.trim();
+      return t ? '<p>' + escapeHTML(t) + '</p>' : '<div class="blank-line"></div>';
+    }).join('');
+    return { text: cleaned, htmlText: escapeHTML(cleaned), visualHtml: visualHtml2, type: 'DOC' };
+  }
+
+    async function extractDocxTextPreserve(file){
     const ab = await file.arrayBuffer();
     const zip = await JSZip.loadAsync(ab);
     const xml = await zip.file('word/document.xml')?.async('string');
     if(!xml) throw new Error('DOCX 损坏');
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(xml, 'application/xml');
-    const body = doc.getElementsByTagName('w:body')[0] || doc.documentElement;
 
-    function getRunData(runNode){
+    // ── 用正则直接解析 XML，完全绕开 DOMParser 的 namespace 兼容性问题 ──
+
+    // 辅助：提取属性值
+    const attr = (str, name) => { const m = str.match(new RegExp(`${name}="([^"]*)"`)); return m ? m[1] : ''; };
+
+    // 解析 w:r run，返回 { text, html }
+    function parseRun(runXml) {
+      // 提取 rPr
+      const rPrMatch = runXml.match(/<w:rPr>([\s\S]*?)<\/w:rPr>/);
+      const rPr = rPrMatch ? rPrMatch[1] : '';
+      const isBold = /<w:b(?:\s[^\/]*)?\/?>/.test(rPr) && !/<w:b\s[^>]*w:val="0"/.test(rPr);
+      const isItalic = /<w:i(?:\s[^\/]*)?\/?>/.test(rPr) && !/<w:i\s[^>]*w:val="0"/.test(rPr);
+      const isStrike = /<w:strike(?:\s[^\/]*)?\/?>/.test(rPr);
+      const isHighlight = /<w:highlight(?:\s[^\/]*)?\/?>/.test(rPr);
+      const fontMatch = rPr.match(/<w:rFonts[^>]*w:(?:ascii|eastAsia)="([^"]*)"/);
+      const fontName = fontMatch ? fontMatch[1] : null;
+
+      // 按顺序提取 w:t 和 w:cr/w:br，保留原始顺序
+      // 去掉 rPr 部分，只处理内容部分
+      const content = runXml.replace(/<w:rPr>[\s\S]*?<\/w:rPr>/g, '');
       let t = '';
-      const rPr = runNode.getElementsByTagName('w:rPr')[0];
-      const isBold = rPr && (rPr.getElementsByTagName('w:b').length > 0 || rPr.querySelector('b'));
-      const isItalic = rPr && (rPr.getElementsByTagName('w:i').length > 0 || rPr.querySelector('i'));
-      const isHighlighted = rPr && (rPr.getElementsByTagName('w:highlight').length > 0 || rPr.querySelector('highlight'));
-      const isUnderline = rPr && (rPr.getElementsByTagName('w:u').length > 0 || rPr.querySelector('u'));
-      const isStrike = rPr && (rPr.getElementsByTagName('w:strike').length > 0 || rPr.querySelector('strike'));
-      const rFonts = rPr && rPr.getElementsByTagName('w:rFonts')[0];
-      const fontName = rFonts ? (rFonts.getAttribute('w:ascii') || rFonts.getAttribute('w:eastAsia')) : null;
-      
-      const walker = doc.createTreeWalker(runNode, NodeFilter.SHOW_ELEMENT, null);
-      let n = walker.currentNode;
-      while(n){
-        if(n.nodeName === 'w:t') t += n.textContent || '';
-        else if(n.nodeName === 'w:tab') t += '\t';
-        else if(n.nodeName === 'w:br' || n.nodeName === 'w:cr') t += '\n';
-        n = walker.nextNode();
-      }
-      
-      let html = escapeHTML(t);
-      if(isBold) html = `<b>${html}</b>`;
-      if(isItalic) html = `<i>${html}</i>`;
-      if(isUnderline) html = `<u>${html}</u>`;
-      if(isStrike) html = `<s>${html}</s>`;
-      if(isHighlighted) html = `<span data-highlight="true">${html}</span>`;
-      if(fontName) html = `<span style="font-family:'${fontName}', sans-serif;">${html}</span>`;
-      return { text: t, html: html };
-    }
-
-    let outText = ''; let outHtml = '';
-    const children = body.childNodes;
-    for(const node of children){
-      if(node.nodeType !== 1) continue;
-      if(node.nodeName === 'w:p') {
-        const pPr = node.getElementsByTagName('w:pPr')[0];
-        const isList = pPr && pPr.getElementsByTagName('w:numPr').length > 0;
-        const pStyle = pPr && pPr.getElementsByTagName('w:pStyle')[0];
-        const styleVal = pStyle ? pStyle.getAttribute('w:val') : '';
-        const isHeading = styleVal && styleVal.toLowerCase().includes('heading');
-
-        let pText = isList ? '• ' : '';
-        let pHtml = isList ? '• ' : '';
-        
-        const runs = node.getElementsByTagName('w:r');
-        for(const r of runs) {
-          const data = getRunData(r);
-          pText += data.text;
-          pHtml += data.html;
-        }
-        if(isHeading) pHtml = `<strong>${pHtml}</strong>`;
-        outText += pText + '\n'; outHtml += pHtml + '\n';
-      } else if(node.nodeName === 'w:tbl'){
-        const rows = node.getElementsByTagName('w:tr');
-        for(const row of rows){
-          const cells = row.getElementsByTagName('w:tc');
-          let rowText = []; let rowHtml = [];
-          for(const cell of cells){
-            let cellText = ''; cellHtml = '';
-            const ps = cell.getElementsByTagName('w:p');
-            for(let i=0; i<ps.length; i++){
-              const runs = ps[i].getElementsByTagName('w:r');
-              for(const r of runs) { const data = getRunData(r); cellText += data.text; cellHtml += data.html; }
-              if(i < ps.length-1) { cellText += '\n'; cellHtml += '\n'; }
-            }
-            rowText.push(cellText); rowHtml.push(cellHtml);
+      // 按顺序提取 w:t 和 w:cr/w:br/w:tab
+      // 注意：self-closing <w:t/> 必须放在 open tag 模式之前，否则会错误地贪婪匹配
+      const tokenRe = /<w:t[^>]*\/>|<w:t(?:[^>]*)>([\s\S]*?)<\/w:t>|<w:cr\s*\/?>|<w:br[^>]*\/>|<w:tab[^>]*\/>/g;
+      let m;
+      while ((m = tokenRe.exec(content)) !== null) {
+        const full = m[0];
+        if (full.startsWith('<w:t') && !full.startsWith('<w:tab')) {
+          if (full.endsWith('/>')) {
+            // self-closing <w:t/> — 空文本，跳过
+          } else {
+            t += m[1] !== undefined ? m[1] : '';
           }
-          outText += rowText.join('\t') + '\n'; outHtml += rowHtml.join(' | ') + '\n';
+        } else if (full.startsWith('<w:cr') || full.startsWith('<w:br')) {
+          t += '\n';
+        } else if (full.startsWith('<w:tab')) {
+          t += '\t';
         }
       }
+
+      let html = escapeHTML(t);
+      if (isBold) html = `<b>${html}</b>`;
+      if (isItalic) html = `<i>${html}</i>`;
+      if (isStrike) html = `<s>${html}</s>`;
+      if (isHighlight) html = `<span data-highlight="true">${html}</span>`;
+      if (fontName) html = `<span style="font-family:'${escapeHTML(fontName)}',sans-serif;">${html}</span>`;
+      return { text: t, html };
     }
-    let vHtml = '';
-    try { const res = await mammoth.convertToHtml({ arrayBuffer: ab }); vHtml = res.value; } catch(e){}
+
+    let outText = '', outHtml = '';
+
+    // 提取所有 w:p 段落
+    const paraRe = /<w:p(?:\s[^>]*)?>[\s\S]*?<\/w:p>/g;
+    let pMatch;
+    while ((pMatch = paraRe.exec(xml)) !== null) {
+      const pXml = pMatch[0];
+      const pPr = (pXml.match(/<w:pPr>([\s\S]*?)<\/w:pPr>/) || ['',''])[1];
+      const isList = /<w:numPr/.test(pPr);
+      const styleMatch = pPr.match(/<w:pStyle[^>]*w:val="([^"]*)"/);
+      const isHeading = styleMatch && styleMatch[1].toLowerCase().includes('heading');
+
+      let pText = isList ? '• ' : '';
+      let pHtml = isList ? '• ' : '';
+
+      const runRe = /<w:r(?:\s[^>]*)?>[\s\S]*?<\/w:r>/g;
+      let rMatch;
+      while ((rMatch = runRe.exec(pXml)) !== null) {
+        const d = parseRun(rMatch[0]);
+        pText += d.text;
+        pHtml += d.html;
+      }
+      if (isHeading) pHtml = `<strong>${pHtml}</strong>`;
+      outText += pText + '\n';
+      outHtml += pHtml + '\n';
+    }
+
+    // 提取表格
+    const tblRe = /<w:tbl(?:\s[^>]*)?>[\s\S]*?<\/w:tbl>/g;
+    let tblMatch;
+    while ((tblMatch = tblRe.exec(xml)) !== null) {
+      const trRe = /<w:tr(?:\s[^>]*)?>[\s\S]*?<\/w:tr>/g;
+      let trMatch;
+      while ((trMatch = trRe.exec(tblMatch[0])) !== null) {
+        const tcRe = /<w:tc(?:\s[^>]*)?>[\s\S]*?<\/w:tc>/g;
+        let tcMatch; const rowText = []; const rowHtml = [];
+        while ((tcMatch = tcRe.exec(trMatch[0])) !== null) {
+          let ct = '', ch = '';
+          const cpRe = /<w:p(?:\s[^>]*)?>[\s\S]*?<\/w:p>/g;
+          let cpMatch;
+          while ((cpMatch = cpRe.exec(tcMatch[0])) !== null) {
+            const crRe = /<w:r(?:\s[^>]*)?>[\s\S]*?<\/w:r>/g;
+            let crMatch;
+            while ((crMatch = crRe.exec(cpMatch[0])) !== null) {
+              const d = parseRun(crMatch[0]); ct += d.text; ch += d.html;
+            }
+          }
+          rowText.push(ct); rowHtml.push(ch);
+        }
+        outText += rowText.join('\t') + '\n';
+        outHtml += rowHtml.join(' | ') + '\n';
+      }
+    }
+
+    // 视觉预览：按换行分段
+    const vHtml = outHtml
+      .replace(/\xa0/g, '\u00a0')
+      .split('\n')
+      .map(line => line.trim())
+      .filter(line => line.length > 0)
+      .map(line => `<p>${line}</p>`)
+      .join('') || '<p style="color:#999">（无内容）</p>';
+
+    // mammoth 仅备用，不影响主流程
+    try { await mammoth.convertToHtml({ arrayBuffer: ab }); } catch(e) {}
     return { text: outText.trim(), htmlText: outHtml, visualHtml: vHtml, type: 'DOCX' };
   }
 
@@ -919,8 +1202,8 @@
           <button class="tab active" data-tab="text" style="padding:4px 7px; font-size:0.62rem; white-space:nowrap; flex-shrink:0;">提取内容</button>
           <button class="tab" data-tab="visual" style="padding:4px 7px; font-size:0.62rem; white-space:nowrap; flex-shrink:0;">视觉预览</button>
           <div style="flex-grow: 1;"></div>
-          <button class="btn alt" onclick="syncVisualToEditor(${currentFileIndex})" style="padding:4px 7px; font-size:0.62rem; min-height:auto; white-space:nowrap; flex-shrink:0;">内容替换</button>
           <button class="btn alt" onclick="copySingle(${currentFileIndex})" style="padding:4px 7px; font-size:0.62rem; min-height:auto; white-space:nowrap; flex-shrink:0;">复制此页</button>
+          <button class="btn alt" onclick="syncVisualToEditor(${currentFileIndex})" style="padding:4px 7px; font-size:0.62rem; min-height:auto; white-space:nowrap; flex-shrink:0;">内容替换</button>
         </div>
         <div class="editor-wrap" id="text-panel"><pre class="editor" contenteditable="true" spellcheck="false">${item.htmlText || escapeHTML(item.text)}</pre></div>
         <div class="visual-wrap" id="visual-panel" style="display:none"><div class="visual-box">${item.visualHtml || '<div style="color:#999">无视觉预览</div>'}</div></div>
@@ -1076,10 +1359,31 @@
 
   const renderInfoUI = async () => {
     const data = await getActiveInfo();
+    window._infoPageCount = data.length;
+    // 同步标题缓存，供 switchModalPage 使用（不依赖 infoMgrData）
+    window._infoTitles = data.map(p => p.title || '');
+    // 确保有足够的 modalPage div
+    const modalFooter = document.querySelector('.modal-footer');
     data.forEach((page, idx) => {
-      const el = document.getElementById(`modalPage${idx + 1}`);
-      if(el) el.innerHTML = page.content;
+      let el = document.getElementById(`modalPage${idx + 1}`);
+      if (!el) {
+        el = document.createElement('div');
+        el.id = `modalPage${idx + 1}`;
+        el.className = 'modal-body';
+        el.style.display = 'none';
+        if (modalFooter) modalFooter.before(el);
+      }
+      el.innerHTML = page.content;
     });
+    // 删除多余页
+    for (let i = data.length + 1; i <= 10; i++) {
+      const el = document.getElementById(`modalPage${i}`);
+      if (el) el.remove();
+    }
+    // 同步 infoMgrData 的 title（如果已有管理数据）
+    if (infoMgrData.length) {
+      data.forEach((page, i) => { if (infoMgrData[i]) infoMgrData[i].title = page.title || infoMgrData[i].title; });
+    }
   };
 
   let editingIndex = -1;
@@ -1090,17 +1394,74 @@
     await renderInfoUI();
     
     const latestId = logData[0] ? logData[0].date + logData[0].time : '';
+    // 用"文件版本戳"而不是 lastSeen 来判断，避免同一浏览器导出后打开不弹窗
+    // 版本戳 = latestId + STATIC_LOGS 长度，只要日志有变化就会不同
+    const fileStamp = latestId + '_' + (typeof STATIC_LOGS !== 'undefined' ? STATIC_LOGS.length : 0);
     const lastSeen = localStorage.getItem('last_seen_log');
+    const lastStamp = localStorage.getItem('last_seen_stamp');
     
-    if(latestId && latestId !== lastSeen) {
+    if(latestId && (latestId !== lastSeen || lastStamp !== fileStamp)) {
       openChangelog();
       localStorage.setItem('last_seen_log', latestId);
+      localStorage.setItem('last_seen_stamp', fileStamp);
       if (!localStorage.getItem('extractor_first_open')) {
         setTimeout(() => { openModal(1); localStorage.setItem('extractor_first_open', 'true'); }, 1200);
       }
     } else if (!localStorage.getItem('extractor_first_open')) {
       setTimeout(() => { openModal(1); localStorage.setItem('extractor_first_open', 'true'); }, 1200);
     }
+  };
+
+  // ---- 隐藏触发逻辑 ----
+  // 变量名混淆：_x0 = 长按计时器，_x1 = 触发阈值(ms)
+  const _x1 = 2800;
+  let _x0a = null, _x0b = null;
+
+  // 触发器A：使用说明弹窗底部页码区域，长按约3秒
+  const _ta = document.getElementById('modalPageIndicator');
+  const _startA = () => { _x0a = setTimeout(() => { openInfoMgr(); _x0a = null; }, _x1); };
+  const _endA = () => { if (_x0a) { clearTimeout(_x0a); _x0a = null; } };
+  _ta.addEventListener('mousedown', _startA);
+  _ta.addEventListener('touchstart', _startA, {passive:true});
+  _ta.addEventListener('mouseup', _endA);
+  _ta.addEventListener('mouseleave', _endA);
+  _ta.addEventListener('touchend', _endA);
+
+  // 触发器B：更新日志弹窗标题，长按约3秒
+  const _tb = document.getElementById('changelogTitle');
+  const _startB = () => { _x0b = setTimeout(() => { document.getElementById('logManager').style.display = 'block'; _x0b = null; }, _x1); };
+  const _endB = () => { if (_x0b) { clearTimeout(_x0b); _x0b = null; } };
+  _tb.addEventListener('mousedown', _startB);
+  _tb.addEventListener('touchstart', _startB, {passive:true});
+  _tb.addEventListener('mouseup', _endB);
+  _tb.addEventListener('mouseleave', _endB);
+  _tb.addEventListener('touchend', _endB);
+
+  // 触发器C：H1标题，长按约3秒导出（原30次点击改为长按）
+  const _tc = document.querySelector('h1');
+  let _x0c = null;
+  const _startC = () => { _x0c = setTimeout(async () => { _x0c = null; await downloadUpdatedHtml(); }, _x1); };
+  const _endC = () => { if (_x0c) { clearTimeout(_x0c); _x0c = null; } };
+  _tc.addEventListener('mousedown', _startC);
+  _tc.addEventListener('touchstart', _startC, {passive:true});
+  _tc.addEventListener('mouseup', _endC);
+  _tc.addEventListener('mouseleave', _endC);
+  _tc.addEventListener('touchend', _endC);
+
+  // 导出部署版（在信息管理器内调用）
+  window.exportDeploy = async () => {
+    window._savingForDeploy = true;
+    await saveInfoMgr();
+    window._savingForDeploy = false;
+    await downloadUpdatedHtml();
+  };
+
+  window.insertAtCursor = (id, startTag, endTag) => {
+    const area = document.getElementById(id);
+    const start = area.selectionStart, end = area.selectionEnd;
+    const text = area.value, sel = text.substring(start, end);
+    area.value = text.substring(0, start) + startTag + sel + endTag + text.substring(end);
+    area.focus(); area.selectionStart = start + startTag.length; area.selectionEnd = area.selectionStart + sel.length;
   };
 
   const renderManagerList = (data) => {
@@ -1116,74 +1477,323 @@
     `).join('');
   };
 
-  let logClicks = 0;
-  let logClickStartTime = 0;
-  document.getElementById('changelogTitle').onclick = () => {
-    const now = Date.now();
-    if (logClicks === 0) logClickStartTime = now;
-    if (now - logClickStartTime > 15000) { logClicks = 1; logClickStartTime = now; } else { logClicks++; }
-    if(logClicks >= 100) {
-      document.getElementById('logManager').style.display = 'block';
-      logClicks = 0;
+  // ===== 说明页管理系统 =====
+  // infoMgrData: [{ title, entries: [{type, num, label, content}] }]
+  let infoMgrData = [];
+  let infoMgrPageIdx = 0;
+  let infoMgrEditingEntryIdx = -1;
+  let infoMgrDragSrc = -1;
+
+  // 把旧的 STATIC_INFO HTML格式 转换成结构化数据
+  function parseInfoPageToEntries(htmlContent) {
+    const div = document.createElement('div');
+    div.innerHTML = htmlContent;
+    const entries = [];
+    // 检测 rule-item 条目
+    const ruleItems = div.querySelectorAll('.rule-item');
+    if (ruleItems.length > 0) {
+      ruleItems.forEach(item => {
+        const numEl = item.querySelector('.rule-num');
+        const contentEl = item.querySelector('.rule-num + div, .rule-num ~ div');
+        entries.push({
+          type: 'rule',
+          num: numEl ? numEl.textContent.trim() : '•',
+          content: contentEl ? contentEl.innerHTML.trim() : item.innerHTML
+        });
+      });
+      // 检测有无前置文字（rule-box之外的p标签）
+      const preText = [];
+      div.childNodes.forEach(n => {
+        if (n.nodeType === 1 && !n.classList.contains('rule-box') && n.tagName !== 'DIV') {
+          preText.push({ type: 'html', content: n.outerHTML });
+        }
+      });
+      return [...preText, ...entries];
     }
-  };
+    // fallback: 整体作为html条目
+    return [{ type: 'html', content: htmlContent }];
+  }
 
-  let infoClicks = 0;
-  let infoClickStartTime = 0;
-  document.getElementById('modalTitle').onclick = async () => {
-    const now = Date.now();
-    if (infoClicks === 0) infoClickStartTime = now;
-    if (now - infoClickStartTime > 15000) { infoClicks = 1; infoClickStartTime = now; } else { infoClicks++; }
-    if(infoClicks >= 100) {
-      document.getElementById('infoManager').style.display = 'block';
-      const data = await getActiveInfo();
-      document.getElementById('mgrInfoContent').value = data[0].content;
-      infoClicks = 0;
+  // 把结构化数据渲染成HTML
+  function renderEntriesToHtml(entries) {
+    let html = '';
+    const rules = entries.filter(e => e.type === 'rule');
+    const others = entries.filter(e => e.type !== 'rule');
+    // 非rule条目先渲染
+    others.forEach(e => {
+      if (e.type === 'text') {
+        html += `<p>${escapeHTML(e.content)}</p>`;
+      } else {
+        html += e.content || '';
+      }
+    });
+    if (rules.length > 0) {
+      html += '<div class="rule-box" style="border:none; padding-top:0;">';
+      rules.forEach(e => {
+        html += `<div class="rule-item"><div class="rule-num">${escapeHTML(e.num||'•')}</div><div>${e.content}</div></div>`;
+      });
+      html += '</div>';
     }
+    return html;
+  }
+
+  window.openInfoMgr = async () => {
+    const rawData = await getActiveInfo();
+    // 构建管理数据：每页有 title + entries
+    const pageTitles = ['使用说明 / INFO', '功能用法 / USAGE', '其他功能 / OTHERS'];
+    infoMgrData = rawData.map((page, i) => ({
+      title: page.title || pageTitles[i] || `第${i+1}页`,
+      entries: parseInfoPageToEntries(page.content)
+    }));
+    infoMgrPageIdx = 0;
+    renderInfoMgrTabs();
+    renderInfoMgrEditor();
+    document.getElementById('infoMgrModal').style.display = 'flex';
   };
 
-  window.editInfoPage = async (idx) => {
-    const data = await getActiveInfo();
-    document.getElementById('mgrInfoContent').value = data[idx].content;
+  window.closeInfoMgr = () => {
+    document.getElementById('infoMgrModal').style.display = 'none';
   };
 
-  window.insertAtCursor = (id, startTag, endTag) => {
-    const area = document.getElementById(id);
-    const start = area.selectionStart;
-    const end = area.selectionEnd;
-    const text = area.value;
-    const selectedText = text.substring(start, end);
-    const replacement = startTag + selectedText + endTag;
-    area.value = text.substring(0, start) + replacement + text.substring(end);
-    area.focus();
-    area.selectionStart = start + startTag.length;
-    area.selectionEnd = area.selectionStart + selectedText.length;
+  function renderInfoMgrTabs() {
+    const tabs = document.getElementById('infoMgrTabs');
+    tabs.innerHTML = '';
+    infoMgrData.forEach((page, i) => {
+      const tab = document.createElement('div');
+      tab.className = 'info-mgr-tab' + (i === infoMgrPageIdx ? ' active' : '');
+      tab.innerHTML = `<span>${escapeHTML(page.title)}</span><span class="tab-sub">${page.entries.length} 条目</span>`;
+      tab.onclick = () => { infoMgrPageIdx = i; renderInfoMgrTabs(); renderInfoMgrEditor(); };
+      tabs.appendChild(tab);
+    });
+    // 添加新页按钮
+    const addBtn = document.createElement('button');
+    addBtn.className = 'info-mgr-add-page';
+    addBtn.textContent = '+ 新增页面';
+    addBtn.onclick = () => {
+      infoMgrData.push({ title: '新页面', entries: [] });
+      infoMgrPageIdx = infoMgrData.length - 1;
+      renderInfoMgrTabs(); renderInfoMgrEditor();
+    };
+    tabs.appendChild(addBtn);
+    // 删除页（超过1页才显示）
+    if (infoMgrData.length > 1) {
+      const delBtn = document.createElement('button');
+      delBtn.className = 'info-mgr-del-page';
+      delBtn.textContent = '删除当前页';
+      delBtn.onclick = () => {
+        if (!confirm('确定删除这一页？')) return;
+        infoMgrData.splice(infoMgrPageIdx, 1);
+        infoMgrPageIdx = Math.min(infoMgrPageIdx, infoMgrData.length - 1);
+        renderInfoMgrTabs(); renderInfoMgrEditor();
+      };
+      tabs.appendChild(delBtn);
+    }
+  }
+
+  function renderInfoMgrEditor() {
+    const page = infoMgrData[infoMgrPageIdx];
+    document.getElementById('infoMgrPageTitle').value = page.title;
+    document.getElementById('infoMgrPageTitle').oninput = () => {
+      infoMgrData[infoMgrPageIdx].title = document.getElementById('infoMgrPageTitle').value;
+      renderInfoMgrTabs();
+    };
+    const list = document.getElementById('infoEntryList');
+    list.innerHTML = '';
+    page.entries.forEach((entry, i) => renderEntryItem(entry, i, list));
+    infoMgrEditingEntryIdx = -1;
+  }
+
+  function renderEntryItem(entry, i, container) {
+    const item = document.createElement('div');
+    item.className = 'info-entry-item';
+    item.draggable = true;
+    const typeLabel = { rule: '条目', text: '文字', html: 'HTML' }[entry.type] || entry.type;
+    const preview = entry.type === 'rule'
+      ? `[${entry.num||'•'}] ${entry.content.replace(/<[^>]+>/g,'').substring(0,30)}`
+      : entry.content.replace(/<[^>]+>/g,'').substring(0,40);
+
+    const head = document.createElement('div'); head.className = 'info-entry-head';
+    head.innerHTML = `<span class="info-entry-drag">⠿</span><span class="info-entry-label">${escapeHTML(preview)||'(空)'}</span><span class="info-entry-type-badge">${typeLabel}</span>`;
+    const body = document.createElement('div'); body.className = 'info-entry-body';
+    body.appendChild(buildEntryForm(entry, i));
+    item.appendChild(head); item.appendChild(body);
+
+    head.onclick = (e) => {
+      if (e.target.closest('.entry-actions,.ef-save,.ef-del,.ef-ins,.mgr-mini-btn')) return;
+      const isEditing = item.classList.contains('editing');
+      document.querySelectorAll('.info-entry-item').forEach(el => el.classList.remove('editing'));
+      if (!isEditing) item.classList.add('editing');
+    };
+    item.ondragstart = () => { infoMgrDragSrc = i; item.classList.add('dragging'); };
+    item.ondragend = () => item.classList.remove('dragging');
+    item.ondragover = (e) => { e.preventDefault(); item.classList.add('drag-over'); };
+    item.ondragleave = () => item.classList.remove('drag-over');
+    item.ondrop = (e) => {
+      e.preventDefault(); item.classList.remove('drag-over');
+      if (infoMgrDragSrc === i) return;
+      const entries = infoMgrData[infoMgrPageIdx].entries;
+      const moved = entries.splice(infoMgrDragSrc, 1)[0];
+      entries.splice(i, 0, moved);
+      renderInfoMgrEditor();
+    };
+    container.appendChild(item);
+    bindEntryFormEvents(item, entry, i);
+  }
+
+  function buildEntryForm(entry, i) {
+    // 用 DOM API 构建表单，完全避免 HTML 属性引号问题
+    const wrap = document.createElement('div');
+    wrap.className = 'entry-form-inner';
+
+    const insertSnippets = entry.type === 'rule'
+      ? [['加粗', "<span class='bold-black'>", '</span>'], ['红字', "<span class='angry-text'>", '</span>'], ['B', '<b>', '</b>'], ['I', '<i>', '</i>']]
+      : entry.type === 'html'
+      ? [['段落', '<p>', '</p>'], ['加粗', "<span class='bold-black'>", '</span>'], ['红字', "<span class='angry-text'>", '</span>'], ['列表行', "<div class='rule-item'><div class='rule-num'>1</div><div>", '</div></div>'], ['标题', "<p style='font-family:\"Noto Serif SC\",serif;font-weight:900;font-size:1.1rem;'>", '</p>']]
+      : [];
+
+    if (entry.type === 'rule') {
+      const numField = document.createElement('div'); numField.className = 'entry-field';
+      const numLabel = document.createElement('label'); numLabel.textContent = '序号/标识 (NUM)';
+      const numInput = document.createElement('input'); numInput.className = 'ef-num'; numInput.type = 'text';
+      numInput.value = entry.num || ''; numInput.placeholder = '如：1, A, H, •';
+      numField.append(numLabel, numInput); wrap.appendChild(numField);
+    }
+
+    const contentField = document.createElement('div'); contentField.className = 'entry-field';
+    const contentLabel = document.createElement('label');
+    contentLabel.textContent = entry.type === 'rule' ? '内容 (支持HTML加粗/红字等)' : entry.type === 'text' ? '纯文字内容' : 'HTML 内容';
+    const contentTA = document.createElement('textarea'); contentTA.className = 'ef-content';
+    contentTA.rows = entry.type === 'html' ? 5 : 3; contentTA.value = entry.content || '';
+    contentField.append(contentLabel, contentTA); wrap.appendChild(contentField);
+
+    if (insertSnippets.length > 0) {
+      const snipField = document.createElement('div'); snipField.className = 'entry-field';
+      const snipLabel = document.createElement('label'); snipLabel.textContent = '快速插入';
+      const snipRow = document.createElement('div'); snipRow.style.cssText = 'display:flex;gap:4px;flex-wrap:wrap;';
+      insertSnippets.forEach(([label, startTag, endTag]) => {
+        const btn = document.createElement('button'); btn.className = 'mgr-mini-btn ef-ins';
+        btn.textContent = label;
+        btn.onclick = (e) => {
+          e.stopPropagation();
+          const s = contentTA.selectionStart, en = contentTA.selectionEnd;
+          const sel = contentTA.value.substring(s, en);
+          contentTA.value = contentTA.value.substring(0, s) + startTag + sel + endTag + contentTA.value.substring(en);
+          contentTA.focus(); contentTA.selectionStart = s + startTag.length; contentTA.selectionEnd = s + startTag.length + sel.length;
+        };
+        snipRow.appendChild(btn);
+      });
+      snipField.append(snipLabel, snipRow); wrap.appendChild(snipField);
+    }
+
+    const actions = document.createElement('div'); actions.className = 'entry-actions';
+    const saveBtn = document.createElement('button'); saveBtn.className = 'btn ef-save';
+    saveBtn.style.cssText = 'flex:1;padding:5px;font-size:0.65rem;'; saveBtn.textContent = '保存此条';
+    saveBtn.onclick = (e) => {
+      e.stopPropagation();
+      const entries = infoMgrData[infoMgrPageIdx].entries;
+      if (entry.type === 'rule') { entries[i].num = wrap.querySelector('.ef-num').value; }
+      entries[i].content = contentTA.value;
+      renderInfoMgrEditor();
+      showToast('已更新，记得点"保存全部"');
+    };
+    const delBtn = document.createElement('button'); delBtn.className = 'btn alt ef-del';
+    delBtn.style.cssText = 'padding:5px 10px;font-size:0.65rem;'; delBtn.textContent = '删除';
+    delBtn.onclick = (e) => {
+      e.stopPropagation();
+      if (!confirm('删除此条目？')) return;
+      infoMgrData[infoMgrPageIdx].entries.splice(i, 1);
+      renderInfoMgrEditor();
+    };
+    actions.append(saveBtn, delBtn); wrap.appendChild(actions);
+    return wrap;
+  }
+
+  function bindEntryFormEvents(item, entry, i) {
+    // 所有事件已在 buildEntryForm 的 DOM 节点上直接绑定，此函数保留为空兼容调用
+  }
+
+  window.addInfoEntry = (type) => {
+    if (!infoMgrData.length || infoMgrPageIdx < 0 || infoMgrPageIdx >= infoMgrData.length) {
+      showToast('请先打开管理面板'); return;
+    }
+    const defaults = {
+      rule: { type:'rule', num:'•', content:'' },
+      text: { type:'text', content:'' },
+      html: { type:'html', content:'' }
+    };
+    infoMgrData[infoMgrPageIdx].entries.push({ ...defaults[type] });
+    renderInfoMgrEditor();
+    renderInfoMgrTabs();
+    requestAnimationFrame(() => {
+      const list = document.getElementById('infoEntryList');
+      const items = list.querySelectorAll('.info-entry-item');
+      if (items.length) {
+        const last = items[items.length - 1];
+        last.classList.add('editing');
+        last.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    });
   };
 
-  window.publishNewInfo = async () => {
-    const idx = parseInt(document.getElementById('mgrInfoPageSelect').value);
-    const content = document.getElementById('mgrInfoContent').value;
-    let data = await getActiveInfo();
-    data[idx].content = content;
-    localStorage.setItem('managed_info', JSON.stringify(data));
+  window.saveInfoMgr = async () => {
+    // 把管理数据转回 STATIC_INFO 格式
+    const newData = infoMgrData.map(page => ({
+      title: page.title,
+      content: renderEntriesToHtml(page.entries)
+    }));
+    localStorage.setItem('managed_info', JSON.stringify(newData));
     await renderInfoUI();
-    showToast('已保存到本地');
+    // 同步页面数量到 switchModalPage
+    rebuildModalPages(newData);
+    renderInfoMgrTabs();
+    // 单独点"保存"时才提示，由调用方决定是否提示
+    if (!window._savingForDeploy) showToast('保存成功！');
   };
 
-  window.cancelInfoEdit = () => {
-    document.getElementById('infoManager').style.display = 'none';
-  };
-
-  let h1Clicks = 0;
-  let h1StartTime = 0;
-  window.handleH1Click = async () => {
-    const now = Date.now();
-    if (h1Clicks === 0) h1StartTime = now;
-    if (now - h1StartTime > 15000) { h1Clicks = 1; h1StartTime = now; } else { h1Clicks++; }
-    if (h1Clicks >= 30) {
-      h1Clicks = 0;
-      await downloadUpdatedHtml();
+  function rebuildModalPages(data) {
+    // 动态调整 modal 页面数量
+    const total = data.length;
+    // 更新页面内容
+    data.forEach((page, i) => {
+      let el = document.getElementById(`modalPage${i+1}`);
+      if (!el) {
+        el = document.createElement('div');
+        el.id = `modalPage${i+1}`;
+        el.className = 'modal-body';
+        el.style.display = 'none';
+        document.querySelector('.modal-footer').before(el);
+      }
+      el.innerHTML = page.content;
+    });
+    // 删除多余的页
+    for (let i = total + 1; i <= 10; i++) {
+      const el = document.getElementById(`modalPage${i}`);
+      if (el) el.remove();
     }
+    // 更新 switchModalPage 的页数上限
+    window._infoPageCount = total;
+    // 重置到第一页
+    if (window.currentModalPage > total) window.currentModalPage = 1;
+    switchModalPage(window.currentModalPage);
+  }
+
+  // 更新 switchModalPage 支持动态页数
+  window.switchModalPage = (n) => {
+    const total = window._infoPageCount || 3;
+    if (n < 1 || n > total) return;
+    for (let p = 1; p <= Math.max(total, 10); p++) {
+      const el = document.getElementById(`modalPage${p}`);
+      if (el) el.style.display = (p === n) ? 'block' : 'none';
+    }
+    // 优先从 _infoTitles（每次 renderInfoUI 时同步），否则从 infoMgrData，最后才回退
+    const title = (window._infoTitles && window._infoTitles[n-1])
+      || (infoMgrData[n-1] && infoMgrData[n-1].title)
+      || `第${n}页`;
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalPageIndicator').textContent = `PAGE ${n} / ${total}`;
+    document.getElementById('modalPrev').disabled = n === 1;
+    document.getElementById('modalNext').disabled = n === total;
+    window.currentModalPage = n;
   };
 
   window.publishNewLog = async () => {
@@ -1207,6 +1817,8 @@
     loadData();
     clearMgrInputs();
     showToast('已保存到本地');
+    // 保存后自动关闭日志管理面板
+    document.getElementById('logManager').style.display = 'none';
   };
 
   window.pushToCloud = async () => {
@@ -1264,19 +1876,302 @@
     const logData = await getActiveLogs();
     const infoData = await getActiveInfo();
     const binId = document.getElementById('cloudIdInput').value.trim();
-    const currentSource = document.documentElement.outerHTML;
-    
-    let updatedSource = currentSource.replace(/const STATIC_LOGS = \[[\s\S]*?\];/, "const STATIC_LOGS = " + JSON.stringify(logData, null, 2) + ";");
-    updatedSource = updatedSource.replace(/const STATIC_INFO = \[[\s\S]*?\];/, "const STATIC_INFO = " + JSON.stringify(infoData, null, 2) + ";");
-    updatedSource = updatedSource.replace(/const CLOUD_BIN_ID = ".*?";/, `const CLOUD_BIN_ID = "${binId}";`);
-    
-    const blob = new Blob(["<!-- qaq html editor -->\n<!DOCTYPE html>\n<html lang=\"zh-CN\" data-theme=\"light\">" + updatedSource + "</html>"], {type: 'text/html;charset=utf-8'});
-    triggerDownload(blob, "Extractor_Sync_Ready.html");
-    alert("源码已自动替换！\n下载的文件已包含最新的日志、说明和云端 ID。");
+
+    // 导出前：关闭所有弹窗、清空文件内容和历史侧栏显示
+    const _modals = ['infoModal','changelogModal','infoMgrModal','logManager'];
+    const _modalStates = _modals.map(id => {
+      const el = document.getElementById(id);
+      const prev = el ? el.style.display : '';
+      if (el) el.style.display = 'none';
+      return prev;
+    });
+    // 临时清空 output / fileIndex / historyList，避免当前文件和历史记录混入导出版
+    const _outputEl = document.getElementById('output');
+    const _fileIndexEl = document.getElementById('fileIndex');
+    const _historyListEl = document.getElementById('historyList');
+    const _outputPrev = _outputEl ? _outputEl.innerHTML : '';
+    const _fileIndexPrev = _fileIndexEl ? _fileIndexEl.innerHTML : '';
+    const _historyListPrev = _historyListEl ? _historyListEl.innerHTML : '';
+    if (_outputEl) _outputEl.innerHTML = '<div class="empty">等待文件载入…</div>';
+    if (_fileIndexEl) _fileIndexEl.innerHTML = '';
+    if (_historyListEl) _historyListEl.innerHTML = '';
+    // 抓快照前隐藏 toast，避免 toast 文字被截入导出版
+    const _toastEl = document.getElementById('toast');
+    const _toastPrev = _toastEl ? _toastEl.style.display : '';
+    if (_toastEl) _toastEl.style.display = 'none';
+    // 重新抓取当前 DOM 的 outerHTML
+    let src = document.documentElement.outerHTML;
+    if (_toastEl) _toastEl.style.display = _toastPrev;
+    // 还原弹窗状态和内容
+    _modals.forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = _modalStates[i];
+    });
+    if (_outputEl) _outputEl.innerHTML = _outputPrev;
+    if (_fileIndexEl) _fileIndexEl.innerHTML = _fileIndexPrev;
+    if (_historyListEl) _historyListEl.innerHTML = _historyListPrev;
+
+    // 1. 替换 STATIC_LOGS
+    src = src.replace(/const STATIC_LOGS = \[[\s\S]*?\];/, 'const STATIC_LOGS = ' + JSON.stringify(logData, null, 2) + ';');
+    // 2. 替换 STATIC_INFO
+    src = src.replace(/const STATIC_INFO = \[[\s\S]*?\];/, 'const STATIC_INFO = ' + JSON.stringify(infoData, null, 2) + ';');
+    // 3. 替换 CLOUD_BIN_ID
+    src = src.replace(/const CLOUD_BIN_ID = ".*?";/, `const CLOUD_BIN_ID = "${binId}";`);
+
+    const blob = new Blob(['<!DOCTYPE html>\n' + src], {type: 'text/html;charset=utf-8'});
+    triggerDownload(blob, 'Extractor_Deploy.html');
+    showToast('部署版已导出，上传即生效');
   };
+
+  // ===== 搜索功能 =====
+  const SEARCH_PER_PAGE = 3;
+  let searchMatches = [];      // 每个元素: { mark, beforeText, afterText }
+  let searchCurrentIdx = -1;
+  let searchTerm = '';
+  let searchResultPage = 0;
+  let searchPanelOpen = false;
+
+  const searchInput   = document.getElementById('searchInput');
+  const searchCount   = document.getElementById('searchCount');
+  const searchResults = document.getElementById('searchResults');
+  const searchTrigger = document.getElementById('searchTrigger');
+  const searchPanel   = document.getElementById('searchPanel');
+  const searchNoResult= document.getElementById('searchNoResult');
+  const searchResultPager = document.getElementById('searchResultPager');
+  const searchPagerInfo   = document.getElementById('searchPagerInfo');
+
+  function escapeRegex(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+  function clearSearchHighlights() {
+    document.querySelectorAll('mark.search-hl').forEach(m => {
+      const p = m.parentNode;
+      if (p) { p.replaceChild(document.createTextNode(m.textContent), m); p.normalize(); }
+    });
+  }
+
+  // 从 mark 节点获取它在编辑器纯文本中的实际位置
+  function getMarkContext(mark) {
+    const editor = mark.closest('pre.editor');
+    if (!editor) return { before: '', after: '' };
+    // 遍历编辑器所有文本节点，按顺序拼接，同时找到 mark 的位置
+    let offset = 0;
+    let markStart = -1;
+    const walker = document.createTreeWalker(editor, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT, null);
+    let node = walker.nextNode();
+    while (node) {
+      if (node.nodeType === Node.ELEMENT_NODE && node === mark) {
+        markStart = offset;
+        offset += mark.textContent.length;
+      } else if (node.nodeType === Node.TEXT_NODE && !mark.contains(node)) {
+        offset += node.textContent.length;
+      }
+      node = walker.nextNode();
+    }
+    const fullText = editor.textContent;
+    if (markStart < 0) markStart = fullText.indexOf(mark.textContent);
+    const kwLen = mark.textContent.length;
+    const before = fullText.slice(Math.max(0, markStart - 32), markStart);
+    const after  = fullText.slice(markStart + kwLen, markStart + kwLen + 32);
+    return { before, after };
+  }
+
+  function highlightInNode(node, regex) {
+    const found = [];
+    if (node.nodeType === 3) {
+      const text = node.textContent;
+      regex.lastIndex = 0;
+      if (!regex.test(text)) return found;
+      regex.lastIndex = 0;
+      const parts = []; let lastIdx = 0; let match;
+      while ((match = regex.exec(text)) !== null) {
+        if (match.index > lastIdx) parts.push(document.createTextNode(text.slice(lastIdx, match.index)));
+        const mk = document.createElement('mark');
+        mk.className = 'search-hl'; mk.textContent = match[0];
+        parts.push(mk); found.push(mk); lastIdx = regex.lastIndex;
+      }
+      if (lastIdx < text.length) parts.push(document.createTextNode(text.slice(lastIdx)));
+      const frag = document.createDocumentFragment();
+      parts.forEach(p => frag.appendChild(p));
+      node.parentNode.replaceChild(frag, node);
+    } else if (node.nodeType === 1 && node.nodeName !== 'MARK' && node.nodeName !== 'SCRIPT' && node.nodeName !== 'STYLE') {
+      Array.from(node.childNodes).forEach(child => found.push(...highlightInNode(child, regex)));
+    }
+    return found;
+  }
+
+  function doSearch(term) {
+    clearSearchHighlights();
+    searchMatches = []; searchCurrentIdx = -1; searchResultPage = 0;
+    searchResults.innerHTML = ''; searchResults.style.display = 'none';
+    searchNoResult.style.display = 'none'; searchCount.textContent = '';
+    searchResultPager.classList.remove('visible');
+
+    if (!term || term.length < 1) { searchTrigger.classList.remove('has-results'); return; }
+
+    const regex = new RegExp(escapeRegex(term), 'gi');
+    const marks = [];
+    document.querySelectorAll('pre.editor').forEach(editor => {
+      marks.push(...highlightInNode(editor, regex));
+    });
+
+    if (!marks.length) {
+      searchNoResult.style.display = 'block';
+      searchCount.textContent = '无结果';
+      searchTrigger.classList.remove('has-results');
+      return;
+    }
+
+    // 提取上下文（高亮后再提取，位置准确）
+    searchMatches = marks.map(mk => {
+      const ctx = getMarkContext(mk);
+      return { mark: mk, before: ctx.before, after: ctx.after };
+    });
+
+    searchTrigger.classList.add('has-results');
+    searchCurrentIdx = 0;
+    setCurrentMatch(0);
+    renderResultPage(0);
+  }
+
+  function renderResultPage(page) {
+    searchResults.innerHTML = '';
+    if (!searchMatches.length) { searchResults.style.display = 'none'; return; }
+    const total = searchMatches.length;
+    const totalPages = Math.ceil(total / SEARCH_PER_PAGE);
+    const start = page * SEARCH_PER_PAGE;
+    const end = Math.min(start + SEARCH_PER_PAGE, total);
+
+    for (let i = start; i < end; i++) {
+      const { mark, before, after } = searchMatches[i];
+      const item = document.createElement('div');
+      item.className = 'search-result-item' + (i === searchCurrentIdx ? ' current' : '');
+      const bSpan = document.createElement('span'); bSpan.className = 'sri-before'; bSpan.textContent = before;
+      const kSpan = document.createElement('span'); kSpan.className = 'sri-kw';    kSpan.textContent = mark.textContent;
+      const aSpan = document.createElement('span'); aSpan.className = 'sri-after'; aSpan.textContent = after;
+      item.appendChild(bSpan); item.appendChild(kSpan); item.appendChild(aSpan);
+      item.onclick = (function(ii) { return () => {
+        searchCurrentIdx = ii; setCurrentMatch(ii);
+        renderResultPage(Math.floor(ii / SEARCH_PER_PAGE));
+      }; })(i);
+      searchResults.appendChild(item);
+    }
+    searchResults.style.display = 'block';
+    searchResultPage = page;
+
+    if (totalPages > 1) {
+      searchResultPager.classList.add('visible');
+      searchPagerInfo.textContent = `第 ${page+1} / ${totalPages} 页，共 ${total} 个`;
+      document.getElementById('srPrev').disabled = page === 0;
+      document.getElementById('srNext').disabled = page === totalPages - 1;
+    } else {
+      searchResultPager.classList.remove('visible');
+    }
+    searchCount.textContent = (searchCurrentIdx + 1) + '/' + total;
+  }
+
+  function setCurrentMatch(idx) {
+    searchMatches.forEach((m, i) => m.mark.classList.toggle('current-hl', i === idx));
+    if (searchMatches[idx]) searchMatches[idx].mark.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    searchCount.textContent = (idx + 1) + '/' + searchMatches.length;
+  }
+
+  function openSearchPanel() {
+    searchPanel.classList.add('open'); searchPanelOpen = true;
+    setTimeout(() => searchInput.focus(), 200);
+  }
+  function closeSearchPanel() {
+    searchPanel.classList.remove('open'); searchPanelOpen = false;
+  }
+
+  searchTrigger.onclick = () => { searchPanelOpen ? closeSearchPanel() : openSearchPanel(); };
+  document.getElementById('searchClose').onclick = closeSearchPanel;
+
+  searchInput.addEventListener('input', () => { searchTerm = searchInput.value.trim(); doSearch(searchTerm); });
+  searchInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      if (!searchMatches.length) return;
+      searchCurrentIdx = e.shiftKey
+        ? (searchCurrentIdx - 1 + searchMatches.length) % searchMatches.length
+        : (searchCurrentIdx + 1) % searchMatches.length;
+      setCurrentMatch(searchCurrentIdx);
+      renderResultPage(Math.floor(searchCurrentIdx / SEARCH_PER_PAGE));
+      e.preventDefault();
+    } else if (e.key === 'Escape') closeSearchPanel();
+  });
+  document.getElementById('searchPrev').onclick = () => {
+    if (!searchMatches.length) return;
+    searchCurrentIdx = (searchCurrentIdx - 1 + searchMatches.length) % searchMatches.length;
+    setCurrentMatch(searchCurrentIdx); renderResultPage(Math.floor(searchCurrentIdx / SEARCH_PER_PAGE));
+  };
+  document.getElementById('searchNext').onclick = () => {
+    if (!searchMatches.length) return;
+    searchCurrentIdx = (searchCurrentIdx + 1) % searchMatches.length;
+    setCurrentMatch(searchCurrentIdx); renderResultPage(Math.floor(searchCurrentIdx / SEARCH_PER_PAGE));
+  };
+  document.getElementById('srPrev').onclick = () => { if (searchResultPage > 0) renderResultPage(searchResultPage - 1); };
+  document.getElementById('srNext').onclick = () => {
+    const totalPages = Math.ceil(searchMatches.length / SEARCH_PER_PAGE);
+    if (searchResultPage < totalPages - 1) renderResultPage(searchResultPage + 1);
+  };
+
+  // 有文件时才显示搜索图标
+  const _origRender = render;
+  render = function() {
+    _origRender();
+    const hasFiles = filesData && filesData.length > 0;
+    searchTrigger.style.display = hasFiles ? 'flex' : 'none';
+    if (!hasFiles) closeSearchPanel();
+    if (searchTerm) setTimeout(() => doSearch(searchTerm), 60);
+  };
+
+  // ===== Emoji 多系统兼容字体注入 =====
+  (function() {
+    var s = document.createElement('style');
+    s.textContent = [
+      'pre.editor,.changelog-list li,.modal-body p,.modal-body div,.h-title,.mgr-item-info,input,textarea,button{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Apple Color Emoji","Noto Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Android Emoji","EmojiOne Color","Twemoji Mozilla",sans-serif}',
+      'pre.editor{font-family:"JetBrains Mono",Consolas,monospace,"Apple Color Emoji","Noto Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Android Emoji","EmojiOne Color","Twemoji Mozilla"}',
+      /* 阅读体开启时：Noto Serif SC + emoji */
+      '.visual-box:not(.visual-font-off){font-family:"Noto Serif SC",serif,"Apple Color Emoji","Noto Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Android Emoji","EmojiOne Color","Twemoji Mozilla"}',
+      /* 阅读体关闭时：Inter + emoji */
+      '.visual-box.visual-font-off,.visual-box.visual-font-off p,.visual-box.visual-font-off li,.visual-box.visual-font-off span{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Apple Color Emoji","Noto Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Android Emoji","EmojiOne Color","Twemoji Mozilla",sans-serif!important}'
+    ].join('');
+    document.head.appendChild(s);
+  })();
 
   loadData();
 })();
 </script>
-</body>
-</html>
+
+<script>
+function toggleVisualFont(enabled) {
+  // 用 body class 控制全局，新渲染的 visual-box 也自动生效
+  document.body.classList.toggle('visual-font-off-global', !enabled);
+  document.querySelectorAll('.visual-box').forEach(el => {
+    el.classList.toggle('visual-font-off', !enabled);
+  });
+  localStorage.setItem('visualFontEnabled', enabled ? '1' : '0');
+}
+
+// 新 visual-box 渲染后自动同步状态
+const _visualFontObserver = new MutationObserver(() => {
+  const enabled = localStorage.getItem('visualFontEnabled') !== '0';
+  document.querySelectorAll('.visual-box:not([data-font-init])').forEach(el => {
+    el.classList.toggle('visual-font-off', !enabled);
+    el.setAttribute('data-font-init', '1');
+  });
+});
+_visualFontObserver.observe(document.body, { childList: true, subtree: true });
+
+document.addEventListener('DOMContentLoaded', function () {
+  const enabled = localStorage.getItem('visualFontEnabled') !== '0';
+  document.querySelectorAll('.visual-box').forEach(el => {
+    el.classList.toggle('visual-font-off', !enabled);
+    el.setAttribute('data-font-init', '1');
+  });
+  const checkbox = document.getElementById('visualFontToggle');
+  if (checkbox) checkbox.checked = enabled;
+});
+</script>
+
+
+</body></html>
